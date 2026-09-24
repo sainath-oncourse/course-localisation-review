@@ -103,14 +103,6 @@ const cfaReviewItems = [
     rationale: "Verified in the search-results list when fewer than 20 cards are returned. It uses the same medical-specific Topper sentence as the no-results state and needs the same neutral CFA wording.",
   },
   {
-    id: "cfa-flashcard-paywall",
-    area: "Flashcards · Locked content",
-    title: "Flashcard paywall",
-    kind: "flashcard-paywall",
-    changes: [["flashcards.unlock_topper_flashcards_title", "Unlock CFA Flashcards"], ["flashcards.unlock_topper_flashcards_subtitle", "Upgrade to Oncourse Max to access all CFA flashcards."], ["Medical sample card", "CFA sample card"]],
-    rationale: "Verified in FlashcardPaywallOverlay.tsx and the premade-deck route. CFA can surface untranslated paywall keys, while the fallback subtitle and Lorazepam preview are medical-specific.",
-  },
-  {
     id: "cfa-rezzy-tools",
     area: "Savvy · Add menu",
     title: "Learning tools and prompts",
@@ -528,7 +520,6 @@ function renderPreview(item, version) {
   if (item.kind === "flashcard-loading") return renderFlashcardLoading(version);
   if (item.kind === "flashcard-empty") return renderFlashcardEmpty(version);
   if (item.kind === "flashcard-search-footer") return renderFlashcardSearchFooter(version);
-  if (item.kind === "flashcard-paywall") return renderFlashcardPaywall(version);
   if (item.kind === "rezzy-tools") return renderRezzyTools(version);
   if (item.kind === "rezzy-canvas") return renderRezzyCanvas(version);
   if (item.kind === "rezzy-reminders") return renderRezzyReminders(version);
@@ -555,7 +546,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("terminology-table").innerHTML = renderTerminologyTable();
-const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "notes", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "flashcard-paywall", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-paywall"];
+const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "notes", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-paywall"];
 const orderedReviewItems = [...cfaReviewItems].sort((a, b) => cfaReviewOrder.indexOf(a.kind) - cfaReviewOrder.indexOf(b.kind));
 document.getElementById("cfa-review-list").innerHTML = orderedReviewItems.map(renderReviewItem).join("");
 
