@@ -158,13 +158,14 @@ const reviewItems = [
     title: "Start from a section or topic",
     current: "Quiz actions",
     proposed: "Test actions",
+    changeType: "CPA localisation only",
     changes: [
       { from: "By Subject", to: "By Section" },
       { from: "START QUIZ (30 Qs)", to: "START TEST (30 Qs)" },
       { from: "START QUIZ (3 topics)", to: "START TEST (3 topics)" },
     ],
     rationale:
-      "These actions open the same CPA test experience, so they should use Test consistently. All and High Yield remain unchanged.",
+      "The underlying routes are shared and currently hard-code Subject and Quiz. Apply Section and Test through CPA-specific terminology—not as a global component rename. Other courses retain their own hierarchy and activity noun. All and High Yield remain unchanged.",
   },
   {
     id: "search-and-savvy",
@@ -189,13 +190,13 @@ const reviewItems = [
     title: "Paused test page",
     current: "Paused quiz copy",
     proposed: "Paused test copy",
+    changeType: "CPA localisation only",
     changes: [
-      { from: "Your Quiz is Paused", to: "Resume Your Test" },
+      { from: "Your Quiz is Paused", to: "Your Test is Paused" },
       { from: "CONTINUE QUIZ", to: "CONTINUE TEST" },
-      { from: "Discuss answers with Rezzy", to: "Discuss answers with Savvy" },
     ],
     rationale:
-      "This is the continuation state of the CPA test flow, so both the assessment noun and tutor name must remain consistent.",
+      "The shared continue route currently defaults to Quiz because it does not pass an activity mode. Use the CPA activity noun through course-specific terminology. Savvy is already the current CPA persona, so no tutor rename belongs in this card.",
   },
   {
     id: "end-test-dialog",
@@ -656,10 +657,10 @@ function renderPausedTestPage(version) {
     <div class="component-preview paused-page-preview">
       <span class="page-back">‹</span>
       <div class="paused-page-content">
-        <h3>${isProposal ? "Resume Your Test" : "Your Quiz is Paused"}</h3>
+        <h3>${isProposal ? "Your Test is Paused" : "Your Quiz is Paused"}</h3>
         <p>Questions difficulty adapts to your answers. So you learn optimally.</p>
         <div class="paused-page-details"><div><strong>Questions</strong><span>11/30</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${isProposal ? "Section" : "Subject"}</strong><span>Auditing and Attestation</span></div></div>
-        <div class="paused-page-features"><span>▤<small>Discuss answers<br />with ${isProposal ? "Savvy" : "Rezzy"}</small></span><span>⌁<small>AI weak-spot<br />analysis</small></span><span>Ⅱ<small>Pause &amp;<br />Resume</small></span></div>
+        <div class="paused-page-features"><span>▤<small>Discuss answers<br />with Savvy</small></span><span>⌁<small>AI weak-spot<br />analysis</small></span><span>Ⅱ<small>Pause &amp;<br />Resume</small></span></div>
       </div>
       <button class="paused-page-cta" type="button" tabindex="-1">${isProposal ? "CONTINUE TEST" : "CONTINUE QUIZ"}</button>
     </div>`;
