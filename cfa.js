@@ -58,8 +58,8 @@ const cfaReviewItems = [
     area: "Quiz · Ready / resume sheet",
     title: "Quiz ready sheet states",
     kind: "resume-sheet",
-    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"], ["Your Quiz is Ready · paused mock", "Resume Your Mock Exam"]],
-    rationale: "A paused activity can be a Quiz or Mock Exam. Keep the first-start title, but make the resume title and CTA match the actual activity instead of applying Quiz to every state.",
+    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"]],
+    rationale: "Keep the first-start Quiz title. When that quiz is paused and opened from Recents, change only the title to Resume Your Quiz; the existing RESUME QUIZ action remains correct.",
   },
   {
     id: "cfa-flashcard-examples",
@@ -241,7 +241,6 @@ function renderResumeSheet(version) {
   const states = [
     { label: "New quiz", context: "Create Quiz flow", title: "Your Quiz is Ready", action: "START QUIZ" },
     { label: "Paused quiz", context: "Recents", title: proposed ? "Resume Your Quiz" : "Your Quiz is Ready", action: "RESUME QUIZ" },
-    { label: "Paused mock", context: "Recents", title: proposed ? "Resume Your Mock Exam" : "Your Quiz is Ready", action: proposed ? "RESUME MOCK EXAM" : "RESUME QUIZ" },
   ];
   return `<div class="component-preview resume-states-preview">${states.map((state) => `
     <section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.context}</span></div>
