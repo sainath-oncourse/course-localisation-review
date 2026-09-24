@@ -62,14 +62,6 @@ const cfaReviewItems = [
     rationale: "A paused activity can be a Quiz or Mock Exam. Keep the first-start title, but make the resume title and CTA match the actual activity instead of applying Quiz to every state.",
   },
   {
-    id: "cfa-notes",
-    area: "Notes · Home and topic",
-    title: "Notes filters and upload banner",
-    kind: "notes",
-    changes: [["TOPPER", "ONCOURSE"], ["Get Flashcards, PYQs & More.", "Get Flashcards, Practice Questions & More."]],
-    rationale: "Verified in both Notes home and topic routes. CFA can reach the ALL / TOPPER / UPLOADED filters and the upload banner, but it cannot reach the app's PYQ feature. Use neutral CFA practice-question language and identify premade notes as Oncourse content.",
-  },
-  {
     id: "cfa-flashcard-examples",
     area: "Flashcards · Generate with AI",
     title: "AI flashcard generator",
@@ -514,7 +506,6 @@ function renderPreview(item, version) {
   if (item.kind === "topic-selection") return renderTopicSelection(version);
   if (item.kind === "recents") return renderRecents(version);
   if (item.kind === "resume-sheet") return renderResumeSheet(version);
-  if (item.kind === "notes") return renderNotes(version);
   if (item.kind === "by-subject") return renderBySubject(version);
   if (item.kind === "flashcard-examples") return renderFlashcardExamples(version);
   if (item.kind === "flashcard-loading") return renderFlashcardLoading(version);
@@ -546,7 +537,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("terminology-table").innerHTML = renderTerminologyTable();
-const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "notes", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-paywall"];
+const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-paywall"];
 const orderedReviewItems = [...cfaReviewItems].sort((a, b) => cfaReviewOrder.indexOf(a.kind) - cfaReviewOrder.indexOf(b.kind));
 document.getElementById("cfa-review-list").innerHTML = orderedReviewItems.map(renderReviewItem).join("");
 
