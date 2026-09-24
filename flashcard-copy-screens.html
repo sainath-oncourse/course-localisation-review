@@ -1,0 +1,611 @@
+<div id="flashcard-copy-review">
+  <style>
+    #flashcard-copy-review {
+      color: light-dark(#17202a, #f6f7f8);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #flashcard-copy-review * {
+      box-sizing: border-box;
+    }
+
+    #flashcard-copy-review .fc-review-heading {
+      margin: 0 0 18px;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+    }
+
+    #flashcard-copy-review .fc-screen-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    #flashcard-copy-review .fc-screen-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    #flashcard-copy-review .fc-screen-tab {
+      min-height: 42px;
+      flex: 0 0 auto;
+      padding: 0 14px;
+      border: 1px solid light-dark(#dde3e8, #3a4148);
+      border-radius: 999px;
+      background: light-dark(#ffffff, #20252a);
+      color: light-dark(#52606b, #c7cdd2);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    #flashcard-copy-review .fc-screen-tab[aria-selected="true"] {
+      border-color: #f07674;
+      background: #f07674;
+      color: #ffffff;
+    }
+
+    #flashcard-copy-review .fc-panel[hidden] {
+      display: none;
+    }
+
+    #flashcard-copy-review .fc-comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    #flashcard-copy-review .fc-version-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: light-dark(#5f6b75, #c3c9ce);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    #flashcard-copy-review .fc-proposal-label {
+      color: light-dark(#167a4b, #75dba4);
+    }
+
+    #flashcard-copy-review .fc-phone {
+      position: relative;
+      min-height: 540px;
+      overflow: hidden;
+      border: 1px solid light-dark(#dfe4e8, #3a4148);
+      border-radius: 26px;
+      background: light-dark(#fbfbfb, #171a1d);
+      box-shadow: 0 16px 42px light-dark(rgba(36, 48, 58, 0.09), rgba(0, 0, 0, 0.34));
+    }
+
+    #flashcard-copy-review .fc-statusbar {
+      display: flex;
+      height: 30px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      color: light-dark(#2c343b, #f5f6f7);
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    #flashcard-copy-review .fc-status-icons {
+      letter-spacing: 2px;
+    }
+
+    #flashcard-copy-review .fc-header {
+      display: flex;
+      min-height: 52px;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border-bottom: 1px solid light-dark(#eceff1, #2d3237);
+      background: light-dark(rgba(255, 255, 255, 0.92), rgba(24, 28, 31, 0.94));
+    }
+
+    #flashcard-copy-review .fc-back {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      color: light-dark(#343d45, #eef0f2);
+      font-size: 24px;
+    }
+
+    #flashcard-copy-review .fc-header-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    #flashcard-copy-review .fc-header-copy strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+    }
+
+    #flashcard-copy-review .fc-header-copy small {
+      display: block;
+      margin-top: 2px;
+      color: light-dark(#7a858e, #9fa8af);
+      font-size: 10px;
+    }
+
+    #flashcard-copy-review .fc-body {
+      padding: 18px 16px 24px;
+    }
+
+    #flashcard-copy-review .fc-body h3 {
+      margin: 0;
+      color: light-dark(#30383f, #f3f4f5);
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+    }
+
+    #flashcard-copy-review .fc-helper {
+      margin: 7px 0 0;
+      color: light-dark(#747f88, #aeb5bb);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    #flashcard-copy-review .fc-field-label {
+      display: block;
+      margin: 20px 0 7px;
+      color: light-dark(#6e7880, #aab2b8);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    #flashcard-copy-review .fc-prompt-box {
+      min-height: 112px;
+      padding: 13px;
+      border: 1px solid light-dark(#d8dde1, #3a4148);
+      border-radius: 13px;
+      background: light-dark(#ffffff, #20252a);
+      color: light-dark(#8b949c, #929ba2);
+      font-size: 12px;
+    }
+
+    #flashcard-copy-review .fc-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    #flashcard-copy-review .fc-chip {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      padding: 0 10px;
+      border: 1px solid light-dark(#d9dee2, #3a4148);
+      border-radius: 999px;
+      background: light-dark(#ffffff, #20252a);
+      color: light-dark(#505b64, #d5d9dc);
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    #flashcard-copy-review .fc-loader-card {
+      display: grid;
+      margin-top: 18px;
+      padding: 18px;
+      place-items: center;
+      border-radius: 16px;
+      background: light-dark(#fff3f2, #332323);
+      text-align: center;
+    }
+
+    #flashcard-copy-review .fc-loader-icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 14px;
+      background: #f07674;
+      color: #ffffff;
+      font-size: 20px;
+    }
+
+    #flashcard-copy-review .fc-loader-card strong {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    #flashcard-copy-review .fc-loader-card p {
+      margin: 6px 0 0;
+      color: light-dark(#726e6c, #c4b9b7);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    #flashcard-copy-review .fc-primary {
+      width: 100%;
+      min-height: 44px;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 12px;
+      background: #f07674;
+      color: #ffffff;
+      font: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    #flashcard-copy-review .fc-empty-body {
+      display: grid;
+      min-height: 430px;
+      place-items: center;
+      padding: 30px 22px;
+      text-align: center;
+    }
+
+    #flashcard-copy-review .fc-empty-icon {
+      display: grid;
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      place-items: center;
+      border-radius: 22px;
+      background: light-dark(#fdebea, #352323);
+      color: #f07674;
+    }
+
+    #flashcard-copy-review .fc-empty-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    #flashcard-copy-review .fc-empty-body h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+
+    #flashcard-copy-review .fc-empty-body p {
+      max-width: 250px;
+      margin: 10px auto 0;
+      color: light-dark(#6f7a83, #adb4ba);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    #flashcard-copy-review .fc-empty-body .fc-primary {
+      width: 240px;
+      margin-top: 20px;
+    }
+
+    #flashcard-copy-review .fc-paywall-backdrop {
+      position: absolute;
+      inset: 82px 0 0;
+      padding: 18px 16px;
+      background: linear-gradient(180deg, light-dark(#fff8f7, #241e1e), light-dark(#f5f7f9, #171a1d));
+    }
+
+    #flashcard-copy-review .fc-deck-ghost {
+      height: 95px;
+      border: 1px solid light-dark(#e2e6e9, #32383d);
+      border-radius: 14px;
+      background: light-dark(#ffffff, #20252a);
+      opacity: 0.72;
+    }
+
+    #flashcard-copy-review .fc-paywall-sheet {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      min-height: 422px;
+      padding: 23px 18px 18px;
+      border-radius: 24px 24px 0 0;
+      background: light-dark(#ffffff, #202428);
+      box-shadow: 0 -16px 38px rgba(27, 34, 40, 0.16);
+      text-align: center;
+    }
+
+    #flashcard-copy-review .fc-max-pill {
+      display: inline-flex;
+      min-height: 26px;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #8d6bcc;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+    }
+
+    #flashcard-copy-review .fc-paywall-sheet h3 {
+      max-width: 280px;
+      margin: 13px auto 0;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    #flashcard-copy-review .fc-paywall-sheet > p {
+      margin: 10px auto 0;
+      color: light-dark(#74706e, #b6b0ad);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    #flashcard-copy-review .fc-sample-card {
+      margin-top: 16px;
+      overflow: hidden;
+      border: 1px solid light-dark(#d9dde1, #3b4248);
+      border-radius: 12px;
+      background: light-dark(#ffffff, #1a1e21);
+      text-align: left;
+    }
+
+    #flashcard-copy-review .fc-sample-side {
+      padding: 11px 12px;
+      color: light-dark(#303941, #e6e9eb);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    #flashcard-copy-review .fc-sample-side + .fc-sample-side {
+      border-top: 1px solid light-dark(#e2e6e9, #343a3f);
+    }
+
+    #flashcard-copy-review .fc-sample-side strong {
+      color: #167adf;
+      font-weight: 500;
+    }
+
+    #flashcard-copy-review .fc-new-deck-body {
+      padding: 20px 16px;
+    }
+
+    #flashcard-copy-review .fc-emoji-trigger {
+      display: inline-flex;
+      min-height: 38px;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      border: 1px solid light-dark(#d7dce0, #3a4148);
+      border-radius: 999px;
+      background: light-dark(#ffffff, #20252a);
+      color: light-dark(#5d6871, #cbd0d4);
+      font-size: 11px;
+    }
+
+    #flashcard-copy-review .fc-name-field {
+      height: 44px;
+      margin-top: 14px;
+      padding: 0 13px;
+      border: 1px solid light-dark(#d7dce0, #3a4148);
+      border-radius: 11px;
+      background: light-dark(#ffffff, #20252a);
+      color: light-dark(#8a949c, #9aa3aa);
+      font-size: 11px;
+      line-height: 44px;
+    }
+
+    #flashcard-copy-review .fc-category {
+      margin-top: 18px;
+    }
+
+    #flashcard-copy-review .fc-category strong {
+      display: block;
+      margin-bottom: 8px;
+      color: light-dark(#7a858e, #aab2b8);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    #flashcard-copy-review .fc-emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    #flashcard-copy-review .fc-emoji-grid span {
+      display: grid;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 9px;
+      background: light-dark(#f1f3f5, #2a3035);
+      font-size: 17px;
+    }
+
+    #flashcard-copy-review .fc-decision {
+      display: grid;
+      grid-template-columns: minmax(150px, 0.8fr) minmax(0, 1.4fr);
+      gap: 18px;
+      margin-top: 18px;
+      padding: 16px 18px;
+      border: 1px solid light-dark(#dfe4e8, #3a4148);
+      border-radius: 16px;
+      background: light-dark(#ffffff, #20252a);
+    }
+
+    #flashcard-copy-review .fc-change {
+      color: light-dark(#167a4b, #75dba4);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    #flashcard-copy-review .fc-reason {
+      color: light-dark(#67737d, #b4bbc1);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    #flashcard-copy-review .fc-reason strong {
+      display: block;
+      margin-bottom: 3px;
+      color: light-dark(#29323a, #eef0f2);
+      font-weight: 500;
+    }
+
+    @media (max-width: 620px) {
+      #flashcard-copy-review .fc-comparison {
+        grid-template-columns: 1fr;
+      }
+
+      #flashcard-copy-review .fc-phone {
+        min-height: 520px;
+      }
+
+      #flashcard-copy-review .fc-decision {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <h2 class="fc-review-heading">Flashcards · CPA copy review</h2>
+
+  <div class="fc-screen-tabs" role="tablist" aria-label="Flashcard screens">
+    <button class="fc-screen-tab" id="fc-ai-tab" type="button" role="tab" aria-selected="true" aria-controls="fc-ai-panel" data-screen="ai">Generate with AI</button>
+    <button class="fc-screen-tab" id="fc-search-tab" type="button" role="tab" aria-selected="false" aria-controls="fc-search-panel" data-screen="search">Search empty state</button>
+    <button class="fc-screen-tab" id="fc-paywall-tab" type="button" role="tab" aria-selected="false" aria-controls="fc-paywall-panel" data-screen="paywall">Locked deck</button>
+    <button class="fc-screen-tab" id="fc-emoji-tab" type="button" role="tab" aria-selected="false" aria-controls="fc-emoji-panel" data-screen="emoji">New deck emojis</button>
+  </div>
+
+  <section class="fc-panel" id="fc-ai-panel" role="tabpanel" aria-labelledby="fc-ai-tab" data-panel="ai">
+    <div class="fc-comparison">
+      <div>
+        <div class="fc-version-label">Current</div>
+        <div class="fc-phone" aria-label="Current generate flashcards with AI screen">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>Generate Flashcards with AI</strong></div></div>
+          <div class="fc-body">
+            <h3>What should your cards cover?</h3>
+            <p class="fc-helper">Describe the topic and the important areas you want included.</p>
+            <span class="fc-field-label">PROMPT</span>
+            <div class="fc-prompt-box">Enter a prompt</div>
+            <span class="fc-field-label">TRY AN EXAMPLE</span>
+            <div class="fc-chips"><span class="fc-chip">Urea Cycle</span><span class="fc-chip">Cardiac Potentials</span><span class="fc-chip">Conduction System of Heart</span></div>
+            <div class="fc-loader-card"><span class="fc-loader-icon">✦</span><strong>Crafting your flashcards</strong><p>Searching across topper flashcards, PYQs and generating great AI flashcards for you...</p></div>
+            <button class="fc-primary" type="button">MAKE ME FLASHCARDS</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="fc-version-label fc-proposal-label">CPA proposal</div>
+        <div class="fc-phone" aria-label="CPA generate flashcards with AI screen">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>Generate Flashcards with AI</strong></div></div>
+          <div class="fc-body">
+            <h3>What should your cards cover?</h3>
+            <p class="fc-helper">Describe the topic and the important areas you want included.</p>
+            <span class="fc-field-label">PROMPT</span>
+            <div class="fc-prompt-box">Enter a prompt</div>
+            <span class="fc-field-label">TRY AN EXAMPLE</span>
+            <div class="fc-chips"><span class="fc-chip">Audit Evidence</span><span class="fc-chip">Revenue Recognition</span><span class="fc-chip">Business Law Fundamentals</span></div>
+            <div class="fc-loader-card"><span class="fc-loader-icon">✦</span><strong>Crafting your flashcards</strong><p>Creating high-yield CPA flashcards for you...</p></div>
+            <button class="fc-primary" type="button">MAKE ME FLASHCARDS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-decision"><div class="fc-change">Medical examples → CPA examples<br>Topper/PYQs → High-yield CPA</div><div class="fc-reason"><strong>Why this change</strong>The suggestions and loading message are currently specific to medical exam preparation.</div></div>
+  </section>
+
+  <section class="fc-panel" id="fc-search-panel" role="tabpanel" aria-labelledby="fc-search-tab" data-panel="search" hidden>
+    <div class="fc-comparison">
+      <div>
+        <div class="fc-version-label">Current</div>
+        <div class="fc-phone" aria-label="Current flashcard search empty state">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>Flashcards</strong><small>Search results</small></div></div>
+          <div class="fc-empty-body"><div><div class="fc-empty-icon"><i data-lucide="search" aria-hidden="true"></i></div><h3>No search results for “lease accounting”</h3><p>Oncourse can generate topper-level flashcards for any topic that you like</p><button class="fc-primary" type="button">GENERATE FLASHCARDS WITH AI</button></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="fc-version-label fc-proposal-label">CPA proposal</div>
+        <div class="fc-phone" aria-label="CPA flashcard search empty state">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>Flashcards</strong><small>Search results</small></div></div>
+          <div class="fc-empty-body"><div><div class="fc-empty-icon"><i data-lucide="search" aria-hidden="true"></i></div><h3>No search results for “lease accounting”</h3><p>Oncourse can generate high-yield flashcards for any CPA topic.</p><button class="fc-primary" type="button">GENERATE FLASHCARDS WITH AI</button></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-decision"><div class="fc-change">Topper-level → High-yield</div><div class="fc-reason"><strong>Why this change</strong>“Topper” is specific to the existing medical-course language. “High-yield” already works across the CPA experience.</div></div>
+  </section>
+
+  <section class="fc-panel" id="fc-paywall-panel" role="tabpanel" aria-labelledby="fc-paywall-tab" data-panel="paywall" hidden>
+    <div class="fc-comparison">
+      <div>
+        <div class="fc-version-label">Current</div>
+        <div class="fc-phone" aria-label="Current locked flashcard deck screen">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>High Yield Deck</strong><small>124 cards</small></div></div>
+          <div class="fc-paywall-backdrop"><div class="fc-deck-ghost"></div></div>
+          <div class="fc-paywall-sheet"><span class="fc-max-pill">ONCOURSE MAX</span><h3>Unlock the full Oncourse experience with MAX</h3><p>Upgrade to Oncourse Max to access all topper flashcards.</p><div class="fc-sample-card"><div class="fc-sample-side">_______ is the drug of choice for status epilepticus</div><div class="fc-sample-side"><strong>Lorazepam</strong> is the drug of choice for status epilepticus</div></div><button class="fc-primary" type="button">UNLOCK ALL FLASHCARDS</button></div>
+        </div>
+      </div>
+      <div>
+        <div class="fc-version-label fc-proposal-label">CPA proposal</div>
+        <div class="fc-phone" aria-label="CPA locked flashcard deck screen">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>High Yield Deck</strong><small>124 cards</small></div></div>
+          <div class="fc-paywall-backdrop"><div class="fc-deck-ghost"></div></div>
+          <div class="fc-paywall-sheet"><span class="fc-max-pill">ONCOURSE MAX</span><h3>Unlock the full Oncourse experience with MAX</h3><p>Upgrade to Oncourse Max to access all high-yield flashcards.</p><div class="fc-sample-card"><div class="fc-sample-side">Which financial statement reports assets, liabilities and equity at a specific date?</div><div class="fc-sample-side"><strong>The balance sheet</strong></div></div><button class="fc-primary" type="button">UNLOCK ALL FLASHCARDS</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-decision"><div class="fc-change">Topper → High-yield<br>Medical sample → CPA sample</div><div class="fc-reason"><strong>Why this change</strong>The premium message and blurred example are visible to CPA users before they unlock a deck.</div></div>
+  </section>
+
+  <section class="fc-panel" id="fc-emoji-panel" role="tabpanel" aria-labelledby="fc-emoji-tab" data-panel="emoji" hidden>
+    <div class="fc-comparison">
+      <div>
+        <div class="fc-version-label">Current</div>
+        <div class="fc-phone" aria-label="Current new flashcard deck emoji picker">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>New deck</strong></div></div>
+          <div class="fc-new-deck-body"><span class="fc-emoji-trigger">📚 Change emoji</span><div class="fc-name-field">Collection name</div><button class="fc-primary" type="button">SAVE</button><div class="fc-category"><strong>Recently used</strong><div class="fc-emoji-grid"><span>🫁</span><span>🚑</span><span>😷</span><span>💊</span><span>🩺</span><span>💉</span><span>🧬</span></div></div><div class="fc-category"><strong>Medical &amp; Clinical Context</strong><div class="fc-emoji-grid"><span>🫁</span><span>❤️</span><span>🧠</span><span>🧬</span><span>💊</span><span>🩻</span><span>⚕️</span></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="fc-version-label fc-proposal-label">CPA proposal</div>
+        <div class="fc-phone" aria-label="CPA new flashcard deck emoji picker">
+          <div class="fc-statusbar"><span>9:41</span><span class="fc-status-icons">● ◔ ▰</span></div>
+          <div class="fc-header"><button class="fc-back" type="button" aria-label="Back">‹</button><div class="fc-header-copy"><strong>New deck</strong></div></div>
+          <div class="fc-new-deck-body"><span class="fc-emoji-trigger">📚 Change emoji</span><div class="fc-name-field">Collection name</div><button class="fc-primary" type="button">SAVE</button><div class="fc-category"><strong>Recently used</strong><div class="fc-emoji-grid"><span>📊</span><span>🧾</span><span>🧮</span><span>💰</span><span>🏦</span><span>📈</span><span>⚖️</span></div></div><div class="fc-category"><strong>Accounting &amp; Business</strong><div class="fc-emoji-grid"><span>📊</span><span>🧾</span><span>🧮</span><span>💰</span><span>🏦</span><span>📈</span><span>⚖️</span></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-decision"><div class="fc-change">Medical &amp; Clinical Context → Accounting &amp; Business</div><div class="fc-reason"><strong>Why this change</strong>This picker currently exposes medical categories and default emojis when CPA users create a deck.</div></div>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.getElementById("flashcard-copy-review");
+      const tabs = Array.from(root.querySelectorAll("[data-screen]"));
+      const panels = Array.from(root.querySelectorAll("[data-panel]"));
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const screen = tab.dataset.screen;
+          tabs.forEach((candidate) => candidate.setAttribute("aria-selected", String(candidate === tab)));
+          panels.forEach((panel) => {
+            panel.hidden = panel.dataset.panel !== screen;
+          });
+        });
+      });
+    })();
+  </script>
+</div>
