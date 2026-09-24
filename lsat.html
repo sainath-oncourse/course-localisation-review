@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A visual review of LSAT-specific terminology changes in Oncourse."
+    />
+    <title>Oncourse · LSAT language review</title>
+    <link rel="stylesheet" href="./styles.css?v=11" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Oncourse language review home">
+        <span class="brand-mark" aria-hidden="true">O</span>
+        <span>Oncourse</span>
+      </a>
+      <div class="header-actions">
+        <nav class="course-switcher" aria-label="Course review">
+          <a href="./index.html">CPA</a>
+          <a href="./cfa.html">CFA</a>
+          <a class="active" href="./lsat.html">LSAT</a>
+        </nav>
+        <div class="issue-badge">ONC2-7197</div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="page-heading lsat-heading" aria-labelledby="page-title">
+        <p class="eyebrow">ONC2-7197 · LSAT</p>
+        <h1 id="page-title">Course language review</h1>
+        <p class="page-intro">
+          A screen-by-screen LSAT terminology review grounded in copy observed in 7Sage and LSAT Demon.
+        </p>
+      </section>
+
+      <section class="terminology-section" aria-labelledby="lsat-terminology-title">
+        <header class="section-heading">
+          <div>
+            <p class="card-kicker">Competitor reference</p>
+            <h2 id="lsat-terminology-title">Terms used across LSAT products</h2>
+          </div>
+          <div class="audit-meta">
+            <span class="audit-chip">2 products reviewed</span>
+            <span class="audit-chip source-chip">7Sage · full accessible product audit</span>
+            <span class="audit-chip source-chip">LSAT Demon · core product audit</span>
+          </div>
+        </header>
+        <div id="lsat-terminology-table"></div>
+      </section>
+
+      <section class="proposal-heading" aria-labelledby="lsat-proposal-title">
+        <p class="card-kicker">Oncourse LSAT</p>
+        <h2 id="lsat-proposal-title">Screen-by-screen recommendations</h2>
+        <p>Only screens requiring LSAT terminology, tutor naming or course-specific examples are shown. Games are out of scope.</p>
+      </section>
+
+      <div id="lsat-review-list" class="review-list"></div>
+    </main>
+
+    <script src="./lsat.js?v=1"></script>
+  </body>
+</html>

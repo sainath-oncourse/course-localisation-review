@@ -4659,3 +4659,317 @@ h1 {
     width: 100%;
   }
 }
+
+/* LSAT review */
+.lsat-heading {
+  padding-bottom: 28px;
+}
+
+.lsat-terms-table tbody th {
+  width: 25%;
+}
+
+.lsat-landing-list {
+  margin-top: 17px;
+}
+
+.lsat-landing-list > small {
+  display: block;
+  margin-bottom: 7px;
+  color: #8a949d;
+  font-size: 9px;
+  font-weight: 780;
+  letter-spacing: 0.09em;
+}
+
+.lsat-landing-list > div,
+.lsat-area-card,
+.lsat-tool-list > div {
+  display: flex;
+  align-items: center;
+}
+
+.lsat-landing-list > div {
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid #e4e8eb;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.lsat-landing-list i,
+.lsat-area-card > i {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.lsat-landing-list span,
+.lsat-area-card > span {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.lsat-landing-list strong,
+.lsat-area-card strong {
+  font-size: 10px;
+}
+
+.lsat-landing-list em,
+.lsat-area-card small {
+  color: #8a949d;
+  font-size: 8px;
+  font-style: normal;
+}
+
+.lsat-landing-list b,
+.lsat-area-card > b {
+  color: #9ca6ae;
+}
+
+.lsat-builder-preview {
+  min-height: 430px;
+}
+
+.lsat-selection-preview {
+  min-height: 390px;
+  padding: 22px 20px;
+}
+
+.lsat-area-card {
+  gap: 11px;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid #e1e7eb;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 5px 16px rgba(29, 53, 72, 0.05);
+}
+
+.lsat-hierarchy-rule {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #edf7ff;
+}
+
+.lsat-hierarchy-rule small,
+.lsat-hierarchy-rule strong {
+  display: block;
+}
+
+.lsat-hierarchy-rule small {
+  margin-bottom: 4px;
+  color: #71808c;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.lsat-hierarchy-rule strong {
+  color: var(--blue-strong);
+  font-size: 10px;
+}
+
+.lsat-test-preview {
+  min-height: 470px;
+}
+
+.lsat-license-note {
+  margin: 12px 0 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: #fff7e2;
+  color: #755713;
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.lsat-test-preview .cfa-mock-card + .cfa-mock-card {
+  margin-top: 12px;
+}
+
+.lsat-history-preview {
+  min-height: 365px;
+}
+
+.lsat-official-preview {
+  min-height: 390px;
+}
+
+.lsat-search-preview {
+  min-height: 390px;
+  padding: 20px;
+}
+
+.lsat-mini-header {
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  align-items: center;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.lsat-mini-header strong {
+  font-size: 14px;
+}
+
+.lsat-search-preview .global-tutor-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d9e1e7;
+  background: #fff;
+  box-shadow: 0 7px 20px rgba(34, 58, 80, 0.08);
+}
+
+.lsat-search-preview .lesson-context {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 15px 0;
+  padding: 12px;
+  border: 1px solid #e4e8eb;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.lsat-search-preview .lesson-context > span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.lsat-search-preview .lesson-context small {
+  color: #89949d;
+  font-size: 8px;
+}
+
+.lsat-search-preview .lesson-context button {
+  padding: 7px 9px;
+  border: 1px solid #b8dafa;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--blue-strong);
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.lsat-search-preview .search-audit-list {
+  border: 1px solid #e4e8eb;
+  background: #fff;
+}
+
+.lsat-casey-preview {
+  min-height: 540px;
+  padding-bottom: 18px;
+}
+
+.lsat-tool-list {
+  overflow: hidden;
+  margin: 18px 14px;
+  border: 1px solid #e2e7eb;
+  border-radius: 15px;
+  background: #fff;
+}
+
+.lsat-tool-list > div {
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.lsat-tool-list > div:last-child {
+  border-bottom: 0;
+}
+
+.lsat-tool-list i {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-style: normal;
+}
+
+.lsat-tool-list span {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.lsat-tool-list strong {
+  font-size: 9px;
+}
+
+.lsat-tool-list small {
+  color: #87929b;
+  font-size: 7px;
+}
+
+.lsat-tool-list b {
+  color: #9ca5ad;
+}
+
+.lsat-flashcard-preview {
+  min-height: 520px;
+}
+
+.lsat-empty-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 15px 0;
+  padding: 11px;
+  border-radius: 11px;
+  background: #f5f8fa;
+}
+
+.lsat-empty-copy strong {
+  font-size: 9px;
+}
+
+.lsat-empty-copy small {
+  color: #77838d;
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+@media (max-width: 780px) {
+  .site-header {
+    gap: 10px;
+    padding: 0 14px;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .issue-badge {
+    display: none;
+  }
+
+  .course-switcher a {
+    min-width: 42px;
+    padding-inline: 8px;
+  }
+
+  .lsat-casey-preview {
+    width: 100%;
+  }
+}
