@@ -53,6 +53,7 @@ const reviewItems = [
     title: "Bottom navigation",
     current: "Quiz",
     proposed: "Practice",
+    changeType: "Shared component · CPA value",
     rationale:
       "Practice is a clearer umbrella for CPA content such as MCQs, TBSs and simulated exams.",
   },
@@ -65,6 +66,7 @@ const reviewItems = [
     proposed: "Practice screen",
     currentLabel: "Current shell",
     proposedLabel: "CPA proposal",
+    changeType: "Shared component · CPA values",
     changes: [
       { from: "Quiz", to: "Practice" },
       { from: "Self Assess", to: "Create Test" },
@@ -93,7 +95,7 @@ const reviewItems = [
     title: "Test setup screen",
     current: "Generic quiz setup",
     proposed: "CPA test setup",
-    changeType: "Copy + filter structure",
+    changeType: "Shared component · CPA values",
     changes: [
       { from: "Create a Self-Assessment", to: "Create Test" },
       { from: "Choose the mode of quiz", to: "Choose a test mode" },
@@ -110,6 +112,7 @@ const reviewItems = [
     title: "Section and topic selection",
     current: "Choose Topics",
     proposed: "Choose Sections & Topics",
+    changeType: "Shared component · CPA values",
     changes: [
       { from: "Choose Topics", to: "Choose Sections & Topics" },
       { from: "Search by keyword or browse topics", to: "Search sections or topics" },
@@ -125,7 +128,7 @@ const reviewItems = [
     title: "Recent tests",
     current: "Quiz history language",
     proposed: "CPA test history language",
-    changeType: "Copy + course visibility",
+    changeType: "Shared component · CPA values",
     changes: [
       { from: "PAST QUIZZES", to: "RECENT TESTS" },
       { from: "Custom / Recommended Quiz", to: "Custom / Recommended Test" },
@@ -142,6 +145,7 @@ const reviewItems = [
     title: "Test start and resume bottom sheet",
     current: "Quiz language in both states",
     proposed: "Test language for each state",
+    changeType: "Shared component · CPA values",
     changes: [
       { from: "Your Quiz is Ready", to: "Your Test is Ready" },
       { from: "START QUIZ", to: "START TEST" },
@@ -205,6 +209,7 @@ const reviewItems = [
     title: "End test confirmation",
     current: "End quiz copy",
     proposed: "End test copy",
+    changeType: "Shared component · CPA value",
     changes: [
       { from: "End the quiz", to: "End the test" },
       { from: "END QUIZ & VIEW RESULTS", to: "END TEST & VIEW RESULTS" },
@@ -219,7 +224,7 @@ const reviewItems = [
     title: "AI flashcard generator",
     current: "Medical prompt examples",
     proposed: "CPA prompt examples",
-    changeType: "Example content",
+    changeType: "Shared component · CPA examples",
     changes: [
       { from: "Urea Cycle / Cardiac Potentials", to: "Audit Evidence / Revenue Recognition" },
     ],
@@ -233,6 +238,7 @@ const reviewItems = [
     title: "AI generation loading state",
     current: "Topper flashcards and PYQs",
     proposed: "High-yield CPA flashcards",
+    changeType: "Shared component · CPA copy",
     changes: [
       { from: "Topper flashcards and PYQs", to: "High-yield CPA flashcards" },
     ],
@@ -246,6 +252,7 @@ const reviewItems = [
     title: "No search results",
     current: "Topper-level flashcards",
     proposed: "High-yield flashcards",
+    changeType: "Shared component · CPA copy",
     changes: [
       { from: "Generate topper-level flashcards", to: "Generate high-yield flashcards" },
     ],
