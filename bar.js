@@ -77,6 +77,14 @@ const barReviewItems = [
     rationale: "Recents is a current tab on origin/dev. Keep every existing filter, including Paused; only make the drill-related labels match the BAR activity type.",
   },
   {
+    id: "bar-practice-history-empty",
+    area: "Practice · Recents",
+    title: "No practice history state",
+    kind: "history-empty",
+    changes: [["Try taking a quiz", "Try creating a drill"]],
+    rationale: "Verified in components/evaluation/PastQuizContainer.tsx. The empty message appears when the selected Recents filter has no matching activity.",
+  },
+  {
     id: "bar-search-study",
     area: "Casey · Home and tools",
     title: "BAR tutor tool pills and prompts",
@@ -94,13 +102,31 @@ const barReviewItems = [
     rationale: "When Casey returns an interactive practice widget, the current component falls back to Custom Quiz and Quiz generated. The BAR tool and its returned widget should use the same Drill terminology.",
   },
   {
-    id: "bar-rezzy-galleries",
-    area: "Casey · Canvas and Library",
-    title: "Canvas and Library empty-state examples",
-    kind: "rezzy-galleries",
+    id: "bar-canvas-empty",
+    area: "Casey · Canvas",
+    title: "Canvas empty state",
+    kind: "canvas-empty",
     changeType: "Example content",
-    changes: [["Medical Canvas suggestions", "BAR legal-study suggestions"], ["Cardiac / nephron / anatomy Library chips", "Rules / issue maps / case briefs"], ["Medical note-upload examples", "BAR study-note examples"]],
-    rationale: "These are confirmed empty states inside Canvas and Library, including Library → From My Notes. Their structure and actions can stay; the hard-coded medical suggestion chips must change.",
+    changes: [["Medical Canvas suggestions", "BAR legal-study suggestions"]],
+    rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx. This is the empty state shown when the learner has not created a canvas.",
+  },
+  {
+    id: "bar-library-casey-empty",
+    area: "Casey · Library · From Casey",
+    title: "From Casey library empty state",
+    kind: "library-casey-empty",
+    changeType: "Example content",
+    changes: [["Medical study-visual suggestions", "BAR study-visual suggestions"]],
+    rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx. This is the onboarding empty state for the From Casey tab with the All filter selected.",
+  },
+  {
+    id: "bar-library-notes-empty",
+    area: "Casey · Library · From My Notes",
+    title: "From My Notes library empty state",
+    kind: "library-notes-empty",
+    changeType: "Example content",
+    changes: [["Medical upload suggestions", "BAR study-note suggestions"]],
+    rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx. This is a separate tab and a separate empty state from the From Casey library.",
   },
   {
     id: "bar-flashcards-paywall",
@@ -236,6 +262,16 @@ function renderHistory(version) {
   </div>`;
 }
 
+function renderHistoryEmpty(version) {
+  const proposed = version === "proposed";
+  const pills = proposed ? ["All", "Paused", "Custom Drill", "Recommended", "Daily", "Weekly"] : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
+  return `<div class="component-preview recent-tests-preview lsat-history-preview bar-history-empty-preview">
+    <strong class="recent-tests-heading">${proposed ? "PRACTICE HISTORY" : "PAST QUIZZES"}</strong>
+    <div class="recent-filter-pills">${pills.map((pill, index) => `<span class="${index === 0 ? "selected" : ""}">${pill}</span>`).join("")}</div>
+    <div class="bar-empty-message"><b>Nothing to show here😅</b><span>${proposed ? "Try creating a drill" : "Try taking a quiz"}</span></div>
+  </div>`;
+}
+
 const barCurrentTools = [
   { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Medical lecture notes", "Clinical notes", "Revision notes"] },
   { id: "canvas", icon: "◇", title: "Create canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Spinal cord", "ECG axis", "Antibiotic ladder"] },
@@ -288,21 +324,32 @@ function renderCaseyWidget(version) {
   return `<div class="component-preview bar-widget-preview"><div class="bar-widget-chat"><span class="rezzy-orb">C</span><p>${proposed ? "Drill generated" : "Quiz generated"}</p></div><div class="bar-widget-card"><header><span>?</span><div><strong>${proposed ? "CUSTOM DRILL" : "CUSTOM QUIZ"}</strong><small>10 questions</small></div><b>1 / 10</b></header><p>Which fact most strongly supports apparent authority?</p><button type="button" tabindex="-1">The principal's manifestation to the third party</button><button type="button" tabindex="-1">The agent's private statement</button><footer><span>‹</span><b>NEXT ›</b></footer></div></div>`;
 }
 
-function renderRezzyGalleries(version) {
+function renderCanvasEmpty(version) {
   const proposed = version === "proposed";
-  const canvas = proposed
+  const suggestions = proposed
     ? ["IRAC issue map", "Evidence admissibility", "Civil procedure timeline", "Contract formation"]
     : ["Spinal cord visualizer", "ECG axis map", "Antibiotic ladder", "ABG interpreter"];
-  const library = proposed
-    ? ["Explain personal jurisdiction", "Create an evidence flowchart", "Map negligence elements", "Compare business entities"]
-    : ["Explain the cardiac cycle", "Create a nephron flowchart", "Draw the brachial plexus", "Compare Gram + vs Gram −"];
-  const notes = proposed
-    ? ["Upload your Contracts outline", "Scan your Evidence notes", "Add a Civil Procedure slide"]
-    : ["Upload your Biochemistry chapter", "Snap your Anatomy notes", "Add a Pathology slide image"];
-  return `<div class="component-preview bar-gallery-preview">
-    <section><span class="bar-gallery-icon">◇</span><h3>Make your first canvas</h3><p>Ask Casey to turn a tough topic into an interactive visual, simulator, map, or exam-ready explainer.</p><div>${canvas.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">CREATE CANVAS</button></section>
-    <section><span class="bar-gallery-icon">▤</span><h3>Create your first study visual</h3><p>Ask Casey to create diagrams, flowcharts and study visuals.</p><div>${library.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">CREATE WITH CASEY</button></section>
-    <section><span class="bar-gallery-icon">≡</span><h3>Turn your notes into Smart Notes</h3><p>Upload PDFs, slides, or handwritten notes and Casey turns them into flashcards, questions, concept map and more.</p><div>${notes.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">UPLOAD A FILE</button></section>
+  return `<div class="component-preview bar-single-empty-preview">
+    <div class="bar-gallery-toolbar"><span>‹</span><strong>Canvas</strong><span></span></div>
+    <section><span class="bar-gallery-icon">◇</span><h3>Make your first canvas</h3><p>Ask Casey to turn a tough topic into an interactive visual, simulator, map, or exam-ready explainer.</p><button type="button" tabindex="-1">✦ &nbsp; Create canvas</button><small>Try one of these</small><div>${suggestions.map((item) => `<b>${item}</b>`).join("")}</div></section>
+  </div>`;
+}
+
+function renderLibraryEmpty(version, section) {
+  const proposed = version === "proposed";
+  const fromCasey = section === "casey";
+  const suggestions = fromCasey
+    ? (proposed
+      ? ["Explain personal jurisdiction", "Create an evidence flowchart", "Map negligence elements", "Compare business entities"]
+      : ["Explain the cardiac cycle", "Create a nephron flowchart", "Draw the brachial plexus", "Compare Gram + vs Gram −"])
+    : (proposed
+      ? ["Upload your Contracts outline", "Scan your Evidence notes", "Add a Civil Procedure slide"]
+      : ["Upload your Biochemistry chapter", "Snap your Anatomy notes", "Add a Pathology slide image"]);
+  return `<div class="component-preview bar-single-empty-preview">
+    <div class="bar-gallery-toolbar"><span>‹</span><strong>Library</strong><span>⌕</span></div>
+    <div class="bar-library-tabs"><span class="${fromCasey ? "selected" : ""}">From Casey</span><span class="${fromCasey ? "" : "selected"}">From My Notes</span></div>
+    <div class="bar-library-filters"><span class="selected">All</span><span>${fromCasey ? "Flowcharts" : "PDFs"}</span><span>${fromCasey ? "Tables" : "Images"}</span></div>
+    <section><span class="bar-gallery-icon">${fromCasey ? "▤" : "≡"}</span><h3>${fromCasey ? "Create your first study visual" : "Turn your notes into Smart Notes"}</h3><p>${fromCasey ? "Ask Casey to create diagrams, flowcharts, and study visuals that make complex topics easier to understand." : "Upload PDFs, slides, or handwritten notes and Casey turns them into flashcards, questions, concept map and more."}</p><button type="button" tabindex="-1">${fromCasey ? "✦ &nbsp; CREATE WITH CASEY" : "⇧ &nbsp; UPLOAD A FILE"}</button><div>${suggestions.map((item) => `<b>${item}</b>`).join("")}</div></section>
   </div>`;
 }
 
@@ -339,9 +386,12 @@ function renderPreview(item, version) {
   if (item.kind === "session-end") return renderSessionEnd(version);
   if (item.kind === "results") return renderResults(version);
   if (item.kind === "history") return renderHistory(version);
+  if (item.kind === "history-empty") return renderHistoryEmpty(version);
   if (item.kind === "rezzy-home") return renderRezzyHome(version);
   if (item.kind === "casey-widget") return renderCaseyWidget(version);
-  if (item.kind === "rezzy-galleries") return renderRezzyGalleries(version);
+  if (item.kind === "canvas-empty") return renderCanvasEmpty(version);
+  if (item.kind === "library-casey-empty") return renderLibraryEmpty(version, "casey");
+  if (item.kind === "library-notes-empty") return renderLibraryEmpty(version, "notes");
   if (item.kind === "flashcards-paywall") return renderFlashcardsPaywall(version);
   if (item.kind === "flashcards-search-empty") return renderFlashcardsSearchEmpty(version);
   return renderFlashcards(version);
