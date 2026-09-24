@@ -29,15 +29,6 @@ const barReviewItems = [
     rationale: "JD Simplified uses Practice as the umbrella for MCQs, integrated question sets, performance tasks, drills and simulations. Quiz is too narrow for the BAR experience.",
   },
   {
-    id: "bar-home-simulation",
-    area: "Home · Simulation banner",
-    title: "BAR-ready home assessment banner",
-    kind: "home-simulation",
-    changeType: "Course-specific copy",
-    changes: [["INICET score", "BAR exam readiness"], ["AKT-focused questions", "BAR formats and subjects"], ["200 questions", "Use the simulation's actual format counts"]],
-    rationale: "The latest shared banner contains fixed INICET and AKT copy. For BAR, its title, feature list and question counts must come from the active Half Section, Full Section or Full Exam simulation.",
-  },
-  {
     id: "bar-practice-landing",
     area: "Practice",
     title: "Practice landing screen",
@@ -50,9 +41,16 @@ const barReviewItems = [
     area: "Practice · Create",
     title: "Drill setup screen",
     kind: "drill-builder",
-    changeType: "Copy + BAR filters",
-    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["CHOOSE TOPICS", "CHOOSE SUBJECTS & FORMAT"]],
-    rationale: "JD Simplified builds drills using Subject, Question Type and Difficulty. The BAR builder should expose MCQ, IQS and PT rather than treating every activity as a quiz.",
+    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"]],
+    rationale: "The latest BAR route does not show format or difficulty controls. Keep Number of questions, Filters, Question Type and Choose Topics exactly as they are; only rename the activity to Drill.",
+  },
+  {
+    id: "bar-topic-selection",
+    area: "Practice · Create",
+    title: "Choose topics screen",
+    kind: "topic-selection",
+    changes: [["START QUIZ", "START DRILL"]],
+    rationale: "Choose Topics, keyword search, Weak Topics, High Yield and the subject/topic hierarchy are valid for BAR. Only the final action needs to match the Custom Drill flow.",
   },
   {
     id: "bar-simulations",
@@ -71,23 +69,54 @@ const barReviewItems = [
     rationale: "The shared sheet should use the activity being opened. Drills use Drill; timed exam products use Half Section, Full Section or Full Exam with Start/Resume Simulation actions.",
   },
   {
+    id: "bar-session-end",
+    area: "Practice · Active activity",
+    title: "End and pause screen",
+    kind: "session-end",
+    changes: [["You are about to end the quiz", "You are about to end the drill"], ["END QUIZ & VIEW RESULTS", "END DRILL & VIEW RESULTS"], ["YES, END THE QUIZ", "YES, END THE DRILL"]],
+    rationale: "This is a reachable screen in the active practice flow. Pause for Later and Finish & Submit remain unchanged; only Quiz becomes Drill for a custom BAR activity.",
+  },
+  {
+    id: "bar-results",
+    area: "Practice · Results",
+    title: "Drill report and analysis",
+    kind: "results",
+    changes: [["Practice quiz", "Practice drill"], ["Ask about this quiz", "Ask about this drill"], ["earlier quizzes", "earlier drills"], ["Quiz · Start this quiz", "Drill · Start this drill"]],
+    rationale: "The latest result report repeats Quiz in its report label, composer, history insight and Casey hand-off. These should follow the Custom Drill terminology.",
+  },
+  {
+    id: "bar-practice-history",
+    area: "Practice · Recents",
+    title: "Practice history and paused activity",
+    kind: "history",
+    changes: [["Past Quizzes", "Practice History"], ["Custom", "Custom Drill"], ["Custom Quiz", "Custom Drill"], ["Paused quiz / Resume Quiz", "Paused drill / Resume Drill"]],
+    rationale: "Recents is a current tab on origin/dev. Keep every existing filter, including Paused; only make the drill-related labels match the BAR activity type.",
+  },
+  {
     id: "bar-search-study",
-    area: "Rezzy · Home and tools",
-    title: "Rezzy tool pills and prompts",
+    area: "Casey · Home and tools",
+    title: "Casey tool pills and prompts",
     kind: "rezzy-home",
-    layout: "verified",
     changeType: "Terminology + example content",
     changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"], ["Get high-yield notes", "Get high-yield outlines"]],
-    rationale: "Match the LSAT review: show every Home pill, preserve the one-tool-at-a-time interaction, and provide concrete BAR prompts for Upload, Canvas, Flowcharts, Flashcards, Drill, High-yield Outlines, Mnemonics and Weak Areas. Keep Rezzy until the BAR persona is confirmed.",
+    rationale: "The latest dev branch already maps Bar Exam to Casey. Keep Casey consistently, preserve each tool as a separate state, change Quiz to Drill and Notes to Outlines, and use concrete BAR examples for every tool.",
+  },
+  {
+    id: "bar-casey-widget",
+    area: "Casey · Generated activity",
+    title: "Generated drill widget",
+    kind: "casey-widget",
+    changes: [["CUSTOM QUIZ", "CUSTOM DRILL"], ["Quiz generated", "Drill generated"]],
+    rationale: "When Casey returns an interactive practice widget, the current component falls back to Custom Quiz and Quiz generated. The BAR tool and its returned widget should use the same Drill terminology.",
   },
   {
     id: "bar-rezzy-galleries",
-    area: "Rezzy · Canvas and Library",
+    area: "Casey · Canvas and Library",
     title: "Canvas and Library empty-state examples",
     kind: "rezzy-galleries",
     changeType: "Example content",
-    changes: [["Medical Canvas suggestions", "BAR legal-study suggestions"], ["Cardiac / nephron / anatomy Library chips", "Rules / issue maps / case briefs"]],
-    rationale: "The empty-state structure and actions can stay. The hard-coded medical suggestion chips must change because they are shown before a learner has created any content.",
+    changes: [["Medical Canvas suggestions", "BAR legal-study suggestions"], ["Cardiac / nephron / anatomy Library chips", "Rules / issue maps / case briefs"], ["Medical note-upload examples", "BAR study-note examples"]],
+    rationale: "These are confirmed empty states inside Canvas and Library, including Library → From My Notes. Their structure and actions can stay; the hard-coded medical suggestion chips must change.",
   },
   {
     id: "bar-flashcards-library",
@@ -104,62 +133,8 @@ const barReviewItems = [
     title: "BAR flashcard examples",
     kind: "flashcards",
     changeType: "Example content",
-    changes: [["Medical prompt examples", "BAR prompt examples"], ["Topper flashcards and PYQs", "High-yield BAR flashcards"]],
-    rationale: "JD Simplified supports Flashcards, Subjects and Collections, so the feature can stay. Only medical and PYQ-specific examples need to be replaced.",
-  },
-  {
-    id: "bar-smart-notes",
-    area: "Notes · Upload and generated content",
-    title: "Smart Notes labels, loading and empty states",
-    kind: "smart-notes",
-    changeType: "Terminology + state copy",
-    changes: [["TOPPER", "HIGH-YIELD OUTLINES"], ["Get Flashcards, PYQs & More", "Get Flashcards, Practice Questions & More"], ["Practice Questions & PYQs", "Practice Questions"], ["No PYQs here", "No practice questions here"]],
-    rationale: "The BAR note flow already labels its tab Practice Q, but other states still expose Topper and PYQ. All states in the same journey should consistently use High-Yield Outlines and Practice Questions.",
-  },
-  {
-    id: "bar-paywalls",
-    area: "Onboarding and pricing",
-    title: "BAR onboarding and paywall copy",
-    kind: "paywalls",
-    changeType: "Course-specific marketing copy",
-    changes: [["NEET-PG / Medical PG", "BAR preparation"], ["Topper Flashcards", "High-Yield BAR Flashcards"], ["PYQs", "Practice Questions"], ["Medical games", "Hide for BAR"]],
-    rationale: "BAR currently falls back to base medical copy because there is no BAR locale bundle. Add BAR-specific onboarding and paywall content, and omit game claims that are not available for this course.",
-  },
-  {
-    id: "bar-entry-search",
-    area: "Public entry and loaders",
-    title: "Public and loading-state language",
-    kind: "entry-search",
-    changeType: "Course-specific copy",
-    changes: [["largest medical Q-Bank", "BAR question bank"], ["medical doubts", "BAR subjects and legal issues"], ["Finding relevant medical videos", "Finding relevant BAR videos"]],
-    rationale: "These shared surfaces are outside the main tabs but remain user-visible. Their copy must follow the selected BAR course instead of presenting a medical product.",
-  },
-  {
-    id: "bar-onboarding-demo",
-    area: "Onboarding · Tour and lesson demo",
-    title: "BAR onboarding messages and examples",
-    kind: "onboarding-demo",
-    changeType: "Course-specific copy",
-    changes: [["medical studies / Medical AI", "BAR preparation / BAR AI study support"], ["Topper Flashcards", "High-Yield BAR Flashcards"], ["PYQs", "Practice Questions"], ["Medical sample decks", "BAR subject decks"]],
-    rationale: "The current onboarding tour and lesson demo inherit medical and topper language. The flow can stay, but its headline, assistant description, flashcard examples and question message need BAR-specific copy.",
-  },
-  {
-    id: "bar-account-retention",
-    area: "Account · Membership, FAQ and cancellation",
-    title: "Membership and retention copy",
-    kind: "account-retention",
-    changeType: "Course-specific copy",
-    changes: [["PYQs, mock tests and drills", "Practice Questions, Exam Simulations and Drills"], ["NEET-PG FAQ", "BAR preparation FAQ"], ["Medical feature claims", "BAR formats and study tools"]],
-    rationale: "Membership, cancellation and FAQ screens are reachable after onboarding and currently reuse Indian-medical claims. Their product descriptions must match BAR formats; game rows should be omitted for BAR.",
-  },
-  {
-    id: "bar-discovery-examples",
-    area: "Explore · Reminders and deck creation",
-    title: "Discovery prompts and empty examples",
-    kind: "discovery-examples",
-    changeType: "Example content",
-    changes: [["interactive medical visuals", "interactive BAR study visuals"], ["medical creators", "BAR educators"], ["Pharmacology notes", "Evidence outline"], ["Medical & Clinical Context", "Legal Concepts & Rules"]],
-    rationale: "These prompts appear before the learner has supplied content, so they must not default to medicine. Generic actions stay unchanged; only their hard-coded examples and category labels change.",
+    changes: [["Medical prompt examples", "BAR prompt examples"], ["Missing BAR loading translation", "Building high-yield BAR flashcards"]],
+    rationale: "The current Create action reaches this screen on origin/dev. Its examples are medical, and BAR has no search_loading_text translation, so both the examples and loading line need BAR-specific copy.",
   },
 ];
 
@@ -176,25 +151,11 @@ function renderNavigation(version) {
   const navIcons = ["?", "▥", "⌂", "▤", "⌘"];
   return `<div class="component-preview cfa-nav-preview bar-nav-preview">
     <div class="preview-fade">Home content continues above</div>
-    <div class="bottom-stack"><div class="rezzy-bar"><span class="rezzy-sparkle">✦</span><span>Ask Rezzy anything</span></div>
+    <div class="bottom-stack"><div class="rezzy-bar"><span class="rezzy-sparkle">✦</span><span>Ask Casey anything</span></div>
       <nav class="tabbar" aria-label="${proposed ? "Proposed" : "Current"} navigation">
         ${labels.map((label, index) => `<button class="tab-item ${index === 0 ? "active" : ""} ${proposed && index === 0 ? "changed" : ""}" type="button" tabindex="-1"><span class="cfa-nav-icon">${navIcons[index]}</span><span class="tab-text">${label}</span></button>`).join("")}
       </nav>
     </div>
-  </div>`;
-}
-
-function renderHomeSimulation(version) {
-  const proposed = version === "proposed";
-  const features = proposed
-    ? ["40 MCQs · 2 IQS · 1 PT", "Timed Full Section format", "Personalized subject and format analysis"]
-    : ["200 Questions covering all subjects", "AI trained on 5,000+ AKT focused questions", "Get personalized analysis & resources"];
-  return `<div class="component-preview bar-home-simulation-preview">
-    <div class="bar-home-sim-icon">▤</div>
-    <h3>${proposed ? "Full Section Simulation" : "Benchmark Test"}</h3>
-    <p>${proposed ? "Measure your BAR exam readiness with an exam-shaped simulation." : "AI-powered algorithm to predict your INICET score from this test."}</p>
-    <div class="bar-home-sim-features">${features.map((feature) => `<span>✓ ${feature}</span>`).join("")}</div>
-    <button type="button" tabindex="-1">TAKE TEST</button>
   </div>`;
 }
 
@@ -214,11 +175,24 @@ function renderDrillBuilder(version) {
   return `<div class="component-preview create-test-preview bar-builder-preview">
     <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Custom Drill" : "Create a Self-Assessment"}</strong></div>
     <p class="create-test-prompt">${proposed ? "Choose a drill mode" : "Choose the mode of quiz"}</p>
-    <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Review as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Timed Mode</strong><small>Work against the clock</small></span></div></div>
-    <div class="setup-label">${proposed ? "Question format" : "Question type"}</div>
-    <div class="bar-format-selector">${(proposed ? [["MCQ", "Multiple Choice"], ["IQS", "Integrated Sets"], ["PT", "Performance Tasks"]] : [["All", "Mixed questions"], ["MCQ", "Multiple Choice"], ["TBS", "Simulation"]]).map(([abbr, label], index) => `<span class="${index === 0 ? "selected" : ""}"><b>${abbr}</b><small>${label}</small></span>`).join("")}</div>
-    <div class="setup-label">Difficulty</div><div class="setup-pills">${(proposed ? ["Foundation", "Proficient", "Exam"] : ["Adaptive", "Easy", "Medium", "Hard"]).map((label, index) => `<span class="${index === 0 ? "active-pill" : ""}">${label}</span>`).join("")}</div>
-    <button class="setup-cta" type="button" tabindex="-1">${proposed ? "CHOOSE SUBJECTS & FORMAT" : "CHOOSE TOPICS"}</button>
+    <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Learn as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Exam Mode</strong><small>Just like an exam</small></span></div></div>
+    <div class="setup-label">Number of questions</div><div class="bar-number-select"><span>15</span><b>⌄</b></div>
+    <div class="setup-label">Filters</div><div class="bar-filter-row"><span>Subjects and tags</span><b>⌄</b></div>
+    <div class="setup-label">Question Type</div><div class="setup-pills bar-question-pills">${["All", "Unattempted", "Attempted", "Previously Incorrect", "Image Based", "Bookmarked"].map((label, index) => `<span class="${index === 0 ? "active-pill" : ""}">${label}</span>`).join("")}</div>
+    <button class="setup-cta" type="button" tabindex="-1">CHOOSE TOPICS</button>
+  </div>`;
+}
+
+function renderTopicSelection(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview bar-topic-preview">
+    <div class="create-test-topline"><span>‹</span><strong>Choose Topics</strong></div>
+    <div class="bar-topic-search">⌕ <span>Search by keyword or browse topics</span></div>
+    <div class="bar-topic-quick"><span>All</span><span>Weak Topics</span><span>High Yield</span></div>
+    <div class="bar-topic-subject"><span><i>BA</i><b>Business Associations</b></span><em>6 topics</em><strong>⌄</strong></div>
+    <div class="bar-topic-row"><span>Agency and authority</span><i>○</i></div>
+    <div class="bar-topic-row"><span>Corporations</span><i>○</i></div>
+    <button class="setup-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"}</button>
   </div>`;
 }
 
@@ -240,8 +214,43 @@ function renderReadySheet(version) {
     { label: "New", title: proposed ? "Your Drill is Ready" : "Your Quiz is Ready", action: proposed ? "START DRILL" : "START QUIZ" },
     { label: "Paused", title: proposed ? "Resume Your Drill" : "Your Quiz is Ready", action: proposed ? "RESUME DRILL" : "RESUME QUIZ" },
   ];
-  return `<div class="component-preview resume-states-preview">${states.map((state) => `<section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.label === "New" ? "Create flow" : "Recent activity"}</span></div><div class="phone-stage"><div class="ghost-app-content"><span class="ghost-app-title"></span><span class="ghost-app-card"></span><span class="ghost-app-card short"></span></div><div class="stage-dim"></div><div class="real-bottom-sheet"><div class="real-sheet-grabber"></div><button class="real-sheet-close" type="button" tabindex="-1">×</button><div class="real-sheet-header"><h3>${state.title}</h3><p>Review the activity details before you begin.</p></div><div class="real-detail-list"><div><strong>Questions</strong><span>20</span></div><div><strong>Format</strong><span>${proposed ? "MCQ" : "Mixed"}</span></div><div><strong>Subject</strong><span>Business Associations<br><small>4 Topics</small></span></div></div><button class="real-sheet-action" type="button" tabindex="-1">${state.action}</button></div></div></section>`).join("")}</div>`;
+  return `<div class="component-preview resume-states-preview">${states.map((state) => `<section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.label === "New" ? "Create flow" : "Recent activity"}</span></div><div class="phone-stage"><div class="ghost-app-content"><span class="ghost-app-title"></span><span class="ghost-app-card"></span><span class="ghost-app-card short"></span></div><div class="stage-dim"></div><div class="real-bottom-sheet"><div class="real-sheet-grabber"></div><button class="real-sheet-close" type="button" tabindex="-1">×</button><div class="real-sheet-header"><h3>${state.title}</h3><p>Review the activity details before you begin.</p></div><div class="real-detail-list"><div><strong>Questions</strong><span>20</span></div><div><strong>Format</strong><span>Mixed</span></div><div><strong>Subject</strong><span>Business Associations<br><small>4 Topics</small></span></div></div><button class="real-sheet-action" type="button" tabindex="-1">${state.action}</button></div></div></section>`).join("")}</div>`;
 }
+
+function renderSessionEnd(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview bar-end-preview"><div class="bar-end-icon">✍️</div><h3>You are about to end the ${proposed ? "drill" : "quiz"}</h3><p>You will be able to see the results and performance analysis once you end the ${proposed ? "drill" : "quiz"}.</p><div class="bar-end-stats"><span><b>18 MINS</b><small>Total Time Spent</small></span><span><b>12 / 20</b><small>Attempted</small></span></div><button class="bar-end-primary" type="button" tabindex="-1">PAUSE FOR LATER</button><button class="bar-end-secondary" type="button" tabindex="-1">YES, END THE ${proposed ? "DRILL" : "QUIZ"}</button><div class="bar-end-last"><small>After the last question</small><strong>END ${proposed ? "DRILL" : "QUIZ"} & VIEW RESULTS</strong></div></div>`;
+}
+
+function renderResults(version) {
+  const proposed = version === "proposed";
+  const activity = proposed ? "drill" : "quiz";
+  return `<div class="component-preview bar-results-preview"><div class="bar-report-card"><header><span>PRACTICE ${activity.toUpperCase()} · TODAY</span><b>ON TRACK</b></header><div class="bar-report-score"><strong>68%</strong><span><i style="width:68%"></i></span></div><div class="bar-report-stats"><span><b>14</b><small>Correct</small></span><span><b>6</b><small>Wrong</small></span><span><b>18m</b><small>Time</small></span></div></div><div class="bar-standing-gaps"><small>STANDING GAPS</small><strong>Still weak after earlier ${proposed ? "drills" : "quizzes"}</strong><span>Personal jurisdiction <b>48%</b></span><span>Evidence exceptions <b>52%</b></span></div><div class="bar-handoff"><small>CASEY SUGGESTS</small><div><span>${proposed ? "Drill" : "Quiz"}</span><b>${proposed ? "Start this drill" : "Start this quiz"} ›</b></div></div><div class="bar-report-composer">Ask about this ${activity}<b>↑</b></div></div>`;
+}
+
+function renderHistory(version) {
+  const proposed = version === "proposed";
+  const pills = proposed ? ["All", "Paused", "Custom Drill", "Recommended", "Daily", "Weekly"] : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
+  return `<div class="component-preview recent-tests-preview lsat-history-preview">
+    <strong class="recent-tests-heading">${proposed ? "PRACTICE HISTORY" : "PAST QUIZZES"}</strong>
+    <div class="recent-filter-pills">${pills.map((pill, index) => `<span class="${index === 0 ? "selected" : ""}">${pill}</span>`).join("")}</div>
+    <div class="recent-date">Today</div><div class="recent-card-list">
+      <div class="recent-test-card"><span class="recent-card-icon">▶</span><span class="recent-card-copy"><strong>${proposed ? "Custom Drill" : "Custom Quiz"}</strong><small>Business Associations · 20 questions</small></span><span class="recent-card-arrow">›</span></div>
+      <div class="recent-test-card"><span class="recent-card-icon">✦</span><span class="recent-card-copy"><strong>${proposed ? "Recommended Drill" : "Recommended Quiz"}</strong><small>Civil Procedure</small></span><span class="recent-card-arrow">›</span></div>
+    </div><div class="resume-sample"><span>${proposed ? "Paused drill" : "Paused quiz"}</span><button type="button" tabindex="-1">${proposed ? "RESUME DRILL" : "RESUME QUIZ"}</button></div>
+  </div>`;
+}
+
+const barCurrentTools = [
+  { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Medical lecture notes", "Clinical notes", "Revision notes"] },
+  { id: "canvas", icon: "◇", title: "Create canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Spinal cord", "ECG axis", "Antibiotic ladder"] },
+  { id: "flowcharts", icon: "⌁", title: "Get flowcharts", subtitle: "See how concepts connect", suggestions: ["Cardiac cycle", "Nephron", "Coagulation cascade"] },
+  { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Cranial nerves", "Drug of choice", "Vitamins"] },
+  { id: "drill", icon: "?", title: "Take a quiz", subtitle: "Improve accuracy and speed", suggestions: ["Pharmacology", "Anatomy", "Pathology"] },
+  { id: "outlines", icon: "≡", title: "Get high-yield notes", subtitle: "Focus on exam-relevant points", suggestions: ["Cardiac murmurs", "Antibiotics", "Renal physiology"] },
+  { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough concepts stick", suggestions: ["Cranial nerves", "Drug adverse effects", "Vitamins"] },
+  { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent quizzes", "Subject gaps", "Weak topics"] },
+];
 
 const barRezzyTools = [
   { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["JD outline", "Case brief", "Issue checklist"] },
@@ -254,27 +263,34 @@ const barRezzyTools = [
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent drills", "Subject gaps", "Question-format gaps"] },
 ];
 
-function renderRezzyHome() {
-  return `<div class="casey-review-layout" data-bar-rezzy-demo>
+function renderRezzyHome(version) {
+  const proposed = version === "proposed";
+  const tools = proposed ? barRezzyTools : barCurrentTools;
+  return `<div class="casey-review-layout" ${proposed ? "data-bar-rezzy-demo" : ""}>
     <div class="component-preview rezzy-phone rezzy-home-demo bar-rezzy-preview">
-      <div class="rezzy-phone-header"><span>☰</span><strong>Rezzy</strong><span>✦</span></div>
-      <div class="rezzy-greeting"><div class="rezzy-orb">R</div><h3>What should we study today?</h3></div>
-      <div class="savvy-demo-stage" data-bar-rezzy-stage><div class="savvy-tool-scroll">${barRezzyTools.map((tool) => `<button type="button" class="savvy-tool-pill" data-bar-rezzy-tool="${tool.id}"><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></button>`).join("")}</div></div>
-      <p class="savvy-demo-hint" data-bar-rezzy-hint>Select a pill to see its actual state</p>
-      <div class="rezzy-composer"><span>＋</span><p>Ask Rezzy anything…</p><b>↑</b></div>
+      <div class="rezzy-phone-header"><span>☰</span><strong>Casey</strong><span>✦</span></div>
+      <div class="rezzy-greeting"><div class="rezzy-orb">C</div><h3>What should we study today?</h3></div>
+      <div class="savvy-demo-stage" ${proposed ? "data-bar-rezzy-stage" : ""}><div class="savvy-tool-scroll">${tools.map((tool) => `<button type="button" class="savvy-tool-pill" ${proposed ? `data-bar-rezzy-tool="${tool.id}"` : ""}><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></button>`).join("")}</div></div>
+      <p class="savvy-demo-hint" ${proposed ? "data-bar-rezzy-hint" : ""}>${proposed ? "Select a pill to see its BAR examples" : "Current tool copy from origin/dev"}</p>
+      <div class="rezzy-composer"><span>＋</span><p>Ask Casey anything…</p><b>↑</b></div>
     </div>
-    <aside class="casey-examples-panel"><p>BAR examples by tool</p>${barRezzyTools.map((tool) => `<section><div><i>${tool.icon}</i><strong>${tool.title}</strong></div><div class="casey-example-chips">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></section>`).join("")}</aside>
+    ${proposed ? `<aside class="casey-examples-panel"><p>BAR examples by tool</p>${barRezzyTools.map((tool) => `<section><div><i>${tool.icon}</i><strong>${tool.title}</strong></div><div class="casey-example-chips">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></section>`).join("")}</aside>` : ""}
   </div>`;
 }
 
 function renderRezzySelectedState(tool) {
   if (tool.special === "upload") {
-    return `<div class="savvy-special-sheet"><button class="savvy-back" type="button" data-bar-rezzy-back>‹ Back</button><h3>Upload Notes</h3><p>Rezzy turns BAR notes into flashcards, questions, visual maps and more.</p><div class="savvy-upload-options"><span>▧<small>Camera</small></span><span>▣<small>Photos</small></span><span>▤<small>Files</small></span></div><div class="casey-sheet-examples">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></div>`;
+    return `<div class="savvy-special-sheet"><button class="savvy-back" type="button" data-bar-rezzy-back>‹ Back</button><h3>Upload Notes</h3><p>Casey turns BAR notes into flashcards, questions, visual maps and more.</p><div class="savvy-upload-options"><span>▧<small>Camera</small></span><span>▣<small>Photos</small></span><span>▤<small>Files</small></span></div><div class="casey-sheet-examples">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></div>`;
   }
   if (tool.special === "canvas") {
     return `<div class="savvy-special-sheet canvas-sheet-demo"><div class="savvy-sheet-heading"><button class="savvy-back" type="button" data-bar-rezzy-back>‹ Back</button><b>View all ›</b></div><h3>Create a Canvas</h3><p>Templates and starters are filtered to the active BAR course.</p><div class="savvy-template-grid">${tool.suggestions.map((suggestion) => `<span><i></i><small>${suggestion}</small></span>`).join("")}</div></div>`;
   }
   return `<div class="savvy-prompt-state"><button class="savvy-back" type="button" data-bar-rezzy-back>‹ Back</button><div class="savvy-selected-tool"><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></div>${tool.suggestions.map((suggestion) => `<button type="button" class="savvy-suggestion">${suggestion}</button>`).join("")}<button type="button" class="savvy-suggestion">Something else</button></div>`;
+}
+
+function renderCaseyWidget(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview bar-widget-preview"><div class="bar-widget-chat"><span class="rezzy-orb">C</span><p>${proposed ? "Drill generated" : "Quiz generated"}</p></div><div class="bar-widget-card"><header><span>?</span><div><strong>${proposed ? "CUSTOM DRILL" : "CUSTOM QUIZ"}</strong><small>10 questions</small></div><b>1 / 10</b></header><p>Which fact most strongly supports apparent authority?</p><button type="button" tabindex="-1">The principal's manifestation to the third party</button><button type="button" tabindex="-1">The agent's private statement</button><footer><span>‹</span><b>NEXT ›</b></footer></div></div>`;
 }
 
 function renderRezzyGalleries(version) {
@@ -285,9 +301,13 @@ function renderRezzyGalleries(version) {
   const library = proposed
     ? ["Explain personal jurisdiction", "Create an evidence flowchart", "Map negligence elements", "Compare business entities"]
     : ["Explain the cardiac cycle", "Create a nephron flowchart", "Draw the brachial plexus", "Compare Gram + vs Gram −"];
+  const notes = proposed
+    ? ["Upload your Contracts outline", "Scan your Evidence notes", "Add a Civil Procedure slide"]
+    : ["Upload your Biochemistry chapter", "Snap your Anatomy notes", "Add a Pathology slide image"];
   return `<div class="component-preview bar-gallery-preview">
-    <section><span class="bar-gallery-icon">◇</span><h3>Make your first canvas</h3><p>Turn a tough topic into an interactive visual or exam-ready explainer.</p><div>${canvas.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">CREATE CANVAS</button></section>
-    <section><span class="bar-gallery-icon">▤</span><h3>Create your first study visual</h3><p>Ask Rezzy to create diagrams, flowcharts and study visuals.</p><div>${library.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">CREATE WITH REZZY</button></section>
+    <section><span class="bar-gallery-icon">◇</span><h3>Make your first canvas</h3><p>Ask Casey to turn a tough topic into an interactive visual, simulator, map, or exam-ready explainer.</p><div>${canvas.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">CREATE CANVAS</button></section>
+    <section><span class="bar-gallery-icon">▤</span><h3>Create your first study visual</h3><p>Ask Casey to create diagrams, flowcharts and study visuals.</p><div>${library.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">CREATE WITH CASEY</button></section>
+    <section><span class="bar-gallery-icon">≡</span><h3>Turn your notes into Smart Notes</h3><p>Upload PDFs, slides, or handwritten notes and Casey turns them into flashcards, questions, concept map and more.</p><div>${notes.map((item) => `<b>${item}</b>`).join("")}</div><button type="button" tabindex="-1">UPLOAD A FILE</button></section>
   </div>`;
 }
 
@@ -298,114 +318,31 @@ function renderFlashcardsLibrary(version) {
     <div class="bar-library-search">⌕ <span>Search across your Flashcards</span></div>
     <div class="practice-segments"><span>By Subject</span><span class="selected">Themes</span><span>My Decks</span></div>
     <div class="setup-pills"><span class="active-pill">All</span><span>High Yield</span><span>Image</span></div>
-    <div class="bar-flashcard-paywall"><i>🔒</i><span><strong>${proposed ? "Unlock High-Yield BAR Flashcards" : "Unlock Topper Flashcards"}</strong><small>${proposed ? "Upgrade to Oncourse Max to access all high-yield BAR flashcards." : "Upgrade to Oncourse Max to access all topper flashcards."}</small></span></div>
+    <div class="bar-flashcard-paywall"><i>🔒</i><span><strong>Unlock the full Oncourse experience with MAX</strong><small>${proposed ? "Upgrade to Oncourse Max to access all high-yield BAR flashcards." : "Upgrade to Oncourse Max to access all topper flashcards."}</small><em>${proposed ? "A contract requires offer, acceptance and consideration." : "Lorazepam is the drug of choice for status epilepticus."}</em></span></div>
     <div class="bar-search-empty"><b>⌕</b><span><strong>No search results for “consideration”</strong><small>${proposed ? "Oncourse can generate BAR flashcards for any subject or rule you choose." : "Oncourse can generate topper-level flashcards for any topic that you like."}</small></span><button type="button" tabindex="-1">GENERATE FLASHCARDS WITH AI</button></div>
   </div>`;
 }
 
 function renderFlashcards(version) {
   const proposed = version === "proposed";
-  const examples = proposed ? [["Civil Procedure", 8], ["Business Associations", 10], ["Evidence Rules", 8]] : [["Urea Cycle", 8], ["Cardiac Potentials", 10], ["Cranial Nerves", 8]];
-  return `<div class="component-preview flashcard-phone-frame flashcard-ai-preview bar-flashcard-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcard-plain-header"><span>‹</span><strong>Generate Flashcards with AI</strong></div><div class="flashcard-screen-body"><label>Describe the flashcards you want in detail</label><div class="flashcard-prompt-field">Enter a prompt</div><label>Examples of what others are making</label><div class="flashcard-smart-pills">${examples.map(([title, count]) => `<span><strong>${title}</strong><small>${count} Cards</small></span>`).join("")}</div><div class="bar-loading-copy"><span class="bar-loading-spark">✦</span><span><strong>Creating your flashcards</strong><small>${proposed ? "Building high-yield BAR flashcards" : "Adding topper flashcards and PYQs"}</small></span></div><button class="flashcard-disabled-cta" type="button" tabindex="-1">MAKE ME FLASHCARDS</button></div></div>`;
-}
-
-function renderSmartNotes(version) {
-  const proposed = version === "proposed";
-  return `<div class="component-preview bar-notes-preview">
-    <div class="bar-library-header"><span>≡</span><strong>Notes</strong><button type="button" tabindex="-1">＋ UPLOAD</button></div>
-    <div class="bar-notes-upload"><strong>${proposed ? "Get Flashcards, Practice Questions & More." : "Get Flashcards, PYQs & More."}</strong><small>Upload your notes and enhance them with AI</small></div>
-    <div class="setup-pills"><span class="active-pill">ALL</span><span>${proposed ? "HIGH-YIELD OUTLINES" : "TOPPER"}</span><span>UPLOADED</span></div>
-    <div class="bar-notes-tabs"><span>Smart Note</span><span>Flashcards</span><span class="active">Practice Q</span><span>Videos</span></div>
-    <div class="bar-state-stack"><div><i>◌</i><span><strong>Preparing Your Questions</strong><small>${proposed ? "Improve your application skills with practice questions" : "Improve your Application Skills with Practice Questions & PYQs"}</small></span></div><div><i>!</i><span><strong>${proposed ? "No practice questions here" : "No PYQs here"}</strong><small>Try uploading something else</small></span></div></div>
-  </div>`;
-}
-
-function renderPaywalls(version) {
-  const proposed = version === "proposed";
-  const features = proposed
-    ? [["High-Yield BAR Flashcards", "Organised by BAR subjects"], ["BAR Question Bank", "MCQs, IQS and Performance Tasks"], ["Smart Notes", "Flashcards and practice questions"]]
-    : [["20,000+ Topper Flashcards", "Organised by topics & subjects"], ["Largest Medical PG QBank", "With 1 Lakh+ questions & PYQs"], ["Smart Notes with MAX", "With AI flashcards, PYQs"]];
-  return `<div class="component-preview bar-paywall-preview">
-    <span class="bar-max-pill">ONCOURSE MAX</span><h3>${proposed ? "Get the smartest subscription for BAR prep" : "Get the smartest subscription for NEET-PG"}</h3>
-    <p>${proposed ? "BAR practice, high-yield flashcards and Smart Notes in one place." : "High Yield Questions & 40k+ Topper Flashcards"}</p>
-    <div>${features.map(([title, detail]) => `<section><i>✓</i><span><strong>${title}</strong><small>${detail}</small></span></section>`).join("")}</div>
-    ${proposed ? "" : '<div class="bar-excluded-feature">Interactive Medical Games · Diagnose patients</div>'}
-    <button type="button" tabindex="-1">CONTINUE</button>
-  </div>`;
-}
-
-function renderEntrySearch(version) {
-  const proposed = version === "proposed";
-  const rows = proposed
-    ? [["Public access", "Log in to access the BAR question bank, Lessons and high-yield flashcards."], ["Public Rezzy", "Ask about BAR subjects and legal issues, and get flashcards, questions and lessons."], ["Video search", "Finding relevant BAR videos…"]]
-    : [["Public access", "Log in to access the largest medical Q-Bank and Interactive Lessons."], ["Public Rezzy", "Rezzy can answer any medical doubts you have."], ["Video search", "Finding relevant medical videos…"]];
-  return `<div class="component-preview bar-entry-preview">${rows.map(([label, copy]) => `<section><span>${label}</span><p>${copy}</p></section>`).join("")}</div>`;
-}
-
-function renderCopySurface(version, kind) {
-  const proposed = version === "proposed";
-  const rowsByKind = {
-    "onboarding-demo": proposed
-      ? [
-          ["Welcome", "A new way to master BAR preparation"],
-          ["Meet Rezzy", "AI study support built around trusted BAR preparation sources"],
-          ["Lesson flashcards", "High-Yield BAR Flashcards, organised by subject and topic"],
-          ["Practice message", "BAR-style Practice Questions reinforce what you just learned"],
-          ["Example decks", "Civil Procedure · Evidence · Business Associations"],
-        ]
-      : [
-          ["Welcome", "A new way to master medical studies"],
-          ["Meet Rezzy", "Most Accurate Medical AI Ever Made · trusted medical sources"],
-          ["Lesson flashcards", "Topper Flashcards · 50,000+ made by toppers"],
-          ["Practice message", "PYQs are most critical for any exam preparation"],
-          ["Example decks", "Drug of Choice · Investigation of Choice · Vitamins and Coenzymes"],
-        ],
-    "account-retention": proposed
-      ? [
-          ["Membership", "BAR Question Bank · Practice Questions, Exam Simulations and subject-wise Drills"],
-          ["Cancellation offer", "MCQs, IQS, Performance Tasks and exam simulations with explanations"],
-          ["FAQ", "Is Oncourse Max enough for BAR preparation?"],
-          ["Course switcher", "Choose from the available courses"],
-        ]
-      : [
-          ["Membership", "100k+ question bank · PYQs, mock tests and subject-wise drills"],
-          ["Cancellation offer", "PYQs, mock tests and drills with explanations"],
-          ["FAQ", "Is Oncourse Max enough for NEET-PG preparations?"],
-          ["Course switcher", "You can switch between USMLE, UKMLA and Indian Medical PG for now"],
-        ],
-    "discovery-examples": proposed
-      ? [
-          ["Explore Canvases", "A library of interactive BAR study visuals"],
-          ["Video Lessons", "Curated YouTube lessons from BAR educators"],
-          ["Reminder suggestion", "Read Evidence outline"],
-          ["Deck icon category", "Legal Concepts & Rules"],
-          ["Loading fact", "Use a BAR-neutral study tip or legal concept"],
-        ]
-      : [
-          ["Explore Canvases", "A library of interactive medical visuals"],
-          ["Video Lessons", "Curated YouTube lectures from medical creators"],
-          ["Reminder suggestion", "Read Pharmacology notes"],
-          ["Deck icon category", "Medical & Clinical Context"],
-          ["Loading fact", "The left lung is smaller because of the cardiac notch"],
-        ],
-  };
-  return `<div class="component-preview bar-copy-surface-preview">${rowsByKind[kind].map(([label, copy]) => `<section><span>${label}</span><p>${copy}</p></section>`).join("")}</div>`;
+  const examples = proposed ? [["Civil Procedure", 8], ["Business Associations", 10], ["Evidence Rules", 8]] : [["Urea Cycle", 8], ["Cardiac Potentials", 10], ["Conduction System of Heart", 2]];
+  return `<div class="component-preview flashcard-phone-frame flashcard-ai-preview bar-flashcard-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcard-plain-header"><span>‹</span><strong>Generate Flashcards with AI</strong></div><div class="flashcard-screen-body"><label>Describe the flashcards you want in detail</label><div class="flashcard-prompt-field">Enter a prompt</div><label>Examples of what others are making</label><div class="flashcard-smart-pills">${examples.map(([title, count]) => `<span><strong>${title}</strong><small>${count} Cards</small></span>`).join("")}</div><div class="bar-loading-copy"><span class="bar-loading-spark">✦</span><span><strong>Crafting your flashcards</strong><small>${proposed ? "Building high-yield BAR flashcards" : "flashcards.search_loading_text"}</small></span></div><button class="flashcard-disabled-cta" type="button" tabindex="-1">MAKE ME FLASHCARDS</button></div></div>`;
 }
 
 function renderPreview(item, version) {
   if (item.kind === "navigation") return renderNavigation(version);
-  if (item.kind === "home-simulation") return renderHomeSimulation(version);
   if (item.kind === "practice-landing") return renderPracticeLanding(version);
   if (item.kind === "drill-builder") return renderDrillBuilder(version);
+  if (item.kind === "topic-selection") return renderTopicSelection(version);
   if (item.kind === "simulations") return renderSimulations(version);
   if (item.kind === "ready-sheet") return renderReadySheet(version);
-  if (item.kind === "rezzy-home") return renderRezzyHome();
+  if (item.kind === "session-end") return renderSessionEnd(version);
+  if (item.kind === "results") return renderResults(version);
+  if (item.kind === "history") return renderHistory(version);
+  if (item.kind === "rezzy-home") return renderRezzyHome(version);
+  if (item.kind === "casey-widget") return renderCaseyWidget(version);
   if (item.kind === "rezzy-galleries") return renderRezzyGalleries(version);
   if (item.kind === "flashcards-library") return renderFlashcardsLibrary(version);
-  if (item.kind === "smart-notes") return renderSmartNotes(version);
-  if (item.kind === "paywalls") return renderPaywalls(version);
-  if (item.kind === "entry-search") return renderEntrySearch(version);
-  if (["onboarding-demo", "account-retention", "discovery-examples"].includes(item.kind)) return renderCopySurface(version, item.kind);
   return renderFlashcards(version);
 }
 
