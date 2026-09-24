@@ -183,21 +183,6 @@ const reviewItems = [
       "CPA uses Sections for its top-level exam structure, while the course persona is Savvy. Generic searches such as Search questions by keyword remain unchanged.",
   },
   {
-    id: "active-test-cards",
-    kind: "active-test-cards",
-    area: "Practice · Tests",
-    title: "Available and scheduled tests",
-    current: "Quiz and Benchmark language",
-    proposed: "CPA test language",
-    changes: [
-      { from: "Daily Practice Quiz", to: "Daily Practice Test" },
-      { from: "Benchmark 1", to: "Simulated Exam 1" },
-      { from: "Weekly Score Predictor Test", to: "Hidden for CPA" },
-    ],
-    rationale:
-      "Use Test throughout the main CPA Practice flow, reserve Simulated Exam for exam-like assessments, and hide medical-only assessment types.",
-  },
-  {
     id: "paused-test-page",
     kind: "paused-test-page",
     area: "Practice · Paused",
@@ -680,26 +665,6 @@ function renderFlashcardsSearchEmpty(version) {
     </div>`;
 }
 
-function renderActiveTestCards(version) {
-  const isProposal = version === "proposed";
-  return `
-    <div class="component-preview active-tests-preview">
-      <div class="active-tests-heading"><strong>Tests</strong><span>All</span></div>
-      <div class="active-test-card daily-test-card">
-        <div class="test-card-ribbon">${isProposal ? "Next test tomorrow" : "Next quiz tomorrow"}</div>
-        <div class="test-card-body"><i>☀</i><span><strong>${isProposal ? "Daily Practice Test" : "Daily Practice Quiz"}</strong><small>Auditing and Attestation</small></span><b>›</b></div>
-      </div>
-      <div class="active-test-card">
-        <div class="test-card-body"><i>◫</i><span><strong>${isProposal ? "Simulated Exam 1" : "Benchmark 1"}</strong><small>CPA exam simulation</small></span><b>›</b></div>
-      </div>
-      ${
-        isProposal
-          ? `<div class="course-hidden-row"><span>Weekly Score Predictor Test</span><strong>Hidden for CPA</strong></div>`
-          : `<div class="active-test-card"><div class="test-card-body"><i>◷</i><span><strong>Weekly Score Predictor Test</strong><small>Curated by experts</small></span><b>›</b></div></div>`
-      }
-    </div>`;
-}
-
 function renderPausedTestPage(version) {
   const isProposal = version === "proposed";
   return `
@@ -756,7 +721,6 @@ function renderComponentPreview(item, version) {
   if (item.kind === "flashcards-ai-generation") return renderFlashcardsAiGeneration(version);
   if (item.kind === "flashcards-ai-loading") return renderFlashcardsAiLoading(version);
   if (item.kind === "flashcards-search-empty") return renderFlashcardsSearchEmpty(version);
-  if (item.kind === "active-test-cards") return renderActiveTestCards(version);
   if (item.kind === "paused-test-page") return renderPausedTestPage(version);
   if (item.kind === "end-test-dialog") return renderEndTestDialog(version);
   if (item.kind === "post-test-analysis") return renderPostTestAnalysis(version);
