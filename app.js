@@ -29,6 +29,22 @@ const icons = {
     </svg>`,
 };
 
+const cpaTerms = [
+  ["Top curriculum level", "Section", "Section"],
+  ["Learning hierarchy", "Section → Unit → Module", "Section → Topic / Subtopic"],
+  ["Learning content", "Concept Videos / Digital Textbook", "Video Lectures / Study Guides"],
+  ["Practice questions", "MCQs / TBSs", "MCQs / TBSs"],
+  ["Question collection", "Practice Questions", "QBank"],
+  ["Practice builder", "Practice Tests", "Create Custom Test"],
+  ["Short assessment", "Mini Exams", "Mini-Assessments"],
+  ["Full exam simulation", "Simulated Exams", "Full-Length Mock Exams / Exam Sim"],
+  ["Practice modes", "Adapt2U personalized practice", "Tutor Mode / Exam Sim"],
+  ["Performance", "Exam Day Ready tracker", "SmartPath / Performance Metrics"],
+  ["Planning", "Study Planner", "Dynamic Study Planner"],
+  ["Flashcards", "Digital Flashcards", "ReadyDecks / Custom Flashcards"],
+  ["AI tutor", "Newt", "UAsk"],
+];
+
 const reviewItems = [
   {
     id: "bottom-navigation",
@@ -305,6 +321,18 @@ function renderTabBar(version) {
           ${tabs}
         </nav>
       </div>
+    </div>`;
+}
+
+function renderCpaTerminologyTable() {
+  return `
+    <div class="terms-table-wrap">
+      <table class="terms-table">
+        <thead><tr><th>Product area</th><th>Becker</th><th>UWorld</th></tr></thead>
+        <tbody>
+          ${cpaTerms.map((row) => `<tr>${row.map((cell, index) => `<${index === 0 ? "th" : "td"}>${cell}</${index === 0 ? "th" : "td"}>`).join("")}</tr>`).join("")}
+        </tbody>
+      </table>
     </div>`;
 }
 
@@ -782,6 +810,8 @@ function renderReviewItem(item, index) {
       </div>
     </article>`;
 }
+
+document.getElementById("cpa-terminology-table").innerHTML = renderCpaTerminologyTable();
 
 document.getElementById("review-list").innerHTML = reviewItems
   .map(renderReviewItem)
