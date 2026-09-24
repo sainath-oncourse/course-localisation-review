@@ -212,21 +212,6 @@ const reviewItems = [
       "The confirmation belongs to the main Practice test journey and should not switch back to Quiz terminology.",
   },
   {
-    id: "post-test-analysis",
-    kind: "post-test-analysis",
-    area: "Practice · Results",
-    title: "Post-test analysis",
-    current: "Quiz and Rezzy result copy",
-    proposed: "Test and Savvy result copy",
-    changes: [
-      { from: "REZZY ANALYSIS", to: "SAVVY ANALYSIS" },
-      { from: "Ask about this quiz", to: "Ask about this test" },
-      { from: "Did you find this quiz helpful?", to: "Did you find this test helpful?" },
-    ],
-    rationale:
-      "Results should preserve the terminology established when the learner created the test and use the CPA tutor identity.",
-  },
-  {
     id: "flashcards-ai-generation",
     kind: "flashcards-ai-generation",
     area: "Flashcards · Generate with AI",
@@ -723,7 +708,6 @@ function renderComponentPreview(item, version) {
   if (item.kind === "flashcards-search-empty") return renderFlashcardsSearchEmpty(version);
   if (item.kind === "paused-test-page") return renderPausedTestPage(version);
   if (item.kind === "end-test-dialog") return renderEndTestDialog(version);
-  if (item.kind === "post-test-analysis") return renderPostTestAnalysis(version);
   return renderTabBar(version);
 }
 
