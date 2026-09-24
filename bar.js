@@ -41,8 +41,8 @@ const barReviewItems = [
     area: "Practice · Create",
     title: "Drill setup screen",
     kind: "drill-builder",
-    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"]],
-    rationale: "The latest BAR route does not show format or difficulty controls. Keep Number of questions, Filters, Question Type and Choose Topics exactly as they are; only rename the activity to Drill.",
+    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["Image Based", "Remove for BAR"]],
+    rationale: "The latest BAR route has generic attempt filters but no BAR format row. Image Based is not IQS and is not a BAR format, so it should be hidden for BAR. Add IQS only when the BAR question bank supports it.",
   },
   {
     id: "bar-topic-selection",
@@ -50,7 +50,7 @@ const barReviewItems = [
     title: "Choose topics screen",
     kind: "topic-selection",
     changes: [["START QUIZ", "START DRILL"]],
-    rationale: "Choose Topics, keyword search, Weak Topics, High Yield and the subject/topic hierarchy are valid for BAR. Only the final action needs to match the Custom Drill flow.",
+    rationale: "Verified in app/(app)/evaluation/test/setup/subject.tsx on origin/dev. The screen and its filters stay unchanged; only the final action follows the Custom Drill name.",
   },
   {
     id: "bar-simulations",
@@ -69,22 +69,6 @@ const barReviewItems = [
     rationale: "The shared sheet should use the activity being opened. Drills use Drill; timed exam products use Half Section, Full Section or Full Exam with Start/Resume Simulation actions.",
   },
   {
-    id: "bar-session-end",
-    area: "Practice · Active activity",
-    title: "End and pause screen",
-    kind: "session-end",
-    changes: [["You are about to end the quiz", "You are about to end the drill"], ["END QUIZ & VIEW RESULTS", "END DRILL & VIEW RESULTS"], ["YES, END THE QUIZ", "YES, END THE DRILL"]],
-    rationale: "This is a reachable screen in the active practice flow. Pause for Later and Finish & Submit remain unchanged; only Quiz becomes Drill for a custom BAR activity.",
-  },
-  {
-    id: "bar-results",
-    area: "Practice · Results",
-    title: "Drill report and analysis",
-    kind: "results",
-    changes: [["Practice quiz", "Practice drill"], ["Ask about this quiz", "Ask about this drill"], ["earlier quizzes", "earlier drills"], ["Quiz · Start this quiz", "Drill · Start this drill"]],
-    rationale: "The latest result report repeats Quiz in its report label, composer, history insight and Casey hand-off. These should follow the Custom Drill terminology.",
-  },
-  {
     id: "bar-practice-history",
     area: "Practice · Recents",
     title: "Practice history and paused activity",
@@ -95,11 +79,11 @@ const barReviewItems = [
   {
     id: "bar-search-study",
     area: "Casey · Home and tools",
-    title: "Casey tool pills and prompts",
+    title: "BAR tutor tool pills and prompts",
     kind: "rezzy-home",
     changeType: "Terminology + example content",
     changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"], ["Get high-yield notes", "Get high-yield outlines"]],
-    rationale: "The latest dev branch already maps Bar Exam to Casey. Keep Casey consistently, preserve each tool as a separate state, change Quiz to Drill and Notes to Outlines, and use concrete BAR examples for every tool.",
+    rationale: "Current-code fact: lib/persona/registry.ts maps both LSAT and Bar Exam to Casey. This review does not propose a BAR tutor name; it only changes the tool copy and examples.",
   },
   {
     id: "bar-casey-widget",
@@ -119,13 +103,20 @@ const barReviewItems = [
     rationale: "These are confirmed empty states inside Canvas and Library, including Library → From My Notes. Their structure and actions can stay; the hard-coded medical suggestion chips must change.",
   },
   {
-    id: "bar-flashcards-library",
-    area: "Flashcards · Home, paywall and search",
-    title: "Flashcard library and empty states",
-    kind: "flashcards-library",
-    changeType: "Terminology + empty-state copy",
-    changes: [["Topper Flashcards", "High-Yield BAR Flashcards"], ["topper-level flashcards", "BAR flashcards"], ["By Subject / Themes / My Decks", "Keep"]],
-    rationale: "Topper is not BAR terminology. Keep the current Flashcards information architecture and generic actions, but replace visible Topper language in paywalls, search-empty states and fallback translations.",
+    id: "bar-flashcards-paywall",
+    area: "Flashcards · Locked deck",
+    title: "Locked flashcard paywall",
+    kind: "flashcards-paywall",
+    changes: [["all topper flashcards", "all high-yield BAR flashcards"], ["Medical sample card", "BAR sample card"]],
+    rationale: "Verified in components/flashcards/FlashcardPaywallOverlay.tsx. This overlay appears after opening locked flashcard content; it is not part of the Flashcards home screen.",
+  },
+  {
+    id: "bar-flashcards-search-empty",
+    area: "Flashcards · Search",
+    title: "No search results state",
+    kind: "flashcards-search-empty",
+    changes: [["topper-level flashcards", "BAR flashcards"]],
+    rationale: "Verified in components/flashcards/SearchSection/FlashcardList.tsx. It appears only after a flashcard search returns no results.",
   },
   {
     id: "bar-flashcards",
@@ -172,13 +163,16 @@ function renderPracticeLanding(version) {
 
 function renderDrillBuilder(version) {
   const proposed = version === "proposed";
+  const questionFilters = proposed
+    ? ["All", "Unattempted", "Attempted", "Previously Incorrect", "Bookmarked"]
+    : ["All", "Unattempted", "Attempted", "Previously Incorrect", "Image Based", "Bookmarked"];
   return `<div class="component-preview create-test-preview bar-builder-preview">
     <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Custom Drill" : "Create a Self-Assessment"}</strong></div>
     <p class="create-test-prompt">${proposed ? "Choose a drill mode" : "Choose the mode of quiz"}</p>
     <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Learn as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Exam Mode</strong><small>Just like an exam</small></span></div></div>
     <div class="setup-label">Number of questions</div><div class="bar-number-select"><span>15</span><b>⌄</b></div>
     <div class="setup-label">Filters</div><div class="bar-filter-row"><span>Subjects and tags</span><b>⌄</b></div>
-    <div class="setup-label">Question Type</div><div class="setup-pills bar-question-pills">${["All", "Unattempted", "Attempted", "Previously Incorrect", "Image Based", "Bookmarked"].map((label, index) => `<span class="${index === 0 ? "active-pill" : ""}">${label}</span>`).join("")}</div>
+    <div class="setup-label">Question Type</div><div class="setup-pills bar-question-pills">${questionFilters.map((label, index) => `<span class="${index === 0 ? "active-pill" : ""}">${label}</span>`).join("")}</div>
     <button class="setup-cta" type="button" tabindex="-1">CHOOSE TOPICS</button>
   </div>`;
 }
@@ -188,10 +182,11 @@ function renderTopicSelection(version) {
   return `<div class="component-preview bar-topic-preview">
     <div class="create-test-topline"><span>‹</span><strong>Choose Topics</strong></div>
     <div class="bar-topic-search">⌕ <span>Search by keyword or browse topics</span></div>
-    <div class="bar-topic-quick"><span>All</span><span>Weak Topics</span><span>High Yield</span></div>
-    <div class="bar-topic-subject"><span><i>BA</i><b>Business Associations</b></span><em>6 topics</em><strong>⌄</strong></div>
-    <div class="bar-topic-row"><span>Agency and authority</span><i>○</i></div>
-    <div class="bar-topic-row"><span>Corporations</span><i>○</i></div>
+    <div class="bar-topic-quick"><span>□ &nbsp;All</span><span>□ &nbsp;Weak Topics</span><span>□ &nbsp;High Yield</span></div>
+    <div class="bar-topic-subject"><span><i>✅</i><b>Business Associations</b></span><em>2 TOPICS</em><strong>⌃</strong></div>
+    <div class="bar-topic-row"><span>□ &nbsp;All</span></div>
+    <div class="bar-topic-row"><span>□ &nbsp;Agency and authority</span></div>
+    <div class="bar-topic-row"><span>□ &nbsp;Corporations</span></div>
     <button class="setup-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"}</button>
   </div>`;
 }
@@ -311,14 +306,19 @@ function renderRezzyGalleries(version) {
   </div>`;
 }
 
-function renderFlashcardsLibrary(version) {
+function renderFlashcardsPaywall(version) {
   const proposed = version === "proposed";
-  return `<div class="component-preview bar-flashcard-library-preview">
+  return `<div class="component-preview bar-flashcard-library-preview bar-flashcard-state-preview">
+    <div class="bar-library-header"><span>‹</span><strong>Flashcards</strong><span></span></div>
+    <div class="bar-flashcard-paywall"><i>🔒</i><span><strong>Unlock the full Oncourse<br>experience with MAX</strong><small>${proposed ? "Upgrade to Oncourse Max to access all high-yield BAR flashcards." : "Upgrade to Oncourse Max to access all topper flashcards."}</small><button type="button" tabindex="-1">UNLOCK ALL FLASHCARDS</button><em>${proposed ? "An enforceable contract requires offer, acceptance and consideration." : "Lorazepam is the drug of choice for status epilepticus."}</em></span></div>
+  </div>`;
+}
+
+function renderFlashcardsSearchEmpty(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview bar-flashcard-library-preview bar-flashcard-state-preview">
     <div class="bar-library-header"><span>▤</span><strong>Flashcards</strong><button type="button" tabindex="-1">＋ CREATE</button></div>
-    <div class="bar-library-search">⌕ <span>Search across your Flashcards</span></div>
-    <div class="practice-segments"><span>By Subject</span><span class="selected">Themes</span><span>My Decks</span></div>
-    <div class="setup-pills"><span class="active-pill">All</span><span>High Yield</span><span>Image</span></div>
-    <div class="bar-flashcard-paywall"><i>🔒</i><span><strong>Unlock the full Oncourse experience with MAX</strong><small>${proposed ? "Upgrade to Oncourse Max to access all high-yield BAR flashcards." : "Upgrade to Oncourse Max to access all topper flashcards."}</small><em>${proposed ? "A contract requires offer, acceptance and consideration." : "Lorazepam is the drug of choice for status epilepticus."}</em></span></div>
+    <div class="bar-library-search">⌕ <span>consideration</span></div>
     <div class="bar-search-empty"><b>⌕</b><span><strong>No search results for “consideration”</strong><small>${proposed ? "Oncourse can generate BAR flashcards for any subject or rule you choose." : "Oncourse can generate topper-level flashcards for any topic that you like."}</small></span><button type="button" tabindex="-1">GENERATE FLASHCARDS WITH AI</button></div>
   </div>`;
 }
@@ -342,7 +342,8 @@ function renderPreview(item, version) {
   if (item.kind === "rezzy-home") return renderRezzyHome(version);
   if (item.kind === "casey-widget") return renderCaseyWidget(version);
   if (item.kind === "rezzy-galleries") return renderRezzyGalleries(version);
-  if (item.kind === "flashcards-library") return renderFlashcardsLibrary(version);
+  if (item.kind === "flashcards-paywall") return renderFlashcardsPaywall(version);
+  if (item.kind === "flashcards-search-empty") return renderFlashcardsSearchEmpty(version);
   return renderFlashcards(version);
 }
 

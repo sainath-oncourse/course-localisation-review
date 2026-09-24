@@ -5774,6 +5774,21 @@ h1 {
   line-height: 1.4;
 }
 
+.bar-flashcard-paywall button {
+  margin-top: 8px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #9069cd;
+  color: #fff;
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.bar-flashcard-state-preview {
+  min-height: 430px;
+}
+
 #bar-search-study .comparison-grid {
   grid-template-columns: 1fr;
 }
@@ -6323,16 +6338,15 @@ h1 {
 .bar-topic-quick { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .bar-topic-quick span {
-  padding: 8px 12px;
+  min-width: 108px;
+  padding: 11px 12px;
   border: 1px solid #d9e1ea;
-  border-radius: 999px;
+  border-radius: 10px;
   background: #fff;
   color: #667085;
   font-size: 12px;
   font-weight: 700;
 }
-
-.bar-topic-quick span:first-child { background: #1d7ee5; color: #fff; border-color: #1d7ee5; }
 
 .bar-topic-subject,
 .bar-topic-row {
