@@ -120,14 +120,6 @@ const cfaReviewItems = [
     changes: [["Mock test this Sunday", "Mock exam this Sunday"], ["Read Pharmacology notes", "Read Ethics notes"]],
     rationale: "Mock Exam is used by all three CFA products. Flashcards and MCQs stay; Pharmacology is replaced by a CFA topic.",
   },
-  {
-    id: "cfa-savvy-flashcard-paywall",
-    area: "Savvy · Locked flashcards",
-    title: "Locked flashcard pricing hand-off",
-    kind: "savvy-flashcard-paywall",
-    changes: [["flashcards.unlock_access_title", "Unlock Flashcards"], ["flashcards.unlock_access_subtitle", "Upgrade to Oncourse Max to access all flashcards."]],
-    rationale: "Verified as the pricing hand-off triggered from a locked Savvy flashcard result. It is separate from the returned card and expanded library modal, so it is shown independently.",
-  },
 ];
 
 function renderTerminologyTable() {
@@ -513,7 +505,6 @@ function renderPreview(item, version) {
   if (item.kind === "rezzy-tools") return renderRezzyTools(version);
   if (item.kind === "rezzy-canvas") return renderRezzyCanvas(version);
   if (item.kind === "rezzy-reminders") return renderRezzyReminders(version);
-  if (item.kind === "savvy-flashcard-paywall") return renderSavvyFlashcardPaywall(version);
   return renderNavigation(version);
 }
 
@@ -536,7 +527,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("terminology-table").innerHTML = renderTerminologyTable();
-const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-paywall"];
+const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders"];
 const orderedReviewItems = [...cfaReviewItems].sort((a, b) => cfaReviewOrder.indexOf(a.kind) - cfaReviewOrder.indexOf(b.kind));
 document.getElementById("cfa-review-list").innerHTML = orderedReviewItems.map(renderReviewItem).join("");
 
