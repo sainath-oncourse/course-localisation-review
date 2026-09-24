@@ -39,8 +39,16 @@ const lsatReviewItems = [
     area: "Practice · Create",
     title: "Drill setup screen",
     kind: "drill-builder",
-    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["CHOOSE TOPICS", "CHOOSE QUESTION TYPES"]],
-    rationale: "Drill is used by both competitors for a short practice set, while Custom distinguishes the user-configured version from recommended drills. Question Type, Topic and Difficulty are established LSAT filters.",
+    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["Image Based", "Remove for LSAT"]],
+    rationale: "Verified in app/(app)/evaluation/test/setup/mode.tsx. Keep the current Number of questions, Filters, Question Type and CHOOSE TOPICS controls. Image Based is a generic medical-bank filter and should be hidden for LSAT.",
+  },
+  {
+    id: "lsat-topic-selection",
+    area: "Practice · Create",
+    title: "Choose topics screen",
+    kind: "topic-selection",
+    changes: [["START QUIZ", "START DRILL"]],
+    rationale: "Verified in app/(app)/evaluation/test/setup/subject.tsx. The search, All, Weak Topics, High Yield, subjects and topics stay unchanged; only the final action follows the Custom Drill name.",
   },
   {
     id: "lsat-test-types",
@@ -56,8 +64,16 @@ const lsatReviewItems = [
     area: "Practice · History",
     title: "Recent LSAT practice",
     kind: "history",
-    changes: [["PAST QUIZZES", "PRACTICE HISTORY"], ["Paused", "Paused · keep"], ["Custom Quiz", "Custom Drill"], ["Recommended Quiz", "Recommended Drill"], ["RESUME QUIZ", "RESUME ACTIVITY"]],
-    rationale: "Paused is a status that can apply to every activity, so it must remain available. The other filters and cards use the actual activity type: Drill, Practice Test or Mini Practice Test.",
+    changes: [["PAST QUIZZES", "PRACTICE HISTORY"], ["Custom", "Custom Drill"], ["Custom Quiz", "Custom Drill"], ["Recommended Quiz", "Recommended Drill"], ["RESUME QUIZ", "RESUME DRILL"]],
+    rationale: "Verified in components/evaluation/PastQuizContainer.tsx. Keep every existing filter—All, Paused, Recommended, Daily and Weekly. Only the drill-related labels change.",
+  },
+  {
+    id: "lsat-history-empty",
+    area: "Practice · Recents",
+    title: "No practice history state",
+    kind: "history-empty",
+    changes: [["Try taking a quiz", "Try creating a drill"]],
+    rationale: "Verified in components/evaluation/PastQuizContainer.tsx. This appears when the selected Recents filter has no matching activity.",
   },
   {
     id: "lsat-ready-sheet",
@@ -68,32 +84,65 @@ const lsatReviewItems = [
     rationale: "The title and action should match the activity being created or resumed. A Section or Practice Test should use its own name in the same reusable component.",
   },
   {
-    id: "lsat-official-questions",
-    area: "Across LSAT · Question provenance",
-    title: "Past official question terminology",
-    kind: "official-questions",
-    changeType: "Copy + licensing rule",
-    changes: [["PYQs", "Official LSAT Questions"], ["PYQ", "Official Question"], ["Unverified reconstructed questions", "LSAT-Style Questions"]],
-    rationale: "Neither product uses PYQ. Use Official LSAT Questions only for licensed official items; use LSAT-Style Questions for authored or reconstructed material.",
-  },
-  {
     id: "lsat-casey-home",
     area: "Casey · Home and tools",
     title: "Casey tool pills and prompts",
     kind: "casey-home",
-    layout: "verified",
     changeType: "Terminology + example content",
     changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "LSAT examples for every tool"], ["Get high-yield notes", "Get study notes"]],
     rationale: "Match the CFA review: show every Home pill, preserve the one-tool-at-a-time interaction, and provide concrete LSAT prompts for Upload, Canvas, Flowcharts, Flashcards, Drill, Study Notes, Mnemonics and Weak Areas.",
   },
   {
-    id: "lsat-flashcards",
-    area: "Flashcards",
-    title: "LSAT flashcard examples and empty state",
-    kind: "flashcards",
-    changeType: "Example + neutral copy",
-    changes: [["Medical prompt examples", "LSAT prompt examples"], ["topper-level flashcards", "flashcards"]],
-    rationale: "Neither competitor offers flashcards, but that does not require removing the Oncourse feature. Keep Flashcards and replace only medical or topper-specific language.",
+    id: "lsat-casey-widget",
+    area: "Casey · Generated activity",
+    title: "Generated drill widget",
+    kind: "casey-widget",
+    changes: [["CUSTOM QUIZ", "CUSTOM DRILL"], ["Quiz generated", "Drill generated"]],
+    rationale: "Verified in components/chat/tools/RelatedQuiz/index.tsx and ToolRenderer.tsx. Casey's generated activity and its returned widget should use the same Drill terminology.",
+  },
+  {
+    id: "lsat-canvas-empty",
+    area: "Casey · Canvas",
+    title: "Canvas empty state",
+    kind: "canvas-empty",
+    changeType: "Example content",
+    changes: [["Medical Canvas suggestions", "LSAT reasoning suggestions"]],
+    rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx. The current empty state contains hard-coded medical suggestion chips.",
+  },
+  {
+    id: "lsat-library-casey-empty",
+    area: "Casey · Library · From Casey",
+    title: "From Casey library empty state",
+    kind: "library-casey-empty",
+    changeType: "Example content",
+    changes: [["Medical study-visual suggestions", "LSAT study-visual suggestions"]],
+    rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx. This is a separate empty state under the From Casey tab.",
+  },
+  {
+    id: "lsat-library-notes-empty",
+    area: "Casey · Library · From My Notes",
+    title: "From My Notes library empty state",
+    kind: "library-notes-empty",
+    changeType: "Example content",
+    changes: [["Medical upload suggestions", "LSAT note-upload suggestions"]],
+    rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx. This is a separate tab and state from From Casey.",
+  },
+  {
+    id: "lsat-flashcard-create",
+    area: "Flashcards · Create",
+    title: "Generate flashcards with AI",
+    kind: "flashcard-create",
+    changeType: "Example content",
+    changes: [["Medical prompt examples", "LSAT prompt examples"]],
+    rationale: "Verified in app/(app)/snippets/flashcards/create-prompt.tsx. The creation screen is real and its example cards are currently medical.",
+  },
+  {
+    id: "lsat-flashcard-search-empty",
+    area: "Flashcards · Search",
+    title: "No search results state",
+    kind: "flashcard-search-empty",
+    changes: [["topper-level flashcards", "flashcards"]],
+    rationale: "Verified in components/flashcards/SearchSection/FlashcardList.tsx. This state appears only after a search returns no flashcards.",
   },
 ];
 
@@ -131,13 +180,31 @@ function renderPracticeLanding(version) {
 
 function renderDrillBuilder(version) {
   const proposed = version === "proposed";
+  const questionFilters = proposed
+    ? ["All", "Unattempted", "Attempted", "Previously Incorrect", "Bookmarked"]
+    : ["All", "Unattempted", "Attempted", "Previously Incorrect", "Image Based", "Bookmarked"];
   return `<div class="component-preview create-test-preview lsat-builder-preview">
     <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Custom Drill" : "Create a Self-Assessment"}</strong></div>
     <p class="create-test-prompt">${proposed ? "Choose a drill mode" : "Choose the mode of quiz"}</p>
-    <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Review as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Timed Mode</strong><small>Work against the clock</small></span></div></div>
-    <div class="setup-label">Number of questions</div><div class="question-count">10 <span>⌄</span></div>
-    <div class="setup-label">Difficulty</div><div class="setup-pills"><span class="active-pill">Adaptive</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
-    <button class="setup-cta" type="button" tabindex="-1">${proposed ? "CHOOSE QUESTION TYPES" : "CHOOSE TOPICS"}</button>
+    <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Learn as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Exam Mode</strong><small>Just like an exam</small></span></div></div>
+    <div class="setup-label">Number of questions</div><div class="bar-number-select"><span>10</span><b>⌄</b></div>
+    <div class="setup-label">Filters</div><div class="bar-filter-row"><span>Subjects and tags</span><b>⌄</b></div>
+    <div class="setup-label">Question Type</div><div class="setup-pills bar-question-pills">${questionFilters.map((label, index) => `<span class="${index === 0 ? "active-pill" : ""}">${label}</span>`).join("")}</div>
+    <button class="setup-cta" type="button" tabindex="-1">CHOOSE TOPICS</button>
+  </div>`;
+}
+
+function renderTopicSelection(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview bar-topic-preview lsat-topic-preview">
+    <div class="create-test-topline"><span>‹</span><strong>Choose Topics</strong></div>
+    <div class="bar-topic-search">⌕ <span>Search by keyword or browse topics</span></div>
+    <div class="bar-topic-quick"><span>□ &nbsp;All</span><span>□ &nbsp;Weak Topics</span><span>□ &nbsp;High Yield</span></div>
+    <div class="bar-topic-subject"><span><i>✅</i><b>Logical Reasoning</b></span><em>2 TOPICS</em><strong>⌃</strong></div>
+    <div class="bar-topic-row"><span>□ &nbsp;All</span></div>
+    <div class="bar-topic-row"><span>□ &nbsp;Necessary Assumption</span></div>
+    <div class="bar-topic-row"><span>□ &nbsp;Flaw</span></div>
+    <button class="setup-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"}</button>
   </div>`;
 }
 
@@ -154,7 +221,7 @@ function renderTestTypes(version) {
 
 function renderHistory(version) {
   const proposed = version === "proposed";
-  const pills = proposed ? ["All", "Paused", "Drills", "Practice Tests", "Mini Practice Tests"] : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
+  const pills = proposed ? ["All", "Paused", "Custom Drill", "Recommended", "Daily", "Weekly"] : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
   return `<div class="component-preview recent-tests-preview lsat-history-preview">
     <strong class="recent-tests-heading">${proposed ? "PRACTICE HISTORY" : "PAST QUIZZES"}</strong>
     <div class="recent-filter-pills">${pills.map((pill, index) => `<span class="${index === 0 ? "selected" : ""}">${pill}</span>`).join("")}</div>
@@ -162,6 +229,16 @@ function renderHistory(version) {
       <div class="recent-test-card"><span class="recent-card-icon">▶</span><span class="recent-card-copy"><strong>${proposed ? "Custom Drill" : "Custom Quiz"}</strong><small>${proposed ? "Logical Reasoning · 8 questions · In process" : "Logical Reasoning"}</small></span><span class="recent-card-arrow">›</span></div>
       <div class="recent-test-card"><span class="recent-card-icon">✦</span><span class="recent-card-copy"><strong>${proposed ? "Recommended Drill" : "Recommended Quiz"}</strong><small>Reading Comprehension</small></span><span class="recent-card-arrow">›</span></div>
     </div><div class="resume-sample"><span>${proposed ? "Paused drill" : "Paused quiz"}</span><button type="button" tabindex="-1">${proposed ? "RESUME DRILL" : "RESUME QUIZ"}</button></div>
+  </div>`;
+}
+
+function renderHistoryEmpty(version) {
+  const proposed = version === "proposed";
+  const pills = proposed ? ["All", "Paused", "Custom Drill", "Recommended", "Daily", "Weekly"] : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
+  return `<div class="component-preview recent-tests-preview lsat-history-preview bar-history-empty-preview">
+    <strong class="recent-tests-heading">${proposed ? "PRACTICE HISTORY" : "PAST QUIZZES"}</strong>
+    <div class="recent-filter-pills">${pills.map((pill, index) => `<span class="${index === 0 ? "selected" : ""}">${pill}</span>`).join("")}</div>
+    <div class="bar-empty-message"><b>Nothing to show here😅</b><span>${proposed ? "Try creating a drill" : "Try taking a quiz"}</span></div>
   </div>`;
 }
 
@@ -184,6 +261,17 @@ function renderOfficialQuestions(version) {
   </div>`;
 }
 
+const lsatCurrentTools = [
+  { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Medical lecture notes", "Clinical notes", "Revision notes"] },
+  { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Spinal cord", "ECG axis", "Antibiotic ladder"] },
+  { id: "flowcharts", icon: "⌁", title: "Get flowcharts", subtitle: "See how concepts connect", suggestions: ["Cardiac cycle", "Nephron", "Coagulation cascade"] },
+  { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Cranial nerves", "Drug of choice", "Vitamins"] },
+  { id: "drill", icon: "?", title: "Take a quiz", subtitle: "Improve accuracy and speed", suggestions: ["Pharmacology", "Anatomy", "Pathology"] },
+  { id: "notes", icon: "≡", title: "Get high-yield notes", subtitle: "Focus on exam-relevant points", suggestions: ["Cardiac murmurs", "Antibiotics", "Renal physiology"] },
+  { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough concepts stick", suggestions: ["Cranial nerves", "Drug adverse effects", "Vitamins"] },
+  { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent quizzes", "Subject gaps", "Weak topics"] },
+];
+
 const lsatCaseyTools = [
   { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Logical Reasoning notes", "RC passage PDFs", "Handwritten error log"] },
   { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Conditional logic map", "Argument structure", "RC passage viewpoints"] },
@@ -195,16 +283,18 @@ const lsatCaseyTools = [
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent drills", "Question-type gaps", "Timing patterns"] },
 ];
 
-function renderCaseyHome() {
-  return `<div class="casey-review-layout" data-casey-demo>
+function renderCaseyHome(version) {
+  const proposed = version === "proposed";
+  const tools = proposed ? lsatCaseyTools : lsatCurrentTools;
+  return `<div class="casey-review-layout" ${proposed ? "data-casey-demo" : ""}>
     <div class="component-preview rezzy-phone rezzy-home-demo lsat-casey-preview">
       <div class="rezzy-phone-header"><span>☰</span><strong>Casey</strong><span>✦</span></div>
       <div class="rezzy-greeting"><div class="rezzy-orb">C</div><h3>What should we study today?</h3></div>
-      <div class="savvy-demo-stage" data-casey-stage><div class="savvy-tool-scroll" data-casey-pills>${lsatCaseyTools.map((tool) => `<button type="button" class="savvy-tool-pill" data-casey-tool="${tool.id}"><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></button>`).join("")}</div></div>
-      <p class="savvy-demo-hint" data-casey-hint>Select a pill to see its actual state</p>
+      <div class="savvy-demo-stage" ${proposed ? "data-casey-stage" : ""}><div class="savvy-tool-scroll">${tools.map((tool) => `<button type="button" class="savvy-tool-pill" ${proposed ? `data-casey-tool="${tool.id}"` : ""}><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></button>`).join("")}</div></div>
+      <p class="savvy-demo-hint" ${proposed ? "data-casey-hint" : ""}>${proposed ? "Select a pill to see its LSAT examples" : "Current generic tool copy"}</p>
       <div class="rezzy-composer"><span>＋</span><p>Ask Casey anything…</p><b>↑</b></div>
     </div>
-    <aside class="casey-examples-panel"><p>LSAT examples by tool</p>${lsatCaseyTools.map((tool) => `<section><div><i>${tool.icon}</i><strong>${tool.title}</strong></div><div class="casey-example-chips">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></section>`).join("")}</aside>
+    ${proposed ? `<aside class="casey-examples-panel"><p>LSAT examples by tool</p>${lsatCaseyTools.map((tool) => `<section><div><i>${tool.icon}</i><strong>${tool.title}</strong></div><div class="casey-example-chips">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></section>`).join("")}</aside>` : ""}
   </div>`;
 }
 
@@ -218,22 +308,71 @@ function renderCaseySelectedState(tool) {
   return `<div class="savvy-prompt-state"><button class="savvy-back" type="button" data-casey-back>‹ Back</button><div class="savvy-selected-tool"><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></div>${tool.suggestions.map((suggestion) => `<button type="button" class="savvy-suggestion">${suggestion}</button>`).join("")}<button type="button" class="savvy-suggestion">Something else</button></div>`;
 }
 
-function renderFlashcards(version) {
+function renderCaseyWidget(version) {
   const proposed = version === "proposed";
-  const examples = proposed ? [["Conditional Reasoning", 8], ["Argument Flaws", 10], ["RC Passage Structure", 8]] : [["Urea Cycle", 8], ["Cardiac Potentials", 10], ["Cranial Nerves", 8]];
-  return `<div class="component-preview flashcard-phone-frame flashcard-ai-preview lsat-flashcard-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcard-plain-header"><span>‹</span><strong>Generate Flashcards with AI</strong></div><div class="flashcard-screen-body"><label>Describe the flashcards you want in detail</label><div class="flashcard-prompt-field">Enter a prompt</div><label>Examples of what others are making</label><div class="flashcard-smart-pills">${examples.map(([title, count]) => `<span><strong>${title}</strong><small>${count} Cards</small></span>`).join("")}</div><div class="lsat-empty-copy"><strong>No search results</strong><small>Oncourse can generate ${proposed ? "flashcards" : "topper-level flashcards"} for any topic you choose.</small></div><button class="flashcard-disabled-cta" type="button" tabindex="-1">MAKE ME FLASHCARDS</button></div></div>`;
+  return `<div class="component-preview bar-widget-preview"><div class="bar-widget-chat"><span class="rezzy-orb">C</span><p>${proposed ? "Drill generated" : "Quiz generated"}</p></div><div class="bar-widget-card"><header><span>?</span><div><strong>${proposed ? "CUSTOM DRILL" : "CUSTOM QUIZ"}</strong><small>8 questions</small></div><b>1 / 8</b></header><p>Which answer choice identifies the argument's necessary assumption?</p><button type="button" tabindex="-1">The conclusion depends on the stated condition</button><button type="button" tabindex="-1">The evidence guarantees the conclusion</button><footer><span>‹</span><b>NEXT ›</b></footer></div></div>`;
+}
+
+function renderCanvasEmpty(version) {
+  const proposed = version === "proposed";
+  const suggestions = proposed
+    ? ["Conditional logic map", "Argument structure", "RC passage viewpoints", "Flaw family map"]
+    : ["Spinal cord visualizer", "ECG axis map", "Antibiotic ladder", "ABG interpreter"];
+  return `<div class="component-preview bar-single-empty-preview">
+    <div class="bar-gallery-toolbar"><span>‹</span><strong>Canvas</strong><span></span></div>
+    <section><span class="bar-gallery-icon">◇</span><h3>Make your first canvas</h3><p>Ask Casey to turn a tough topic into an interactive visual, simulator, map, or exam-ready explainer.</p><button type="button" tabindex="-1">✦ &nbsp; Create canvas</button><small>Try one of these</small><div>${suggestions.map((item) => `<b>${item}</b>`).join("")}</div></section>
+  </div>`;
+}
+
+function renderLibraryEmpty(version, section) {
+  const proposed = version === "proposed";
+  const fromCasey = section === "casey";
+  const suggestions = fromCasey
+    ? (proposed
+      ? ["Map a necessary assumption", "Create a flaw flowchart", "Diagram conditional logic", "Compare RC viewpoints"]
+      : ["Explain the cardiac cycle", "Create a nephron flowchart", "Draw the brachial plexus", "Compare Gram + vs Gram −"])
+    : (proposed
+      ? ["Upload your LR error log", "Scan your conditional logic notes", "Add an RC passage map"]
+      : ["Upload your Biochemistry chapter", "Snap your Anatomy notes", "Add a Pathology slide image"]);
+  return `<div class="component-preview bar-single-empty-preview">
+    <div class="bar-gallery-toolbar"><span>‹</span><strong>Library</strong><span>⌕</span></div>
+    <div class="bar-library-tabs"><span class="${fromCasey ? "selected" : ""}">From Casey</span><span class="${fromCasey ? "" : "selected"}">From My Notes</span></div>
+    <div class="bar-library-filters"><span class="selected">All</span><span>${fromCasey ? "Flowcharts" : "PDFs"}</span><span>${fromCasey ? "Tables" : "Images"}</span></div>
+    <section><span class="bar-gallery-icon">${fromCasey ? "▤" : "≡"}</span><h3>${fromCasey ? "Create your first study visual" : "Turn your notes into Smart Notes"}</h3><p>${fromCasey ? "Ask Casey to create diagrams, flowcharts, and study visuals that make complex topics easier to understand." : "Upload PDFs, slides, or handwritten notes and Casey turns them into flashcards, questions, concept map and more."}</p><button type="button" tabindex="-1">${fromCasey ? "✦ &nbsp; CREATE WITH CASEY" : "⇧ &nbsp; UPLOAD A FILE"}</button><div>${suggestions.map((item) => `<b>${item}</b>`).join("")}</div></section>
+  </div>`;
+}
+
+function renderFlashcardCreate(version) {
+  const proposed = version === "proposed";
+  const examples = proposed ? [["Conditional Reasoning", 8], ["Argument Flaws", 10], ["RC Passage Structure", 8]] : [["Urea Cycle", 8], ["Cardiac Potentials", 10], ["Conduction System of Heart", 2]];
+  return `<div class="component-preview flashcard-phone-frame flashcard-ai-preview lsat-flashcard-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcard-plain-header"><span>‹</span><strong>Generate Flashcards with AI</strong></div><div class="flashcard-screen-body"><label>Describe the flashcards you want in detail</label><div class="flashcard-prompt-field">Enter a prompt</div><label>Examples of what others are making</label><div class="flashcard-smart-pills">${examples.map(([title, count]) => `<span><strong>${title}</strong><small>${count} Cards</small></span>`).join("")}</div><button class="flashcard-disabled-cta" type="button" tabindex="-1">MAKE ME FLASHCARDS</button></div></div>`;
+}
+
+function renderFlashcardSearchEmpty(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview bar-flashcard-library-preview bar-flashcard-state-preview">
+    <div class="bar-library-header"><span>▤</span><strong>Flashcards</strong><button type="button" tabindex="-1">＋ CREATE</button></div>
+    <div class="bar-library-search">⌕ <span>parallel reasoning</span></div>
+    <div class="bar-search-empty"><b>⌕</b><span><strong>No search results for “parallel reasoning”</strong><small>${proposed ? "Oncourse can generate flashcards for any LSAT topic you choose." : "Oncourse can generate topper-level flashcards for any topic that you like."}</small></span><button type="button" tabindex="-1">GENERATE FLASHCARDS WITH AI</button></div>
+  </div>`;
 }
 
 function renderPreview(item, version) {
   if (item.kind === "navigation") return renderNavigation(version);
   if (item.kind === "practice-landing") return renderPracticeLanding(version);
   if (item.kind === "drill-builder") return renderDrillBuilder(version);
+  if (item.kind === "topic-selection") return renderTopicSelection(version);
   if (item.kind === "test-types") return renderTestTypes(version);
   if (item.kind === "history") return renderHistory(version);
+  if (item.kind === "history-empty") return renderHistoryEmpty(version);
   if (item.kind === "ready-sheet") return renderReadySheet(version);
-  if (item.kind === "official-questions") return renderOfficialQuestions(version);
   if (item.kind === "casey-home") return renderCaseyHome(version);
-  return renderFlashcards(version);
+  if (item.kind === "casey-widget") return renderCaseyWidget(version);
+  if (item.kind === "canvas-empty") return renderCanvasEmpty(version);
+  if (item.kind === "library-casey-empty") return renderLibraryEmpty(version, "casey");
+  if (item.kind === "library-notes-empty") return renderLibraryEmpty(version, "notes");
+  if (item.kind === "flashcard-create") return renderFlashcardCreate(version);
+  return renderFlashcardSearchEmpty(version);
 }
 
 function renderReviewItem(item, index) {
