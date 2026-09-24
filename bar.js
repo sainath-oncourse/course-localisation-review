@@ -129,14 +129,6 @@ const barReviewItems = [
     rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx. This is a separate tab and a separate empty state from the From Casey library.",
   },
   {
-    id: "bar-flashcards-paywall",
-    area: "Flashcards · Locked deck",
-    title: "Locked flashcard paywall",
-    kind: "flashcards-paywall",
-    changes: [["all topper flashcards", "all high-yield BAR flashcards"], ["Medical sample card", "BAR sample card"]],
-    rationale: "Verified in components/flashcards/FlashcardPaywallOverlay.tsx. This overlay appears after opening locked flashcard content; it is not part of the Flashcards home screen.",
-  },
-  {
     id: "bar-flashcards-search-empty",
     area: "Flashcards · Search",
     title: "No search results state",
@@ -353,14 +345,6 @@ function renderLibraryEmpty(version, section) {
   </div>`;
 }
 
-function renderFlashcardsPaywall(version) {
-  const proposed = version === "proposed";
-  return `<div class="component-preview bar-flashcard-library-preview bar-flashcard-state-preview">
-    <div class="bar-library-header"><span>‹</span><strong>Flashcards</strong><span></span></div>
-    <div class="bar-flashcard-paywall"><i>🔒</i><span><strong>Unlock the full Oncourse<br>experience with MAX</strong><small>${proposed ? "Upgrade to Oncourse Max to access all high-yield BAR flashcards." : "Upgrade to Oncourse Max to access all topper flashcards."}</small><button type="button" tabindex="-1">UNLOCK ALL FLASHCARDS</button><em>${proposed ? "An enforceable contract requires offer, acceptance and consideration." : "Lorazepam is the drug of choice for status epilepticus."}</em></span></div>
-  </div>`;
-}
-
 function renderFlashcardsSearchEmpty(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview bar-flashcard-library-preview bar-flashcard-state-preview">
@@ -392,7 +376,6 @@ function renderPreview(item, version) {
   if (item.kind === "canvas-empty") return renderCanvasEmpty(version);
   if (item.kind === "library-casey-empty") return renderLibraryEmpty(version, "casey");
   if (item.kind === "library-notes-empty") return renderLibraryEmpty(version, "notes");
-  if (item.kind === "flashcards-paywall") return renderFlashcardsPaywall(version);
   if (item.kind === "flashcards-search-empty") return renderFlashcardsSearchEmpty(version);
   return renderFlashcards(version);
 }
