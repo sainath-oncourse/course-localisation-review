@@ -5926,7 +5926,15 @@ h1 {
   grid-template-columns: 1fr;
 }
 
+#lsat-casey-home .comparison-grid {
+  grid-template-columns: 1fr;
+}
+
 #bar-search-study .version-panel + .version-panel {
+  margin-top: 6px;
+}
+
+#lsat-casey-home .version-panel + .version-panel {
   margin-top: 6px;
 }
 
