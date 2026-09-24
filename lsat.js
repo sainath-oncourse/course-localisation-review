@@ -45,19 +45,19 @@ const lsatReviewItems = [
   {
     id: "lsat-test-types",
     area: "Practice · Exam simulation",
-    title: "Sections and full tests",
+    title: "Full and mini practice tests",
     kind: "test-types",
     changeType: "Copy + provenance rule",
-    changes: [["Benchmark", "Practice Tests"], ["Benchmark 1", "Practice Test 1"], ["Mini-Benchmark", "Sections"]],
-    rationale: "Both products use Section for a complete LR or RC block. Use PrepTest only when the product contains an official licensed LSAC test; otherwise use Practice Test.",
+    changes: [["Benchmark", "Practice Tests"], ["Benchmark 1", "Practice Test 1"], ["Mini-Benchmark", "Mini Practice Test"]],
+    rationale: "A Mini-Benchmark is a shorter version of the full test, so it remains a test. Reserve Section only for one complete Logical Reasoning or Reading Comprehension section. Use PrepTest only for an official licensed LSAC test.",
   },
   {
     id: "lsat-history",
     area: "Practice · History",
     title: "Recent LSAT practice",
     kind: "history",
-    changes: [["PAST QUIZZES", "PRACTICE HISTORY"], ["Custom Quiz", "Drill"], ["Recommended Quiz", "Recommended Drill"], ["RESUME QUIZ", "RESUME DRILL"]],
-    rationale: "7Sage and LSAT Demon name history by activity: Drill, Section and PrepTest/Test. Recents can remain as navigation, while cards use the actual activity type.",
+    changes: [["PAST QUIZZES", "PRACTICE HISTORY"], ["Paused", "Paused · keep"], ["Custom Quiz", "Drill"], ["Recommended Quiz", "Recommended Drill"], ["RESUME QUIZ", "RESUME ACTIVITY"]],
+    rationale: "Paused is a status that can apply to every activity, so it must remain available. The other filters and cards use the actual activity type: Drill, Practice Test or Mini Practice Test.",
   },
   {
     id: "lsat-ready-sheet",
@@ -153,16 +153,16 @@ function renderTestTypes(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview cfa-mock-preview lsat-test-preview">
     <div class="cfa-screen-bar"><span></span><strong>${proposed ? "Practice" : "Quiz"}</strong><i></i></div>
-    <div class="cfa-pills mock-pills"><span>All</span><span class="active">${proposed ? "Practice Tests" : "Benchmark"}</span><span>${proposed ? "Sections" : "Mini-Benchmark"}</span><span>My Attempts</span></div>
+    <div class="cfa-pills mock-pills"><span>All</span><span class="active">${proposed ? "Practice Tests" : "Benchmark"}</span><span>${proposed ? "Mini Practice Tests" : "Mini-Benchmark"}</span><span>My Attempts</span></div>
     <div class="cfa-mock-card"><div class="cfa-mock-title"><span>▤</span><span><strong>${proposed ? "Practice Test 1" : "Benchmark 1"}</strong><small>${proposed ? "Full LSAT-style test" : "Realistic assessment"}</small></span></div><div class="cfa-benchmark-row"><span>4 sections</span><b>START</b></div></div>
-    <div class="cfa-mock-card compact"><div class="cfa-mock-title"><span>LR</span><span><strong>${proposed ? "Logical Reasoning Section" : "Mini-Benchmark"}</strong><small>${proposed ? "Complete timed section" : "Shorter timed question set"}</small></span></div><div class="cfa-benchmark-row"><span>25 questions</span><b>START</b></div></div>
+    <div class="cfa-mock-card compact"><div class="cfa-mock-title"><span>PT</span><span><strong>${proposed ? "Mini Practice Test" : "Mini-Benchmark"}</strong><small>${proposed ? "Shorter LSAT-style test" : "Shorter timed question set"}</small></span></div><div class="cfa-benchmark-row"><span>25 questions</span><b>START</b></div></div>
     ${proposed ? '<p class="lsat-license-note"><strong>Official licensed content:</strong> use PrepTest / PT instead of Practice Test.</p>' : ""}
   </div>`;
 }
 
 function renderHistory(version) {
   const proposed = version === "proposed";
-  const pills = proposed ? ["All", "Drills", "Sections", "Tests"] : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
+  const pills = proposed ? ["All", "Paused", "Drills", "Practice Tests", "Mini Practice Tests"] : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
   return `<div class="component-preview recent-tests-preview lsat-history-preview">
     <strong class="recent-tests-heading">${proposed ? "PRACTICE HISTORY" : "PAST QUIZZES"}</strong>
     <div class="recent-filter-pills">${pills.map((pill, index) => `<span class="${index === 0 ? "selected" : ""}">${pill}</span>`).join("")}</div>
