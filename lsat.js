@@ -77,14 +77,6 @@ const lsatReviewItems = [
     rationale: "Neither product uses PYQ. Use Official LSAT Questions only for licensed official items; use LSAT-Style Questions for authored or reconstructed material.",
   },
   {
-    id: "lsat-search-casey",
-    area: "Global · Search and tutor",
-    title: "Search fields and Casey surfaces",
-    kind: "search-casey",
-    changes: [["Ask Rezzy anything", "Ask Casey anything"], ["Discuss with Rezzy", "Discuss with Casey"]],
-    rationale: "The latest app maps LSAT to Casey. Search subjects or topics, Search questions and Search lessons can all stay unchanged.",
-  },
-  {
     id: "lsat-casey-home",
     area: "Casey · Home and tools",
     title: "Casey tool pills and prompts",
@@ -192,17 +184,6 @@ function renderOfficialQuestions(version) {
   </div>`;
 }
 
-function renderSearchCasey(version) {
-  const proposed = version === "proposed";
-  const tutor = proposed ? "Casey" : "Rezzy";
-  return `<div class="component-preview lsat-search-preview">
-    <div class="lsat-mini-header"><span>‹</span><strong>Lessons</strong><span></span></div>
-    <div class="global-tutor-input"><span>✦</span>Ask ${tutor} anything</div>
-    <div class="lesson-context"><span><small>Current lesson</small><strong>Conditional Reasoning</strong></span><button type="button">Discuss with ${tutor}</button></div>
-    <div class="search-audit-list"><div class="unchanged-search"><span>⌕</span><strong>Search subjects or topics</strong><small>Keep</small></div><div class="unchanged-search"><span>⌕</span><strong>Search questions by keyword</strong><small>Keep</small></div><div class="unchanged-search"><span>⌕</span><strong>Search lessons</strong><small>Keep</small></div></div>
-  </div>`;
-}
-
 const lsatCaseyTools = [
   { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Logical Reasoning notes", "RC passage PDFs", "Handwritten error log"] },
   { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Conditional logic map", "Argument structure", "RC passage viewpoints"] },
@@ -251,7 +232,6 @@ function renderPreview(item, version) {
   if (item.kind === "history") return renderHistory(version);
   if (item.kind === "ready-sheet") return renderReadySheet(version);
   if (item.kind === "official-questions") return renderOfficialQuestions(version);
-  if (item.kind === "search-casey") return renderSearchCasey(version);
   if (item.kind === "casey-home") return renderCaseyHome(version);
   return renderFlashcards(version);
 }
