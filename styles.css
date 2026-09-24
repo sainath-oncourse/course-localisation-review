@@ -5930,6 +5930,10 @@ h1 {
   grid-template-columns: 1fr;
 }
 
+#lsat-casey-home .casey-review-layout:not([data-casey-demo]) {
+  grid-template-columns: 1fr;
+}
+
 #bar-search-study .version-panel + .version-panel {
   margin-top: 6px;
 }
