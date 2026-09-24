@@ -39,10 +39,10 @@ const cfaReviewItems = [
   {
     id: "cfa-mock-exams",
     area: "Quiz · Exam simulation",
-    title: "Mock exams and shorter assessments",
+    title: "Mock exams",
     kind: "mocks",
-    changes: [["Benchmark", "Mock Exams"], ["Benchmark 1", "Mock Exam 1"], ["Mini-Benchmark", "Mini Mock Exams"]],
-    rationale: "All three products use Mock Exam for full simulations. UWorld uses Mini Mock for a shorter CFA simulation, and AnalystPrep also uses timed mini mock in its CFA study guidance. Use Mini Mock Exam when this set preserves exam-style timing and conditions at a shorter length.",
+    changes: [["Benchmark", "Mock Exams"], ["Benchmark 1", "Mock Exam 1"], ["Mini-Benchmark", "Remove for CFA"]],
+    rationale: "All three reviewed CFA products use Mock Exam for full simulations. Remove the generic Mini-Benchmark category from CFA rather than introducing a separate Mini Mock Exam product.",
   },
   {
     id: "cfa-recents",
@@ -58,8 +58,8 @@ const cfaReviewItems = [
     area: "Quiz · Ready / resume sheet",
     title: "Quiz ready sheet states",
     kind: "resume-sheet",
-    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"], ["Your Quiz is Ready · paused mock", "Resume Your Mock Exam"], ["Your Quiz is Ready · paused mini mock", "Resume Your Mini Mock Exam"]],
-    rationale: "A paused activity can be a Quiz, Mock Exam or Mini Mock Exam. Keep the first-start title, but make the resume title and CTA match the actual activity instead of applying Quiz to every state.",
+    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"], ["Your Quiz is Ready · paused mock", "Resume Your Mock Exam"]],
+    rationale: "A paused activity can be a Quiz or Mock Exam. Keep the first-start title, but make the resume title and CTA match the actual activity instead of applying Quiz to every state.",
   },
   {
     id: "cfa-notes",
@@ -137,14 +137,6 @@ const cfaReviewItems = [
     rationale: "Mock Exam is used by all three CFA products. Flashcards and MCQs stay; Pharmacology is replaced by a CFA topic.",
   },
   {
-    id: "cfa-savvy-flashcard-modal",
-    area: "Savvy · Flashcard library",
-    title: "Expanded flashcard library",
-    kind: "savvy-flashcard-modal",
-    changes: [["By Toppers", "By Oncourse"]],
-    rationale: "Verified in the expanded Related Flashcards modal. The returned chat tile is a separate state and needs no CFA copy change; only the premade-card filter needs neutral ownership language.",
-  },
-  {
     id: "cfa-savvy-flashcard-paywall",
     area: "Savvy · Locked flashcards",
     title: "Locked flashcard pricing hand-off",
@@ -188,15 +180,15 @@ function renderMocks(version) {
   return `
     <div class="component-preview cfa-mock-preview">
       <div class="cfa-screen-bar"><span></span><strong>Quiz</strong><i></i></div>
-      <div class="cfa-pills mock-pills"><span>All</span><span class="active">${proposed ? "Mock Exams" : "Benchmark"}</span><span>${proposed ? "Mini Mock Exams" : "Mini-Benchmark"}</span><span>My Attempts</span></div>
+      <div class="cfa-pills mock-pills"><span>All</span><span class="active">${proposed ? "Mock Exams" : "Benchmark"}</span>${proposed ? "" : "<span>Mini-Benchmark</span>"}<span>My Attempts</span></div>
       <div class="cfa-mock-card">
         <div class="cfa-mock-title"><span>▤</span><span><strong>${proposed ? "Mock Exam 1" : "Benchmark 1"}</strong><small>${proposed ? "Full exam simulation" : "Realistic assessment"}</small></span></div>
         <div class="cfa-benchmark-row"><span>180 questions</span><b>START</b></div>
       </div>
-      <div class="cfa-mock-card compact">
-        <div class="cfa-mock-title"><span>◫</span><span><strong>${proposed ? "Mini Mock Exam 1" : "Mini-Benchmark"}</strong><small>Shorter exam simulation</small></span></div>
+      ${proposed ? "" : `<div class="cfa-mock-card compact">
+        <div class="cfa-mock-title"><span>◫</span><span><strong>Mini-Benchmark</strong><small>Shorter exam simulation</small></span></div>
         <div class="cfa-benchmark-row"><span>30 questions</span><b>START</b></div>
-      </div>
+      </div>`}
     </div>`;
 }
 
@@ -266,7 +258,6 @@ function renderResumeSheet(version) {
     { label: "New quiz", context: "Create Quiz flow", title: "Your Quiz is Ready", action: "START QUIZ" },
     { label: "Paused quiz", context: "Recents", title: proposed ? "Resume Your Quiz" : "Your Quiz is Ready", action: "RESUME QUIZ" },
     { label: "Paused mock", context: "Recents", title: proposed ? "Resume Your Mock Exam" : "Your Quiz is Ready", action: proposed ? "RESUME MOCK EXAM" : "RESUME QUIZ" },
-    { label: "Paused mini mock", context: "Recents", title: proposed ? "Resume Your Mini Mock Exam" : "Your Quiz is Ready", action: proposed ? "RESUME MINI MOCK" : "RESUME QUIZ" },
   ];
   return `<div class="component-preview resume-states-preview">${states.map((state) => `
     <section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.context}</span></div>
@@ -541,7 +532,6 @@ function renderPreview(item, version) {
   if (item.kind === "rezzy-tools") return renderRezzyTools(version);
   if (item.kind === "rezzy-canvas") return renderRezzyCanvas(version);
   if (item.kind === "rezzy-reminders") return renderRezzyReminders(version);
-  if (item.kind === "savvy-flashcard-modal") return renderSavvyFlashcardModal(version);
   if (item.kind === "savvy-flashcard-paywall") return renderSavvyFlashcardPaywall(version);
   return renderNavigation(version);
 }
@@ -565,7 +555,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("terminology-table").innerHTML = renderTerminologyTable();
-const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "notes", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "flashcard-paywall", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-modal", "savvy-flashcard-paywall"];
+const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "notes", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "flashcard-paywall", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-paywall"];
 const orderedReviewItems = [...cfaReviewItems].sort((a, b) => cfaReviewOrder.indexOf(a.kind) - cfaReviewOrder.indexOf(b.kind));
 document.getElementById("cfa-review-list").innerHTML = orderedReviewItems.map(renderReviewItem).join("");
 
