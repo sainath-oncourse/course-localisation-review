@@ -49,8 +49,9 @@ const barReviewItems = [
     area: "Practice · Create",
     title: "Choose topics screen",
     kind: "topic-selection",
+    changeType: "Shared component · BAR value",
     changes: [["START QUIZ", "START DRILL"]],
-    rationale: "Verified in app/(app)/evaluation/test/setup/subject.tsx on origin/dev. The screen and its filters stay unchanged; only the final action follows the Custom Drill name.",
+    rationale: "The shared topic-selection route currently hard-codes START QUIZ. Make the action course-aware: BAR uses START DRILL, LSAT uses START DRILL, CPA uses START TEST, and CFA keeps START QUIZ. The rest of this BAR screen stays unchanged.",
   },
   {
     id: "bar-simulations",

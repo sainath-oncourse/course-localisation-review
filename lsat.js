@@ -47,8 +47,9 @@ const lsatReviewItems = [
     area: "Practice · Create",
     title: "Choose topics screen",
     kind: "topic-selection",
+    changeType: "Shared component · LSAT value",
     changes: [["START QUIZ", "START DRILL"]],
-    rationale: "Verified in app/(app)/evaluation/test/setup/subject.tsx. The search, All, Weak Topics, High Yield, subjects and topics stay unchanged; only the final action follows the Custom Drill name.",
+    rationale: "The shared topic-selection route currently hard-codes START QUIZ. Make the action course-aware: LSAT and BAR use START DRILL, CPA uses START TEST, and CFA keeps START QUIZ. The search, filters, subjects and topics stay unchanged.",
   },
   {
     id: "lsat-test-types",
