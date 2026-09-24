@@ -31,9 +31,8 @@ const lsatReviewItems = [
     area: "Practice",
     title: "Practice landing screen",
     kind: "practice-landing",
-    changeType: "Copy + LSAT grouping",
-    changes: [["Quiz", "Practice"], ["Self Assess", "Create Drill"], ["By Subject / Tests / Recents", "Drills / Sections / Tests"]],
-    rationale: "Both products distinguish a short Drill, a complete LR or RC Section, and a full Test. These labels describe the content more precisely than Quiz or Subject.",
+    changes: [["Quiz", "Practice"], ["Self Assess", "Create Drill"]],
+    rationale: "Practice is the umbrella destination and Drill is the short practice activity. By Subject, Tests and Recents describe different ways to browse the existing content, so those tabs stay unchanged.",
   },
   {
     id: "lsat-drill-builder",
@@ -42,15 +41,6 @@ const lsatReviewItems = [
     kind: "drill-builder",
     changes: [["Create a Self-Assessment", "Create Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["CHOOSE TOPICS", "CHOOSE QUESTION TYPES"]],
     rationale: "Drill is used by both competitors for a short, configurable question set. Question Type, Topic and Difficulty are established LSAT filters.",
-  },
-  {
-    id: "lsat-content-selection",
-    area: "Practice · Drill filters",
-    title: "LSAT area and question selection",
-    kind: "content-selection",
-    changeType: "Copy + hierarchy rule",
-    changes: [["By Subject", "Logical Reasoning / Reading Comprehension"], ["Subject", "Area"], ["Topics", "Question Types / Topics"]],
-    rationale: "Section must not replace Subject here: in LSAT, Section means a complete timed LR or RC block. Present the two LSAT areas directly, then filter by Question Type, Topic and Difficulty.",
   },
   {
     id: "lsat-test-types",
@@ -91,8 +81,8 @@ const lsatReviewItems = [
     area: "Global · Search and tutor",
     title: "Search fields and Casey surfaces",
     kind: "search-casey",
-    changes: [["Ask Rezzy anything", "Ask Casey anything"], ["Discuss with Rezzy", "Discuss with Casey"], ["Search subjects or topics", "Search question types or topics"]],
-    rationale: "The latest app maps LSAT to Casey. Generic Search questions copy can stay; only tutor identity and subject-specific placeholders need localisation.",
+    changes: [["Ask Rezzy anything", "Ask Casey anything"], ["Discuss with Rezzy", "Discuss with Casey"]],
+    rationale: "The latest app maps LSAT to Casey. Search subjects or topics, Search questions and Search lessons can all stay unchanged.",
   },
   {
     id: "lsat-casey-home",
@@ -137,12 +127,12 @@ function renderNavigation(version) {
 
 function renderPracticeLanding(version) {
   const proposed = version === "proposed";
-  const segments = proposed ? ["Drills", "Sections", "Tests"] : ["By Subject", "Tests", "Recents"];
+  const segments = ["By Subject", "Tests", "Recents"];
   return `<div class="component-preview practice-shell-preview">
     <div class="practice-shell-header"><div class="practice-shell-icon">?</div><strong>${proposed ? "Practice" : "Quiz"}</strong></div>
     <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Create Drill" : "Self Assess"}</button></div>
     <div class="practice-segments">${segments.map((item, index) => `<span class="${index === 0 ? "selected" : ""}">${item}</span>`).join("")}</div>
-    <div class="lsat-landing-list"><small>${proposed ? "CONTINUE PRACTICE" : "AVAILABLE TESTS"}</small><div><i>${proposed ? "LR" : "?"}</i><span><strong>${proposed ? "Logical Reasoning Drill" : "Recommended Quiz"}</strong><em>${proposed ? "8 questions · In process" : "10 questions"}</em></span><b>›</b></div></div>
+    <div class="lsat-landing-list"><small>SUBJECTS</small><div><i>LR</i><span><strong>Logical Reasoning</strong><em>Questions and topics</em></span><b>›</b></div></div>
   </div>`;
 }
 
@@ -155,18 +145,6 @@ function renderDrillBuilder(version) {
     <div class="setup-label">Number of questions</div><div class="question-count">10 <span>⌄</span></div>
     <div class="setup-label">Difficulty</div><div class="setup-pills"><span class="active-pill">Adaptive</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
     <button class="setup-cta" type="button" tabindex="-1">${proposed ? "CHOOSE QUESTION TYPES" : "CHOOSE TOPICS"}</button>
-  </div>`;
-}
-
-function renderContentSelection(version) {
-  const proposed = version === "proposed";
-  return `<div class="component-preview lsat-selection-preview">
-    <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Choose Practice Area" : "By Subject"}</strong></div>
-    <div class="selection-search"><span>⌕</span><span>${proposed ? "Search question types or topics" : "Search subjects or topics"}</span></div>
-    <div class="lsat-area-card"><i>LR</i><span><strong>Logical Reasoning</strong><small>${proposed ? "Question Types · Topics · Difficulty" : "18 topics"}</small></span><b>›</b></div>
-    <div class="lsat-area-card"><i>RC</i><span><strong>Reading Comprehension</strong><small>${proposed ? "Passage Type · Topic · Difficulty" : "12 topics"}</small></span><b>›</b></div>
-    <div class="lsat-hierarchy-rule"><small>Curriculum</small><strong>${proposed ? "Area → Topic / Module → Lesson" : "Subject → Topic → Lesson"}</strong></div>
-    ${proposed ? '<p class="visibility-note">“Section” is reserved for a complete LR or RC exam block.</p>' : ""}
   </div>`;
 }
 
@@ -220,7 +198,7 @@ function renderSearchCasey(version) {
     <div class="lsat-mini-header"><span>‹</span><strong>Lessons</strong><span></span></div>
     <div class="global-tutor-input"><span>✦</span>Ask ${tutor} anything</div>
     <div class="lesson-context"><span><small>Current lesson</small><strong>Conditional Reasoning</strong></span><button type="button">Discuss with ${tutor}</button></div>
-    <div class="search-audit-list"><div><span>⌕</span><strong>${proposed ? "Search question types or topics" : "Search subjects or topics"}</strong><small>Changed</small></div><div class="unchanged-search"><span>⌕</span><strong>Search questions by keyword</strong><small>Keep</small></div><div class="unchanged-search"><span>⌕</span><strong>Search lessons</strong><small>Keep</small></div></div>
+    <div class="search-audit-list"><div class="unchanged-search"><span>⌕</span><strong>Search subjects or topics</strong><small>Keep</small></div><div class="unchanged-search"><span>⌕</span><strong>Search questions by keyword</strong><small>Keep</small></div><div class="unchanged-search"><span>⌕</span><strong>Search lessons</strong><small>Keep</small></div></div>
   </div>`;
 }
 
@@ -242,7 +220,6 @@ function renderPreview(item, version) {
   if (item.kind === "navigation") return renderNavigation(version);
   if (item.kind === "practice-landing") return renderPracticeLanding(version);
   if (item.kind === "drill-builder") return renderDrillBuilder(version);
-  if (item.kind === "content-selection") return renderContentSelection(version);
   if (item.kind === "test-types") return renderTestTypes(version);
   if (item.kind === "history") return renderHistory(version);
   if (item.kind === "ready-sheet") return renderReadySheet(version);
