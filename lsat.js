@@ -31,16 +31,16 @@ const lsatReviewItems = [
     area: "Practice",
     title: "Practice landing screen",
     kind: "practice-landing",
-    changes: [["Quiz", "Practice"], ["Self Assess", "Create Drill"]],
-    rationale: "Practice is the umbrella destination and Drill is the short practice activity. By Subject, Tests and Recents describe different ways to browse the existing content, so those tabs stay unchanged.",
+    changes: [["Quiz", "Practice"], ["Self Assess", "Custom Drill"]],
+    rationale: "Practice is the umbrella destination and Custom Drill clearly identifies a user-built short practice set. By Subject, Tests and Recents describe different ways to browse the existing content, so those tabs stay unchanged.",
   },
   {
     id: "lsat-drill-builder",
     area: "Practice · Create",
     title: "Drill setup screen",
     kind: "drill-builder",
-    changes: [["Create a Self-Assessment", "Create Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["CHOOSE TOPICS", "CHOOSE QUESTION TYPES"]],
-    rationale: "Drill is used by both competitors for a short, configurable question set. Question Type, Topic and Difficulty are established LSAT filters.",
+    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["CHOOSE TOPICS", "CHOOSE QUESTION TYPES"]],
+    rationale: "Drill is used by both competitors for a short practice set, while Custom distinguishes the user-configured version from recommended drills. Question Type, Topic and Difficulty are established LSAT filters.",
   },
   {
     id: "lsat-test-types",
@@ -56,7 +56,7 @@ const lsatReviewItems = [
     area: "Practice · History",
     title: "Recent LSAT practice",
     kind: "history",
-    changes: [["PAST QUIZZES", "PRACTICE HISTORY"], ["Paused", "Paused · keep"], ["Custom Quiz", "Drill"], ["Recommended Quiz", "Recommended Drill"], ["RESUME QUIZ", "RESUME ACTIVITY"]],
+    changes: [["PAST QUIZZES", "PRACTICE HISTORY"], ["Paused", "Paused · keep"], ["Custom Quiz", "Custom Drill"], ["Recommended Quiz", "Recommended Drill"], ["RESUME QUIZ", "RESUME ACTIVITY"]],
     rationale: "Paused is a status that can apply to every activity, so it must remain available. The other filters and cards use the actual activity type: Drill, Practice Test or Mini Practice Test.",
   },
   {
@@ -131,7 +131,7 @@ function renderPracticeLanding(version) {
   const segments = ["By Subject", "Tests", "Recents"];
   return `<div class="component-preview practice-shell-preview">
     <div class="practice-shell-header"><div class="practice-shell-icon">?</div><strong>${proposed ? "Practice" : "Quiz"}</strong></div>
-    <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Create Drill" : "Self Assess"}</button></div>
+    <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Custom Drill" : "Self Assess"}</button></div>
     <div class="practice-segments">${segments.map((item, index) => `<span class="${index === 0 ? "selected" : ""}">${item}</span>`).join("")}</div>
     <div class="lsat-landing-list"><small>SUBJECTS</small><div><i>LR</i><span><strong>Logical Reasoning</strong><em>Questions and topics</em></span><b>›</b></div></div>
   </div>`;
@@ -140,7 +140,7 @@ function renderPracticeLanding(version) {
 function renderDrillBuilder(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview create-test-preview lsat-builder-preview">
-    <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Create Drill" : "Create a Self-Assessment"}</strong></div>
+    <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Custom Drill" : "Create a Self-Assessment"}</strong></div>
     <p class="create-test-prompt">${proposed ? "Choose a drill mode" : "Choose the mode of quiz"}</p>
     <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Review as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Timed Mode</strong><small>Work against the clock</small></span></div></div>
     <div class="setup-label">Number of questions</div><div class="question-count">10 <span>⌄</span></div>
@@ -167,7 +167,7 @@ function renderHistory(version) {
     <strong class="recent-tests-heading">${proposed ? "PRACTICE HISTORY" : "PAST QUIZZES"}</strong>
     <div class="recent-filter-pills">${pills.map((pill, index) => `<span class="${index === 0 ? "selected" : ""}">${pill}</span>`).join("")}</div>
     <div class="recent-date">Today</div><div class="recent-card-list">
-      <div class="recent-test-card"><span class="recent-card-icon">▶</span><span class="recent-card-copy"><strong>${proposed ? "Logical Reasoning Drill" : "Custom Quiz"}</strong><small>${proposed ? "8 questions · In process" : "Logical Reasoning"}</small></span><span class="recent-card-arrow">›</span></div>
+      <div class="recent-test-card"><span class="recent-card-icon">▶</span><span class="recent-card-copy"><strong>${proposed ? "Custom Drill" : "Custom Quiz"}</strong><small>${proposed ? "Logical Reasoning · 8 questions · In process" : "Logical Reasoning"}</small></span><span class="recent-card-arrow">›</span></div>
       <div class="recent-test-card"><span class="recent-card-icon">✦</span><span class="recent-card-copy"><strong>${proposed ? "Recommended Drill" : "Recommended Quiz"}</strong><small>Reading Comprehension</small></span><span class="recent-card-arrow">›</span></div>
     </div><div class="resume-sample"><span>${proposed ? "Paused drill" : "Paused quiz"}</span><button type="button" tabindex="-1">${proposed ? "RESUME DRILL" : "RESUME QUIZ"}</button></div>
   </div>`;
