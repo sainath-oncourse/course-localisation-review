@@ -33,8 +33,8 @@ const barReviewItems = [
     area: "Practice",
     title: "Practice landing screen",
     kind: "practice-landing",
-    changes: [["Quiz", "Practice"], ["Self Assess", "Create Drill"], ["Tests", "Simulations"]],
-    rationale: "Drill is the configurable practice activity, while Simulations are timed exam-shaped experiences. By Subject and Recents remain valid and should not be replaced by Drill.",
+    changes: [["Quiz", "Practice"], ["Self Assess", "Custom Drill"], ["Tests", "Simulations"]],
+    rationale: "Custom Drill identifies the user-configured practice activity, while Simulations are timed exam-shaped experiences. By Subject and Recents remain valid and should not be replaced by Drill.",
   },
   {
     id: "bar-drill-builder",
@@ -42,7 +42,7 @@ const barReviewItems = [
     title: "Drill setup screen",
     kind: "drill-builder",
     changeType: "Copy + BAR filters",
-    changes: [["Create a Self-Assessment", "Create Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["CHOOSE TOPICS", "CHOOSE SUBJECTS & FORMAT"]],
+    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["CHOOSE TOPICS", "CHOOSE SUBJECTS & FORMAT"]],
     rationale: "JD Simplified builds drills using Subject, Question Type and Difficulty. The BAR builder should expose MCQ, IQS and PT rather than treating every activity as a quiz.",
   },
   {
@@ -116,7 +116,7 @@ function renderPracticeLanding(version) {
   const segments = proposed ? ["By Subject", "Simulations", "Recents"] : ["By Subject", "Tests", "Recents"];
   return `<div class="component-preview practice-shell-preview bar-practice-preview">
     <div class="practice-shell-header"><div class="practice-shell-icon">?</div><strong>${proposed ? "Practice" : "Quiz"}</strong></div>
-    <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Create Drill" : "Self Assess"}</button></div>
+    <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Custom Drill" : "Self Assess"}</button></div>
     <div class="practice-segments">${segments.map((item, index) => `<span class="${index === 0 ? "selected" : ""}">${item}</span>`).join("")}</div>
     <div class="bar-subject-list"><small>SUBJECTS</small><div><i>BA</i><span><strong>Business Associations</strong><em>Questions and topics</em></span><b>›</b></div><div><i>CP</i><span><strong>Civil Procedure</strong><em>Questions and topics</em></span><b>›</b></div></div>
   </div>`;
@@ -125,7 +125,7 @@ function renderPracticeLanding(version) {
 function renderDrillBuilder(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview create-test-preview bar-builder-preview">
-    <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Create Drill" : "Create a Self-Assessment"}</strong></div>
+    <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Custom Drill" : "Create a Self-Assessment"}</strong></div>
     <p class="create-test-prompt">${proposed ? "Choose a drill mode" : "Choose the mode of quiz"}</p>
     <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Review as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Timed Mode</strong><small>Work against the clock</small></span></div></div>
     <div class="setup-label">${proposed ? "Question format" : "Question type"}</div>
