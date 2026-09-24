@@ -162,7 +162,7 @@ const reviewItems = [
     title: "Start from a section or topic",
     current: "Quiz actions",
     proposed: "Test actions",
-    changeType: "CPA localisation only",
+    changeType: "Shared component · CPA values",
     changes: [
       { from: "By Subject", to: "By Section" },
       { from: "START QUIZ (30 Qs)", to: "START TEST (30 Qs)" },
@@ -194,7 +194,7 @@ const reviewItems = [
     title: "Paused test page",
     current: "Paused quiz copy",
     proposed: "Paused test copy",
-    changeType: "CPA localisation only",
+    changeType: "Shared component · CPA values",
     changes: [
       { from: "Your Quiz is Paused", to: "Your Test is Paused" },
       { from: "CONTINUE QUIZ", to: "CONTINUE TEST" },

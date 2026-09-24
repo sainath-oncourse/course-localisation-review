@@ -57,6 +57,15 @@ const barReviewItems = [
     rationale: "The shared topic-selection route currently hard-codes START QUIZ. Make the action course-aware: BAR uses START DRILL, LSAT uses START DRILL, CPA uses START TEST, and CFA keeps START QUIZ. The rest of this BAR screen stays unchanged.",
   },
   {
+    id: "bar-by-subject-flow",
+    area: "Practice · By Subject",
+    title: "Start from a subject or topic",
+    kind: "by-subject-flow",
+    changeType: "Shared component · BAR value",
+    changes: [["START QUIZ", "START DRILL"]],
+    rationale: "This is the separate direct By Subject route, not the Custom Drill topic-selection screen. By Subject and the BAR hierarchy stay unchanged; both launch actions must use Drill for BAR.",
+  },
+  {
     id: "bar-simulations",
     area: "Practice · Exam simulation",
     title: "Exam simulations",
@@ -72,6 +81,15 @@ const barReviewItems = [
     changeType: "Shared component · BAR values",
     changes: [["Your Quiz is Ready", "Your Drill is Ready"], ["START QUIZ", "START DRILL"], ["Your Quiz is Ready · paused", "Resume Your Drill"], ["RESUME QUIZ", "RESUME DRILL"]],
     rationale: "The shared sheet should use the activity being opened. Drills use Drill; timed exam products use Half Section, Full Section or Full Exam with Start/Resume Simulation actions.",
+  },
+  {
+    id: "bar-paused-page",
+    area: "Practice · Paused",
+    title: "Paused drill page",
+    kind: "paused-page",
+    changeType: "Shared component · BAR values",
+    changes: [["Your Quiz is Paused", "Resume Your Drill"], ["CONTINUE QUIZ", "CONTINUE DRILL"]],
+    rationale: "The full-page continuation state uses the same shared activity noun. For a BAR drill it must say Drill; exam simulations should inherit Half Section, Full Section or Full Exam instead.",
   },
   {
     id: "bar-practice-history",
@@ -239,6 +257,19 @@ function renderReadySheet(version) {
   return `<div class="component-preview resume-states-preview">${states.map((state) => `<section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.label === "New" ? "Create flow" : "Recent activity"}</span></div><div class="phone-stage"><div class="ghost-app-content"><span class="ghost-app-title"></span><span class="ghost-app-card"></span><span class="ghost-app-card short"></span></div><div class="stage-dim"></div><div class="real-bottom-sheet"><div class="real-sheet-grabber"></div><button class="real-sheet-close" type="button" tabindex="-1">×</button><div class="real-sheet-header"><h3>${state.title}</h3><p>Review the activity details before you begin.</p></div><div class="real-detail-list"><div><strong>Questions</strong><span>20</span></div><div><strong>Format</strong><span>Mixed</span></div><div><strong>Subject</strong><span>Business Associations<br><small>4 Topics</small></span></div></div><button class="real-sheet-action" type="button" tabindex="-1">${state.action}</button></div></div></section>`).join("")}</div>`;
 }
 
+function renderBySubjectFlow(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview two-screen-preview">
+    <section class="mini-app-screen"><div class="mini-screen-title">By Subject</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="keyword-result"><strong>Found 30 questions</strong><small>“apparent authority”</small><button type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Business Associations</strong><small>Questions and topics</small></span><b>›</b></div></section>
+    <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Business Associations</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="topic-choice selected"><i>✓</i><span>Agency and authority</span></div><div class="topic-choice selected"><i>✓</i><span>Corporations</span></div><div class="topic-choice selected"><i>✓</i><span>Fiduciary duties</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (3 topics)</button></section>
+  </div>`;
+}
+
+function renderPausedPage(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview paused-page-preview"><span class="page-back">‹</span><div class="paused-page-content"><h3>${proposed ? "Resume Your Drill" : "Your Quiz is Paused"}</h3><p>Questions difficulty adapts to your answers. So you learn optimally.</p><div class="paused-page-details"><div><strong>Questions</strong><span>11/20</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>Subject</strong><span>Business Associations</span></div></div><div class="paused-page-features"><span>▤<small>Discuss answers<br />with Casey</small></span><span>⌁<small>AI weak-spot<br />analysis</small></span><span>Ⅱ<small>Pause &amp;<br />Resume</small></span></div></div><button class="paused-page-cta" type="button" tabindex="-1">${proposed ? "CONTINUE DRILL" : "CONTINUE QUIZ"}</button></div>`;
+}
+
 function renderSessionEnd(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview bar-end-preview"><div class="bar-end-icon">✍️</div><h3>You are about to end the ${proposed ? "drill" : "quiz"}</h3><p>You will be able to see the results and performance analysis once you end the ${proposed ? "drill" : "quiz"}.</p><div class="bar-end-stats"><span><b>18 MINS</b><small>Total Time Spent</small></span><span><b>12 / 20</b><small>Attempted</small></span></div><button class="bar-end-primary" type="button" tabindex="-1">PAUSE FOR LATER</button><button class="bar-end-secondary" type="button" tabindex="-1">YES, END THE ${proposed ? "DRILL" : "QUIZ"}</button><div class="bar-end-last"><small>After the last question</small><strong>END ${proposed ? "DRILL" : "QUIZ"} & VIEW RESULTS</strong></div></div>`;
@@ -374,8 +405,10 @@ function renderPreview(item, version) {
   if (item.kind === "practice-landing") return renderPracticeLanding(version);
   if (item.kind === "drill-builder") return renderDrillBuilder(version);
   if (item.kind === "topic-selection") return renderTopicSelection(version);
+  if (item.kind === "by-subject-flow") return renderBySubjectFlow(version);
   if (item.kind === "simulations") return renderSimulations(version);
   if (item.kind === "ready-sheet") return renderReadySheet(version);
+  if (item.kind === "paused-page") return renderPausedPage(version);
   if (item.kind === "session-end") return renderSessionEnd(version);
   if (item.kind === "results") return renderResults(version);
   if (item.kind === "history") return renderHistory(version);
