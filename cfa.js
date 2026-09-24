@@ -33,8 +33,8 @@ const cfaReviewItems = [
     area: "Quiz · Create",
     title: "Quiz setup screen",
     kind: "test-setup",
-    changes: [["Create a Self-Assessment", "Create Quiz"], ["Choose the mode of quiz", "Choose a quiz mode"]],
-    rationale: "Create Quiz is used by AnalystPrep and matches the preceding CTA. Practice Mode, Exam Mode, Number of questions and Question Type can stay.",
+    changes: [["Create a Self-Assessment", "Create Quiz"], ["Choose the mode of quiz", "Choose a quiz mode"], ["Image Based", "Remove for CFA"]],
+    rationale: "Create Quiz is used by AnalystPrep and matches the preceding CTA. Keep the real Practice Mode, Exam Mode, Number of questions and Question Type controls. Hide Image Based unless CFA question metadata genuinely supports it.",
   },
   {
     id: "cfa-mock-exams",
@@ -58,8 +58,16 @@ const cfaReviewItems = [
     area: "Quiz · Ready / resume sheet",
     title: "Quiz ready sheet states",
     kind: "resume-sheet",
-    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"]],
-    rationale: "The first-start state keeps Quiz, while a paused quiz needs a resume title. Subject and Topics can stay because they match Oncourse's hierarchy and are also used by UWorld for CFA organization.",
+    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"], ["Your Quiz is Ready · paused mock", "Resume Your Mock Exam"], ["Your Quiz is Ready · paused mini mock", "Resume Your Mini Mock Exam"]],
+    rationale: "A paused activity can be a Quiz, Mock Exam or Mini Mock Exam. Keep the first-start title, but make the resume title and CTA match the actual activity instead of applying Quiz to every state.",
+  },
+  {
+    id: "cfa-notes",
+    area: "Notes · Home and topic",
+    title: "Notes filters and upload banner",
+    kind: "notes",
+    changes: [["TOPPER", "ONCOURSE"], ["Get Flashcards, PYQs & More.", "Get Flashcards, Practice Questions & More."]],
+    rationale: "Verified in both Notes home and topic routes. CFA can reach the ALL / TOPPER / UPLOADED filters and the upload banner, but it cannot reach the app's PYQ feature. Use neutral CFA practice-question language and identify premade notes as Oncourse content.",
   },
   {
     id: "cfa-flashcard-examples",
@@ -87,23 +95,20 @@ const cfaReviewItems = [
     rationale: "Topper is Indian medical-exam language. All three CFA products simply use Flashcards, so no replacement adjective is needed.",
   },
   {
-    id: "cfa-pyq-copy",
-    area: "Across CFA · Question provenance",
-    title: "Past exam question terminology",
-    kind: "pyq-copy",
-    changeType: "Copy + provenance rule",
-    changes: [["PYQs", "Past Exam Questions"], ["PYQ", "Past Exam"], ["Recreated past-pattern questions", "Exam-Style Questions"]],
-    rationale: "PYQ is not used by the reviewed CFA products. Use Past Exam Questions only for verified questions from an earlier exam; use Exam-Style Questions for recreated items. General practice remains Practice Questions.",
+    id: "cfa-flashcard-search-footer",
+    area: "Flashcards · Search results",
+    title: "Short-results footer",
+    kind: "flashcard-search-footer",
+    changes: [["topper-level flashcards", "flashcards"]],
+    rationale: "Verified in the search-results list when fewer than 20 cards are returned. It uses the same medical-specific Topper sentence as the no-results state and needs the same neutral CFA wording.",
   },
   {
-    id: "cfa-rezzy-home",
-    area: "Savvy · Home",
-    title: "Home tool pills and selected states",
-    kind: "rezzy-home",
-    layout: "verified",
-    changeType: "One terminology change",
-    changes: [["Find high-yield lessons", "Get study notes"], ["Open exam-focused lessons", "Focus on exam-relevant points"]],
-    rationale: "The latest API already supplies the correct CFA suggestions and one-tool-at-a-time interaction. This tool generates notes, so calling it Lessons would change the feature concept. Study Notes is established CFA terminology in AnalystPrep.",
+    id: "cfa-flashcard-paywall",
+    area: "Flashcards · Locked content",
+    title: "Flashcard paywall",
+    kind: "flashcard-paywall",
+    changes: [["flashcards.unlock_topper_flashcards_title", "Unlock CFA Flashcards"], ["flashcards.unlock_topper_flashcards_subtitle", "Upgrade to Oncourse Max to access all CFA flashcards."], ["Medical sample card", "CFA sample card"]],
+    rationale: "Verified in FlashcardPaywallOverlay.tsx and the premade-deck route. CFA can surface untranslated paywall keys, while the fallback subtitle and Lorazepam preview are medical-specific.",
   },
   {
     id: "cfa-rezzy-tools",
@@ -124,15 +129,6 @@ const cfaReviewItems = [
     rationale: "Canvas is an Oncourse feature and can remain. Its five hard-coded medical starters must be replaced with CFA curriculum examples.",
   },
   {
-    id: "cfa-rezzy-library",
-    area: "Savvy drawer · Library",
-    title: "Library empty states",
-    kind: "rezzy-library",
-    changeType: "Example content",
-    changes: [["Medical creation examples", "CFA creation examples"], ["Medical upload examples", "CFA upload examples"]],
-    rationale: "Library, From Savvy and From My Notes can stay. Only the hard-coded medical starter chips need CFA content.",
-  },
-  {
     id: "cfa-rezzy-reminders",
     area: "Savvy drawer · Reminders",
     title: "Reminder suggestions",
@@ -141,12 +137,20 @@ const cfaReviewItems = [
     rationale: "Mock Exam is used by all three CFA products. Flashcards and MCQs stay; Pharmacology is replaced by a CFA topic.",
   },
   {
-    id: "cfa-rezzy-flashcard-widget",
-    area: "Savvy · Flashcard result",
-    title: "Returned flashcards and locked state",
-    kind: "rezzy-flashcard-widget",
-    changes: [["By Toppers", "By Oncourse"], ["flashcards.unlock_access_title", "Unlock Flashcards"], ["flashcards.unlock_access_subtitle", "Upgrade to Oncourse Max to access all flashcards."]],
-    rationale: "The returned card, Start Review, Save to Deck and selection actions can stay. Toppers is Indian medical-exam language; these are Oncourse-provided cards. CFA currently falls back to untranslated paywall keys, so it also needs neutral base copy.",
+    id: "cfa-savvy-flashcard-modal",
+    area: "Savvy · Flashcard library",
+    title: "Expanded flashcard library",
+    kind: "savvy-flashcard-modal",
+    changes: [["By Toppers", "By Oncourse"]],
+    rationale: "Verified in the expanded Related Flashcards modal. The returned chat tile is a separate state and needs no CFA copy change; only the premade-card filter needs neutral ownership language.",
+  },
+  {
+    id: "cfa-savvy-flashcard-paywall",
+    area: "Savvy · Locked flashcards",
+    title: "Locked flashcard pricing hand-off",
+    kind: "savvy-flashcard-paywall",
+    changes: [["flashcards.unlock_access_title", "Unlock Flashcards"], ["flashcards.unlock_access_subtitle", "Upgrade to Oncourse Max to access all flashcards."]],
+    rationale: "Verified as the pricing hand-off triggered from a locked Savvy flashcard result. It is separate from the returned card and expanded library modal, so it is shown independently.",
   },
 ];
 
@@ -221,7 +225,8 @@ function renderTestSetup(version) {
         <div class="mode-option"><span class="mode-radio"></span><span><strong>Exam Mode</strong><small>Just like an exam</small></span></div>
       </div>
       <div class="setup-label">Number of questions</div><div class="question-count">15 <span>⌄</span></div>
-      <div class="setup-label">Question Type</div><div class="setup-pills"><span class="active-pill">All</span><span>Unattempted</span><span>Attempted</span><span>Previously Incorrect</span><span>Bookmarked</span></div>
+      <div class="setup-label">Filters</div><div class="question-count">Subjects and tags <span>⌄</span></div>
+      <div class="setup-label">Question Type</div><div class="setup-pills"><span class="active-pill">All</span><span>Unattempted</span><span>Attempted</span><span>Previously Incorrect</span>${proposed ? "" : "<span>Image Based</span>"}<span>Bookmarked</span></div>
       <button class="setup-cta" type="button" tabindex="-1">CHOOSE TOPICS</button>
     </div>`;
 }
@@ -260,6 +265,8 @@ function renderResumeSheet(version) {
   const states = [
     { label: "New quiz", context: "Create Quiz flow", title: "Your Quiz is Ready", action: "START QUIZ" },
     { label: "Paused quiz", context: "Recents", title: proposed ? "Resume Your Quiz" : "Your Quiz is Ready", action: "RESUME QUIZ" },
+    { label: "Paused mock", context: "Recents", title: proposed ? "Resume Your Mock Exam" : "Your Quiz is Ready", action: proposed ? "RESUME MOCK EXAM" : "RESUME QUIZ" },
+    { label: "Paused mini mock", context: "Recents", title: proposed ? "Resume Your Mini Mock Exam" : "Your Quiz is Ready", action: proposed ? "RESUME MINI MOCK" : "RESUME QUIZ" },
   ];
   return `<div class="component-preview resume-states-preview">${states.map((state) => `
     <section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.context}</span></div>
@@ -297,6 +304,69 @@ function renderFlashcardLoading(version) {
 function renderFlashcardEmpty(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview flashcard-phone-frame flashcard-empty-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcards-home-title"><span class="flashcards-home-icon">▥</span><strong>Flashcards</strong><i>Oncourse</i></div><div class="flashcards-search-box"><span>⌕</span><strong>duration and convexity</strong><i>×</i></div><div class="flashcard-empty-content"><i>⌕</i><h3>No search results for “duration and convexity”</h3><p>${proposed ? "Oncourse can generate flashcards for any topic you choose" : "Oncourse can generate topper-level flashcards for any topic that you like"}</p><button type="button" tabindex="-1">GENERATE FLASHCARDS WITH AI</button></div></div>`;
+}
+
+function renderNotes(version) {
+  const proposed = version === "proposed";
+  const premade = proposed ? "ONCOURSE" : "TOPPER";
+  const banner = proposed ? "Get Flashcards, Practice Questions & More." : "Get Flashcards, PYQs & More.";
+  const filters = `<div class="cfa-notes-filters"><span class="active">ALL</span><span>${premade}</span><span>UPLOADED</span></div>`;
+  return `<div class="component-preview cfa-notes-preview">
+    <section class="cfa-notes-screen">
+      <small>Notes home</small>
+      <header><span>≡</span><strong>Notes</strong><button type="button" tabindex="-1">＋ UPLOAD</button></header>
+      <div class="cfa-notes-banner"><strong>${banner}</strong><span>Upload your notes & enhance them with AI</span></div>
+      ${filters}
+      <div class="cfa-note-row"><i>▤</i><span><strong>Fixed Income</strong><small>Duration, convexity and yield curves</small></span><b>›</b></div>
+    </section>
+    <section class="cfa-notes-screen">
+      <small>Topic · Fixed Income</small>
+      <header><span>‹</span><strong>Fixed Income</strong><i></i></header>
+      ${filters}
+      <div class="cfa-note-row"><i>▤</i><span><strong>Bond valuation notes</strong><small>Oncourse study note</small></span><b>›</b></div>
+      <div class="cfa-note-row"><i>▤</i><span><strong>Duration and convexity</strong><small>Uploaded note</small></span><b>›</b></div>
+    </section>
+  </div>`;
+}
+
+function renderFlashcardSearchFooter(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview flashcard-phone-frame cfa-flashcard-results-preview">
+    <div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div>
+    <div class="flashcards-home-title"><span class="flashcards-home-icon">▥</span><strong>Flashcards</strong><i>Oncourse</i></div>
+    <div class="flashcards-search-box"><span>⌕</span><strong>duration and convexity</strong><i>×</i></div>
+    <div class="cfa-search-card"><strong>Modified duration</strong><small>Fixed Income · Oncourse</small></div>
+    <div class="cfa-search-card"><strong>Effective duration</strong><small>Fixed Income · My deck</small></div>
+    <div class="cfa-looking-more"><i>⌕</i><h3>Looking for more?</h3><p>${proposed ? "Oncourse can generate flashcards for any CFA topic you choose" : "Oncourse can generate topper-level flashcards for any topic that you like"}</p><button type="button" tabindex="-1">GENERATE FLASHCARDS WITH AI</button></div>
+  </div>`;
+}
+
+function renderFlashcardPaywall(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview cfa-flashcard-paywall-preview">
+    <div class="cfa-paywall-sample"><small>Sample flashcard</small><strong>${proposed ? "Modified duration estimates a bond's price sensitivity" : "_______ is the drug of choice for status epilepticus"}</strong><span>${proposed ? "Approximate percentage price change for a 1% change in yield" : "Lorazepam is the drug of choice for status epilepticus"}</span></div>
+    <div class="cfa-paywall-fade"></div>
+    <section><b>ONCOURSE MAX</b><h3>${proposed ? "Unlock CFA Flashcards" : "flashcards.unlock_topper_flashcards_title"}</h3><p>${proposed ? "Upgrade to Oncourse Max to access all CFA flashcards." : "flashcards.unlock_topper_flashcards_subtitle"}</p><button type="button" tabindex="-1">UNLOCK ALL FLASHCARDS</button></section>
+  </div>`;
+}
+
+function renderSavvyFlashcardModal(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview cfa-savvy-modal-preview">
+    <header><span><strong>Fixed Income flashcards</strong><small>12 of 12 flashcards found</small></span><b>×</b></header>
+    <div class="savvy-filter-row"><span class="active">ALL</span><span>BY ME</span><span class="${proposed ? "" : "wrong-term"}">${proposed ? "BY ONCOURSE" : "BY TOPPERS"}</span><span>IMPORTED</span></div>
+    <div class="cfa-modal-card"><small>Fixed Income</small><strong>How does modified duration estimate a bond's price sensitivity?</strong><span>Tap to reveal the answer</span></div>
+    <footer><button type="button" tabindex="-1">SAVE TO DECK</button><button type="button" tabindex="-1">START REVIEW</button></footer>
+  </div>`;
+}
+
+function renderSavvyFlashcardPaywall(version) {
+  const proposed = version === "proposed";
+  return `<div class="component-preview cfa-savvy-pricing-preview">
+    <div class="savvy-widget-message"><span>🗂️</span><strong>Fixed Income flashcards</strong></div>
+    <div class="cfa-locked-result"><span>▣</span><div><strong>${proposed ? "Unlock Flashcards" : "flashcards.unlock_access_title"}</strong><small>${proposed ? "Upgrade to Oncourse Max to access all flashcards." : "flashcards.unlock_access_subtitle"}</small></div></div>
+    <button type="button" tabindex="-1">VIEW PLANS</button>
+  </div>`;
 }
 
 function renderPyqCopy(version) {
@@ -461,17 +531,18 @@ function renderPreview(item, version) {
   if (item.kind === "topic-selection") return renderTopicSelection(version);
   if (item.kind === "recents") return renderRecents(version);
   if (item.kind === "resume-sheet") return renderResumeSheet(version);
+  if (item.kind === "notes") return renderNotes(version);
   if (item.kind === "by-subject") return renderBySubject(version);
   if (item.kind === "flashcard-examples") return renderFlashcardExamples(version);
   if (item.kind === "flashcard-loading") return renderFlashcardLoading(version);
   if (item.kind === "flashcard-empty") return renderFlashcardEmpty(version);
-  if (item.kind === "pyq-copy") return renderPyqCopy(version);
-  if (item.kind === "rezzy-home") return renderRezzyHome(version);
+  if (item.kind === "flashcard-search-footer") return renderFlashcardSearchFooter(version);
+  if (item.kind === "flashcard-paywall") return renderFlashcardPaywall(version);
   if (item.kind === "rezzy-tools") return renderRezzyTools(version);
   if (item.kind === "rezzy-canvas") return renderRezzyCanvas(version);
-  if (item.kind === "rezzy-library") return renderRezzyLibrary(version);
   if (item.kind === "rezzy-reminders") return renderRezzyReminders(version);
-  if (item.kind === "rezzy-flashcard-widget") return renderRezzyFlashcardWidget(version);
+  if (item.kind === "savvy-flashcard-modal") return renderSavvyFlashcardModal(version);
+  if (item.kind === "savvy-flashcard-paywall") return renderSavvyFlashcardPaywall(version);
   return renderNavigation(version);
 }
 
@@ -494,7 +565,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("terminology-table").innerHTML = renderTerminologyTable();
-const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "pyq-copy", "rezzy-home", "rezzy-tools", "rezzy-canvas", "rezzy-library", "rezzy-reminders", "rezzy-flashcard-widget"];
+const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "notes", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "flashcard-paywall", "rezzy-tools", "rezzy-canvas", "rezzy-reminders", "savvy-flashcard-modal", "savvy-flashcard-paywall"];
 const orderedReviewItems = [...cfaReviewItems].sort((a, b) => cfaReviewOrder.indexOf(a.kind) - cfaReviewOrder.indexOf(b.kind));
 document.getElementById("cfa-review-list").innerHTML = orderedReviewItems.map(renderReviewItem).join("");
 

@@ -3037,6 +3037,76 @@ h1 {
 
 }
 
+/* CFA latest-code audit additions */
+#cfa-notes .comparison-grid { grid-template-columns: 1fr; }
+#cfa-notes .version-panel + .version-panel { margin-top: 6px; }
+#cfa-quiz-ready .phone-stage { height: 390px; }
+
+.cfa-notes-preview { display: grid; min-height: 440px; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; padding: 20px; background: linear-gradient(145deg,#fff2df,#fff 58%); }
+.cfa-notes-screen { min-width: 0; padding: 17px; border: 1px solid #eadfd1; border-radius: 18px; background: rgba(255,255,255,.92); }
+.cfa-notes-screen > small { display: block; margin-bottom: 11px; color: #8b765e; font-size: 8px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.cfa-notes-screen header { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+.cfa-notes-screen header strong { flex: 1; font-size: 15px; }
+.cfa-notes-screen header button { padding: 7px 9px; border: 1px solid #e9aa65; border-radius: 8px; background: #fff; color: #c66c12; font-size: 7px; font-weight: 850; }
+.cfa-notes-banner { display: flex; flex-direction: column; gap: 5px; margin-bottom: 13px; padding: 15px; border: 1px solid #edbd80; border-radius: 13px; background: #fff9f0; }
+.cfa-notes-banner strong { font-size: 11px; }
+.cfa-notes-banner span { color: #7d6c59; font-size: 8px; }
+.cfa-notes-filters { display: flex; gap: 7px; margin: 12px 0; }
+.cfa-notes-filters span { padding: 7px 10px; border: 1px solid #d9dee2; border-radius: 999px; color: #69757e; font-size: 7px; font-weight: 800; }
+.cfa-notes-filters .active { border-color: var(--blue); background: var(--blue); color: #fff; }
+.cfa-note-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; padding: 12px; border: 1px solid #e4e8eb; border-radius: 11px; background: #fff; }
+.cfa-note-row i { color: #e6851b; font-style: normal; }
+.cfa-note-row > span { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 3px; }
+.cfa-note-row strong { font-size: 9px; }
+.cfa-note-row small { color: #7e8991; font-size: 7px; }
+
+.cfa-flashcard-results-preview { min-height: 520px; }
+.cfa-search-card { display: flex; flex-direction: column; gap: 4px; margin: 10px 16px 0; padding: 13px; border: 1px solid #eadcdb; border-radius: 11px; background: #fff; }
+.cfa-search-card strong { font-size: 10px; }
+.cfa-search-card small { color: #818b93; font-size: 7px; }
+.cfa-looking-more { margin: 14px 16px; padding: 18px; border: 1px dashed #e2b0ad; border-radius: 13px; background: rgba(255,255,255,.8); text-align: center; }
+.cfa-looking-more i { color: #cf615d; font-size: 18px; font-style: normal; }
+.cfa-looking-more h3 { margin: 8px 0 5px; font-size: 13px; }
+.cfa-looking-more p { margin: 0 0 12px; color: #68747d; font-size: 8px; line-height: 1.5; }
+.cfa-looking-more button,.cfa-savvy-pricing-preview > button { width: 100%; padding: 10px; border: 0; border-radius: 8px; background: var(--blue); color: #fff; font-size: 7px; font-weight: 850; }
+
+.cfa-flashcard-paywall-preview { min-height: 520px; padding: 26px; background: linear-gradient(160deg,#fff1f0,#fff 60%); }
+.cfa-paywall-sample { display: flex; flex-direction: column; gap: 8px; padding: 17px; border: 1px solid #dedfe2; border-radius: 13px; background: #fff; }
+.cfa-paywall-sample small { color: #818b93; font-size: 8px; }
+.cfa-paywall-sample strong { font-size: 12px; line-height: 1.45; }
+.cfa-paywall-sample span { padding-top: 9px; border-top: 1px solid #eceeef; color: #66737c; font-size: 9px; }
+.cfa-paywall-fade { height: 55px; margin: -10px -5px 0; background: linear-gradient(transparent,rgba(0,0,0,.13)); }
+.cfa-flashcard-paywall-preview section { margin-top: -3px; padding: 25px 22px; border-radius: 18px 18px 12px 12px; background: #fff; text-align: center; }
+.cfa-flashcard-paywall-preview section > b { color: #784aa0; font-size: 8px; }
+.cfa-flashcard-paywall-preview h3 { margin: 13px 0 7px; font-size: 16px; }
+.cfa-flashcard-paywall-preview section p { margin: 0 0 14px; color: #6e7880; font-size: 9px; }
+.cfa-flashcard-paywall-preview section button { width: 100%; padding: 11px; border: 0; border-radius: 8px; background: #9069cd; color: #fff; font-size: 8px; font-weight: 850; }
+
+.cfa-savvy-modal-preview { min-height: 500px; padding: 22px; background: linear-gradient(150deg,#eff7ff,#fff 58%); }
+.cfa-savvy-modal-preview > header { display: flex; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #e3e7ea; }
+.cfa-savvy-modal-preview > header span { display: flex; flex: 1; flex-direction: column; gap: 4px; }
+.cfa-savvy-modal-preview > header strong { font-size: 14px; }
+.cfa-savvy-modal-preview > header small { color: #7d8891; font-size: 8px; }
+.cfa-savvy-modal-preview .savvy-filter-row { margin: 16px 0; }
+.cfa-modal-card { display: flex; flex-direction: column; gap: 11px; padding: 22px; border: 1px solid #dae3ea; border-radius: 15px; background: #fff; }
+.cfa-modal-card small { color: var(--blue); font-size: 8px; font-weight: 800; }
+.cfa-modal-card strong { font-size: 14px; line-height: 1.45; }
+.cfa-modal-card span { padding-top: 11px; border-top: 1px solid #e8ecef; color: #818b93; font-size: 8px; }
+.cfa-savvy-modal-preview footer { display: flex; gap: 9px; margin-top: 16px; }
+.cfa-savvy-modal-preview footer button { flex: 1; padding: 11px; border: 1px solid var(--blue); border-radius: 8px; background: #fff; color: var(--blue); font-size: 8px; font-weight: 850; }
+.cfa-savvy-modal-preview footer button:last-child { background: var(--blue); color: #fff; }
+
+.cfa-savvy-pricing-preview { min-height: 420px; padding: 25px; background: linear-gradient(150deg,#eff7ff,#fff 58%); }
+.cfa-locked-result { display: flex; align-items: center; gap: 13px; margin: 24px 0 13px; padding: 19px; border: 1px solid #dfd5ea; border-radius: 14px; background: #fff; }
+.cfa-locked-result > span { color: #7b4ca2; font-size: 22px; }
+.cfa-locked-result > div { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 5px; }
+.cfa-locked-result strong { font-size: 12px; }
+.cfa-locked-result small { color: #727e87; font-size: 8px; line-height: 1.45; }
+
+@media (max-width: 780px) {
+  .cfa-notes-preview { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 430px) {
   .issue-badge {
     display: none;
