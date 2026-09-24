@@ -4875,6 +4875,99 @@ h1 {
   padding-bottom: 18px;
 }
 
+.casey-review-layout {
+  display: grid;
+  grid-template-columns: minmax(330px, 0.8fr) minmax(360px, 1.2fr);
+  align-items: start;
+  gap: 24px;
+  padding: 28px;
+}
+
+.casey-review-layout .lsat-casey-preview {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.casey-examples-panel {
+  overflow: hidden;
+  border: 1px solid #dfe6eb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(28, 51, 69, 0.06);
+}
+
+.casey-examples-panel > p {
+  margin: 0;
+  padding: 15px 16px;
+  border-bottom: 1px solid #e8ecef;
+  background: #f7fafc;
+  color: #65727d;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.casey-examples-panel section {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.65fr) minmax(0, 1.35fr);
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.casey-examples-panel section:last-child {
+  border-bottom: 0;
+}
+
+.casey-examples-panel section > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.casey-examples-panel i {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  place-items: center;
+  border-radius: 8px;
+  background: #eaf5ff;
+  color: var(--blue);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.casey-examples-panel strong {
+  font-size: 9px;
+  line-height: 1.3;
+}
+
+.casey-example-chips,
+.casey-sheet-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.casey-example-chips span,
+.casey-sheet-examples span {
+  padding: 5px 7px;
+  border: 1px solid #dce9f4;
+  border-radius: 999px;
+  background: #f3f8fd;
+  color: #4d6578;
+  font-size: 7px;
+  line-height: 1.2;
+}
+
+.casey-sheet-examples {
+  margin-top: 14px;
+}
+
 .lsat-tool-list {
   overflow: hidden;
   margin: 18px 14px;
@@ -4971,6 +5064,15 @@ h1 {
 
   .lsat-casey-preview {
     width: 100%;
+  }
+
+  .casey-review-layout {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .casey-examples-panel section {
+    grid-template-columns: 1fr;
   }
 }
 

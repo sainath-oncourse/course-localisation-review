@@ -87,12 +87,12 @@ const lsatReviewItems = [
   {
     id: "lsat-casey-home",
     area: "Casey · Home and tools",
-    title: "Home tool pills and selected states",
+    title: "Casey tool pills and prompts",
     kind: "casey-home",
     layout: "verified",
     changeType: "Terminology + example content",
-    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "LSAT examples"], ["Get high-yield notes", "Get study notes"]],
-    rationale: "The latest app already maps LSAT to Casey and uses the correct one-tool-at-a-time interaction. Keep that behaviour; localise Quiz to Drill, simplify Notes, and replace medical examples with LSAT content.",
+    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "LSAT examples for every tool"], ["Get high-yield notes", "Get study notes"]],
+    rationale: "Match the CFA review: show every Home pill, preserve the one-tool-at-a-time interaction, and provide concrete LSAT prompts for Upload, Canvas, Flowcharts, Flashcards, Drill, Study Notes, Mnemonics and Weak Areas.",
   },
   {
     id: "lsat-flashcards",
@@ -204,8 +204,8 @@ function renderSearchCasey(version) {
 }
 
 const lsatCaseyTools = [
-  { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload" },
-  { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas" },
+  { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Logical Reasoning notes", "RC passage PDFs", "Handwritten error log"] },
+  { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Conditional logic map", "Argument structure", "RC passage viewpoints"] },
   { id: "flowcharts", icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", suggestions: ["Conditional reasoning", "Argument structure", "RC passage map"] },
   { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Common argument flaws", "Conditional indicators", "RC viewpoints"] },
   { id: "drill", icon: "?", title: "Start a drill", subtitle: "Practice a targeted set", suggestions: ["Logical Reasoning", "Reading Comprehension", "My weak question types"] },
@@ -215,21 +215,24 @@ const lsatCaseyTools = [
 ];
 
 function renderCaseyHome() {
-  return `<div class="component-preview rezzy-phone rezzy-home-demo lsat-casey-preview" data-casey-demo>
-    <div class="rezzy-phone-header"><span>☰</span><strong>Casey</strong><span>✦</span></div>
-    <div class="rezzy-greeting"><div class="rezzy-orb">C</div><h3>What should we study today?</h3></div>
-    <div class="savvy-demo-stage" data-casey-stage><div class="savvy-tool-scroll" data-casey-pills>${lsatCaseyTools.map((tool) => `<button type="button" class="savvy-tool-pill" data-casey-tool="${tool.id}"><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></button>`).join("")}</div></div>
-    <p class="savvy-demo-hint" data-casey-hint>Select a pill to see its actual state</p>
-    <div class="rezzy-composer"><span>＋</span><p>Ask Casey anything…</p><b>↑</b></div>
+  return `<div class="casey-review-layout" data-casey-demo>
+    <div class="component-preview rezzy-phone rezzy-home-demo lsat-casey-preview">
+      <div class="rezzy-phone-header"><span>☰</span><strong>Casey</strong><span>✦</span></div>
+      <div class="rezzy-greeting"><div class="rezzy-orb">C</div><h3>What should we study today?</h3></div>
+      <div class="savvy-demo-stage" data-casey-stage><div class="savvy-tool-scroll" data-casey-pills>${lsatCaseyTools.map((tool) => `<button type="button" class="savvy-tool-pill" data-casey-tool="${tool.id}"><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></button>`).join("")}</div></div>
+      <p class="savvy-demo-hint" data-casey-hint>Select a pill to see its actual state</p>
+      <div class="rezzy-composer"><span>＋</span><p>Ask Casey anything…</p><b>↑</b></div>
+    </div>
+    <aside class="casey-examples-panel"><p>LSAT examples by tool</p>${lsatCaseyTools.map((tool) => `<section><div><i>${tool.icon}</i><strong>${tool.title}</strong></div><div class="casey-example-chips">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></section>`).join("")}</aside>
   </div>`;
 }
 
 function renderCaseySelectedState(tool) {
   if (tool.special === "upload") {
-    return `<div class="savvy-special-sheet"><button class="savvy-back" type="button" data-casey-back>‹ Back</button><h3>Upload Notes</h3><p>Casey turns them into flashcards, questions, concept maps and more.</p><div class="savvy-upload-options"><span>▧<small>Camera</small></span><span>▣<small>Photos</small></span><span>▤<small>Files</small></span></div></div>`;
+    return `<div class="savvy-special-sheet"><button class="savvy-back" type="button" data-casey-back>‹ Back</button><h3>Upload Notes</h3><p>Casey turns LSAT notes into flashcards, questions, concept maps and more.</p><div class="savvy-upload-options"><span>▧<small>Camera</small></span><span>▣<small>Photos</small></span><span>▤<small>Files</small></span></div><div class="casey-sheet-examples">${tool.suggestions.map((suggestion) => `<span>${suggestion}</span>`).join("")}</div></div>`;
   }
   if (tool.special === "canvas") {
-    return `<div class="savvy-special-sheet canvas-sheet-demo"><div class="savvy-sheet-heading"><button class="savvy-back" type="button" data-casey-back>‹ Back</button><b>View all ›</b></div><h3>Create a Canvas</h3><p>Templates are filtered to the active LSAT course.</p><div class="savvy-template-grid"><span><i></i><small>LSAT template</small></span><span><i></i><small>LSAT template</small></span><span><i></i><small>LSAT template</small></span><span><i></i><small>LSAT template</small></span></div></div>`;
+    return `<div class="savvy-special-sheet canvas-sheet-demo"><div class="savvy-sheet-heading"><button class="savvy-back" type="button" data-casey-back>‹ Back</button><b>View all ›</b></div><h3>Create a Canvas</h3><p>Templates and starters are filtered to the active LSAT course.</p><div class="savvy-template-grid">${tool.suggestions.map((suggestion) => `<span><i></i><small>${suggestion}</small></span>`).join("")}</div></div>`;
   }
   return `<div class="savvy-prompt-state"><button class="savvy-back" type="button" data-casey-back>‹ Back</button><div class="savvy-selected-tool"><i>${tool.icon}</i><span><strong>${tool.title}</strong><small>${tool.subtitle}</small></span></div>${tool.suggestions.map((suggestion) => `<button type="button" class="savvy-suggestion">${suggestion}</button>`).join("")}<button type="button" class="savvy-suggestion">Something else</button></div>`;
 }
