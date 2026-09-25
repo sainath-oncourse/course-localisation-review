@@ -39,11 +39,12 @@ const lsatReviewItems = [
   {
     id: "lsat-lessons-ordering",
     area: "Lessons · Subject list",
-    title: "Lessons subjects and ordering control",
+    title: "Lessons subject list · ordering pending",
     kind: "lessons-ordering",
     changeType: "Shared component · LSAT values/examples",
-    changes: [["No visible ordering control", "Organise by: LSAT order"], ["Medical ordering choices", "LSAT order / Study plan / Alphabetical"], ["Generic subject examples", "Logical Reasoning / Reading Comprehension"]],
-    rationale: "Lessons uses the shared My Path subject selector and All, High Yield and Bookmarks pills. Keep Subject for LSAT, add the shared Organise by pill ahead of those filters, and populate its values from LSAT structure rather than medical phases. Both 7Sage and LSAT Demon put Logical Reasoning before Reading Comprehension.",
+    changes: [["Ordering filter", "Not decided yet"]],
+    layout: "verified",
+    rationale: "Verified in components/lessons/myPath (Lessons tab). Subject is already correct for LSAT, so no wording change is needed. Ordering filter (Organise by) is not decided yet, so it is not proposed here. This card stays as a placeholder until the ordering options are agreed.",
   },
   {
     id: "lsat-drill-builder",
@@ -221,10 +222,9 @@ function renderLessonsOrdering(version) {
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>Select Subject</strong><b>›</b></div>
-    <div class="lessons-audit-pills">${proposed ? '<span class="order-pill">LSAT order⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
     <div class="lessons-audit-group">${proposed ? "LSAT curriculum" : "Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
-    ${proposed ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>LSAT order</strong><em>Logical Reasoning, Reading Comprehension…</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your next recommended skills first</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
   </div>`;
 }
 

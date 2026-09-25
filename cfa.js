@@ -32,11 +32,11 @@ const cfaReviewItems = [
   {
     id: "cfa-lessons-ordering",
     area: "Lessons · Topic list",
-    title: "Lessons topics and ordering control",
+    title: "Lessons topic selector",
     kind: "lessons-ordering",
     changeType: "Shared component · CFA values/examples",
-    changes: [["Select Subject", "Select Topic"], ["Search across your Subjects", "Search across CFA topics"], ["Medical ordering choices", "CFA curriculum / Study plan / Alphabetical"]],
-    rationale: "The shared Lessons selector currently says Subject for every course. CFA products consistently use Topic at this level. Add the common Organise by pill, with the CFA curriculum order observed in Salt Solutions rather than medical Organ system or Year of study values.",
+    changes: [["Select Subject", "Select Topic"], ["Search across your Subjects", "Search across CFA topics"]],
+    rationale: "Verified in components/lessons/myPath/SubjectSelectorBottomSheet. The shared Lessons selector says Subject for every course; all three CFA products call this level Topic. Open decision: CFA Quiz cards still keep By Subject, so Subject vs Topic must be chosen once for the whole course. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
   },
   {
     id: "cfa-quiz-setup",
@@ -318,10 +318,9 @@ function renderLessonsOrdering(version) {
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>${proposed ? "Select Topic" : "Select Subject"}</strong><b>›</b></div>
-    <div class="lessons-audit-pills">${proposed ? '<span class="order-pill">CFA curriculum⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
     <div class="lessons-audit-group">${proposed ? "Level I curriculum" : "All Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
-    ${proposed ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>CFA curriculum</strong><em>Quantitative Methods, Economics…</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your recommended topic sequence</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
   </div>`;
 }
 

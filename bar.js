@@ -41,11 +41,12 @@ const barReviewItems = [
   {
     id: "bar-lessons-ordering",
     area: "Lessons · Subject list",
-    title: "Lessons subjects and ordering control",
+    title: "Lessons subject list · ordering pending",
     kind: "lessons-ordering",
     changeType: "Shared component · BAR values/examples",
-    changes: [["No visible ordering control", "Organise by: Bar exam order"], ["Medical ordering choices", "Bar exam order / Study plan / Alphabetical"], ["Generic subject examples", "Business Associations / Civil Procedure / Contracts"]],
-    rationale: "The shared Lessons selector is reachable for BAR and still exposes generic Subject copy. Subject is correct here; the missing change is the ordering control and legal examples. Use the JD Simplified subject sequence as the default instead of carrying medical Organ system or Year of study labels into BAR.",
+    changes: [["Ordering filter", "Not decided yet"]],
+    layout: "verified",
+    rationale: "Verified in components/lessons/myPath (Lessons tab). Subject is already correct for BAR, so no wording change is needed. Ordering filter (Organise by) is not decided yet, so it is not proposed here. This card stays as a placeholder until the ordering options are agreed.",
   },
   {
     id: "bar-drill-builder",
@@ -222,10 +223,9 @@ function renderLessonsOrdering(version) {
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>Select Subject</strong><b>›</b></div>
-    <div class="lessons-audit-pills">${proposed ? '<span class="order-pill">Bar exam order⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
     <div class="lessons-audit-group">${proposed ? "Bar exam subjects" : "Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
-    ${proposed ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>Bar exam order</strong><em>Business Associations, Civil Procedure…</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your recommended subject sequence</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
   </div>`;
 }
 

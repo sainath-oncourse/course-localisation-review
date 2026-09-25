@@ -78,17 +78,16 @@ const reviewItems = [
     id: "cpa-lessons-ordering",
     kind: "lessons-ordering",
     area: "Lessons · Section list",
-    title: "Lessons sections and ordering control",
+    title: "Lessons section selector",
     current: "Subject terminology with no visible ordering control",
     proposed: "CPA Sections with an Organise by control",
     changeType: "Shared component · CPA values/examples",
     changes: [
       { from: "Select Subject", to: "Select Section" },
       { from: "Search across your Subjects", to: "Search across CPA Sections" },
-      { from: "Medical ordering choices", to: "CPA course order / Study plan / Alphabetical" },
     ],
     rationale:
-      "The latest Lessons route uses the shared My Path subject selector, so CPA currently inherits Subject language. Becker and UWorld organize study by CPA Section. Add the same Organise by pill used on every subject-list surface, but supply CPA ordering values and Section examples.",
+      "Verified in components/lessons/myPath/SubjectSelectorBottomSheet. The shared Lessons selector says Subject for every course; Becker and UWorld organize CPA study by Section. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
   },
   {
     id: "practice-test-filters",
@@ -372,10 +371,9 @@ function renderLessonsOrdering(version) {
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>${isProposal ? "Select Section" : "Select Subject"}</strong><b>›</b></div>
-    <div class="lessons-audit-pills">${isProposal ? '<span class="order-pill">CPA course order⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
     <div class="lessons-audit-group">${isProposal ? "CPA Sections" : "All Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
-    ${isProposal ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>CPA course order</strong><em>AUD, FAR, REG, BAR, ISC, TCP</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your recommended Section sequence</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
   </div>`;
 }
 
