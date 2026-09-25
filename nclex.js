@@ -41,8 +41,8 @@ const nclexItems = [
     screenTitle: "Tests",
     current: [{ pills: ["All", "Benchmark", "Mini-Benchmark", "My Attempts"], bad: [1, 2], firstOn: true }, { card: "Weekly Score Predictor Test", sub: "Fallback card title", bad: true }, { card: "Your Benchmark Test is Ready", sub: "Ready sheet title", bad: true }],
     proposed: [{ pills: ["All", "Readiness Assessments", "My Attempts"], hi: [1], firstOn: true }, { card: "Hidden for NCLEX", sub: "NCLEX is pass/fail, there is no score to predict", hi: true }, { card: "Your Readiness Assessment is Ready", sub: "Ready sheet title", hi: true }],
-    changes: [["Benchmark", "Readiness Assessments"], ["Mini-Benchmark", "Remove for NCLEX"], ["Weekly Score Predictor Test", "Hide for NCLEX"]],
-    rationale: "Verified in TestsSection.tsx:534-536, TodayQuizSection.tsx:40 and QuizReadyBottomSheet.tsx:86-87. Archer calls its test a Readiness Assessment and UWorld calls its tests NCLEX Readiness Assessments. No NCLEX competitor has a mini assessment, so Mini-Benchmark is removed rather than renamed. NCLEX is pass/fail, so a score predictor makes no sense.",
+    changes: [["Benchmark", "Readiness Assessments — only if NCLEX has benchmark tests; otherwise hide the pill"], ["Mini-Benchmark", "Remove for NCLEX"], ["Weekly Score Predictor Test", "Hide for NCLEX"]],
+    rationale: "Verified in TestsSection.tsx:534-536, TodayQuizSection.tsx:40 and QuizReadyBottomSheet.tsx:86-87. Archer calls its test a Readiness Assessment and UWorld calls its tests NCLEX Readiness Assessments. No NCLEX competitor has a mini assessment, so Mini-Benchmark is removed rather than renamed. Open question: these pills are hard-coded for every course, but benchmark tests come from the database per course. If NCLEX has no benchmark tests, hide the Benchmark pill too instead of renaming it. NCLEX is pass/fail, so a score predictor makes no sense.",
   },
   {
     id: "nclex-case-study", course: "nclex", kind: "screen", area: "Quiz · In quiz", title: "NGN case study screen", where: "Start a quiz with a case study → case screen (chart tabs and header)",
