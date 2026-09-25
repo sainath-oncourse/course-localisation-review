@@ -45,14 +45,6 @@ const nclexItems = [
     rationale: "Verified in TestsSection.tsx:534-536, TodayQuizSection.tsx:40 and QuizReadyBottomSheet.tsx:86-87. Archer calls its test a Readiness Assessment and UWorld calls its tests NCLEX Readiness Assessments. No NCLEX competitor has a mini assessment, so Mini-Benchmark is removed rather than renamed. Open question: these pills are hard-coded for every course, but benchmark tests come from the database per course. If NCLEX has no benchmark tests, hide the Benchmark pill too instead of renaming it. NCLEX is pass/fail, so a score predictor makes no sense.",
   },
   {
-    id: "nclex-high-yield-filter", course: "nclex", kind: "screen", area: "Quiz · By Subject", title: "High Yield filter pill", where: "Quiz tab → By Subject (filter pills above the subject list); the same pill is on Lessons and Choose Topics",
-    screenTitle: "Quiz · By Subject",
-    current: [{ pills: ["All", "★ High Yield"], bad: [1], firstOn: true }, { card: "Management of Care", sub: "120 Questions" }],
-    proposed: [{ pills: ["All"], firstOn: true }, { card: "Management of Care", sub: "120 Questions" }],
-    changes: [["High Yield (filter pill on Quiz, Lessons and Choose Topics)", "Hide for NCLEX"]],
-    rationale: "Verified in components/evaluation/SubjectFilterPills.tsx:32-35 and the Lessons pills. UWorld and Archer use “high-yield” only on their marketing pages, not as a label or filter inside their products, so NCLEX learners won't recognise it as a filter.",
-  },
-  {
     id: "nclex-case-study", course: "nclex", kind: "screen", area: "Quiz · In quiz", title: "NGN case study screen", where: "Start a quiz with a case study → case screen (chart tabs and header)",
     screenTitle: "Case study",
     current: [{ pills: ["Exhibit 1", "Exhibit 2", "Exhibit 3"], bad: [0, 1, 2], firstOn: true }, { card: "Q6.2 · Analyze Cues · Part 2/6", bad: true }, { cta: "NEXT STEP" }],

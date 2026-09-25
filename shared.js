@@ -150,8 +150,7 @@ const sharedCourses = {
   },
   nclex: {
     name: "NCLEX",
-    notesTool: "Get notes",
-    lessonsTool: "Find lessons",
+    notesTool: "Get high-yield notes",
     tutor: "Rezzy",
     unit: "Quiz",
     hierarchy: "subject",
