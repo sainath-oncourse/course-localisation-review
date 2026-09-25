@@ -75,6 +75,22 @@ const reviewItems = [
       "Practice describes the complete destination. Create Test matches the action that opens the test builder and the terminology used by Becker and UWorld.",
   },
   {
+    id: "cpa-lessons-ordering",
+    kind: "lessons-ordering",
+    area: "Lessons · Section list",
+    title: "Lessons sections and ordering control",
+    current: "Subject terminology with no visible ordering control",
+    proposed: "CPA Sections with an Organise by control",
+    changeType: "Shared component · CPA values/examples",
+    changes: [
+      { from: "Select Subject", to: "Select Section" },
+      { from: "Search across your Subjects", to: "Search across CPA Sections" },
+      { from: "Medical ordering choices", to: "CPA course order / Study plan / Alphabetical" },
+    ],
+    rationale:
+      "The latest Lessons route uses the shared My Path subject selector, so CPA currently inherits Subject language. Becker and UWorld organize study by CPA Section. Add the same Organise by pill used on every subject-list surface, but supply CPA ordering values and Section examples.",
+  },
+  {
     id: "practice-test-filters",
     kind: "test-filters",
     area: "Practice · Tests",
@@ -174,18 +190,15 @@ const reviewItems = [
   {
     id: "search-and-savvy",
     kind: "search-savvy",
-    area: "Global · Search and Savvy",
-    title: "Search fields and tutor surfaces",
-    current: "Subjects and Rezzy",
-    proposed: "Sections and Savvy",
+    area: "Lessons · Search",
+    title: "Lessons filter search field",
+    current: "Subjects",
+    proposed: "Sections",
     changes: [
-      { from: "Ask Rezzy anything", to: "Ask Savvy anything" },
-      { from: "Discuss with Rezzy", to: "Discuss with Savvy" },
       { from: "Search by Subjects", to: "Search sections" },
-      { from: "Search subjects or topics", to: "Search sections or topics" },
     ],
     rationale:
-      "CPA uses Sections for its top-level exam structure, while the course persona is Savvy. Generic searches such as Search questions by keyword remain unchanged.",
+      "Verified in components/lessons/FilterBottomSheet/index.tsx:180 (theme and subject filter sheets). CPA uses Sections for its top-level structure. Savvy entry points already show the correct name in the latest code, so they are no longer listed. Keyword search stays unchanged.",
   },
   {
     id: "paused-test-page",
@@ -236,14 +249,14 @@ const reviewItems = [
     kind: "flashcards-ai-loading",
     area: "Flashcards · Generate with AI",
     title: "AI generation loading state",
-    current: "Topper flashcards and PYQs",
+    current: "flashcards.search_loading_text",
     proposed: "High-yield CPA flashcards",
     changeType: "Shared component · CPA copy",
     changes: [
-      { from: "Topper flashcards and PYQs", to: "High-yield CPA flashcards" },
+      { from: "flashcards.search_loading_text (raw key)", to: "Creating high-yield CPA flashcards for you..." },
     ],
     rationale:
-      "CPA preparation does not use the medical-course Topper or PYQ language. Only the supporting loading message changes.",
+      "Verified in app/(app)/snippets/flashcards/create-prompt.tsx:282. The key is missing from the base copy file that CPA uses, so the raw key shows today. The medical wording (topper flashcards, PYQs) must not be copied over.",
   },
   {
     id: "flashcards-search-empty",
@@ -350,6 +363,20 @@ function renderPracticeShell(version) {
         </div>
       </div>
     </div>`;
+}
+
+function renderLessonsOrdering(version) {
+  const isProposal = version === "proposed";
+  const subjects = [["AUD", "Auditing and Attestation", "0/286 lessons"], ["FAR", "Financial Accounting and Reporting", "0/412 lessons"], ["REG", "Regulation", "0/318 lessons"]];
+  return `<div class="component-preview lessons-audit-preview">
+    <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
+    <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
+    <div class="lessons-audit-selector"><span>▤</span><strong>${isProposal ? "Select Section" : "Select Subject"}</strong><b>›</b></div>
+    <div class="lessons-audit-pills">${isProposal ? '<span class="order-pill">CPA course order⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-group">${isProposal ? "CPA Sections" : "All Subjects"}</div>
+    ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
+    ${isProposal ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>CPA course order</strong><em>AUD, FAR, REG, BAR, ISC, TCP</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your recommended Section sequence</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
+  </div>`;
 }
 
 function renderTestFilters(version) {
@@ -580,21 +607,12 @@ function renderBySubjectFlow(version) {
 
 function renderSearchSavvy(version) {
   const isProposal = version === "proposed";
-  const tutor = isProposal ? "Savvy" : "Rezzy";
-  const topLevel = isProposal ? "sections" : "Subjects";
   return `
     <div class="component-preview search-savvy-preview">
-      <div class="savvy-surface-demo">
-        <div class="lesson-context"><span>Notes</span><strong>Audit evidence</strong><span>Exercises</span></div>
-        <div class="lesson-tutor-bubble">Discuss with ${tutor}</div>
-        <div class="lesson-tutor-pill"><span>▤<small>Notes</small></span><i>${isProposal ? "S" : "R"}</i><span>?</span><small>Exercises</small></div>
-      </div>
       <div class="search-audit-list">
-        <div><span>⌕</span><strong>Search ${topLevel}</strong><small>Lessons, Notes and subject pickers</small></div>
-        <div><span>⌕</span><strong>${isProposal ? "Search sections or topics" : "Search subjects or topics"}</strong><small>Practice content selection</small></div>
+        <div><span>⌕</span><strong>${isProposal ? "Search sections" : "Search by Subjects"}</strong><small>Lessons filter sheet · Subjects</small></div>
         <div class="unchanged-search"><span>⌕</span><strong>Search questions by keyword…</strong><small>Unchanged</small></div>
       </div>
-      <div class="global-tutor-input"><span>✦</span>Ask ${tutor} anything</div>
     </div>`;
 }
 
@@ -624,7 +642,7 @@ function renderFlashcardsAiLoading(version) {
   const isProposal = version === "proposed";
   const loadingCopy = isProposal
     ? "Creating high-yield CPA flashcards for you..."
-    : "Searching across topper flashcards, PYQs and generating great AI flashcards for you...";
+    : "flashcards.search_loading_text";
 
   return `
     <div class="component-preview flashcard-phone-frame flashcard-loading-preview">
@@ -704,6 +722,7 @@ function renderPostTestAnalysis(version) {
 
 function renderComponentPreview(item, version) {
   if (item.kind === "practice-shell") return renderPracticeShell(version);
+  if (item.kind === "lessons-ordering") return renderLessonsOrdering(version);
   if (item.kind === "test-filters") return renderTestFilters(version);
   if (item.kind === "create-test-setup") return renderCreateTestSetup(version);
   if (item.kind === "content-selection") return renderContentSelection(version);
@@ -769,6 +788,4 @@ function renderReviewItem(item, index) {
 
 document.getElementById("cpa-terminology-table").innerHTML = renderCpaTerminologyTable();
 
-document.getElementById("review-list").innerHTML = reviewItems
-  .map(renderReviewItem)
-  .join("");
+mountSharedReview("review-list", "cpa", reviewItems, renderReviewItem);

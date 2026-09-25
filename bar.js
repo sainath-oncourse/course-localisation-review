@@ -39,6 +39,15 @@ const barReviewItems = [
     rationale: "Custom Drill identifies the user-configured practice activity, while Simulations are timed exam-shaped experiences. By Subject and Recents remain valid and should not be replaced by Drill.",
   },
   {
+    id: "bar-lessons-ordering",
+    area: "Lessons · Subject list",
+    title: "Lessons subjects and ordering control",
+    kind: "lessons-ordering",
+    changeType: "Shared component · BAR values/examples",
+    changes: [["No visible ordering control", "Organise by: Bar exam order"], ["Medical ordering choices", "Bar exam order / Study plan / Alphabetical"], ["Generic subject examples", "Business Associations / Civil Procedure / Contracts"]],
+    rationale: "The shared Lessons selector is reachable for BAR and still exposes generic Subject copy. Subject is correct here; the missing change is the ordering control and legal examples. Use the JD Simplified subject sequence as the default instead of carrying medical Organ system or Year of study labels into BAR.",
+  },
+  {
     id: "bar-drill-builder",
     area: "Practice · Create",
     title: "Drill setup screen",
@@ -115,7 +124,7 @@ const barReviewItems = [
     title: "BAR tutor tool pills and prompts",
     kind: "rezzy-home",
     changeType: "Shared component · BAR values/examples",
-    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"], ["Get high-yield notes", "Get high-yield outlines"]],
+    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"], ["Find high-yield lessons", "Get high-yield outlines"]],
     rationale: "Current-code fact: lib/persona/registry.ts maps both LSAT and Bar Exam to Casey. This review does not propose a BAR tutor name; it only changes the tool copy and examples.",
   },
   {
@@ -203,6 +212,20 @@ function renderPracticeLanding(version) {
     <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Custom Drill" : "Self Assess"}</button></div>
     <div class="practice-segments">${segments.map((item, index) => `<span class="${index === 0 ? "selected" : ""}">${item}</span>`).join("")}</div>
     <div class="bar-subject-list"><small>SUBJECTS</small><div><i>BA</i><span><strong>Business Associations</strong><em>Questions and topics</em></span><b>›</b></div><div><i>CP</i><span><strong>Civil Procedure</strong><em>Questions and topics</em></span><b>›</b></div></div>
+  </div>`;
+}
+
+function renderLessonsOrdering(version) {
+  const proposed = version === "proposed";
+  const subjects = [["BA", "Business Associations", "0/184 lessons"], ["CP", "Civil Procedure", "0/216 lessons"], ["CT", "Contracts", "0/198 lessons"]];
+  return `<div class="component-preview lessons-audit-preview">
+    <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
+    <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
+    <div class="lessons-audit-selector"><span>▤</span><strong>Select Subject</strong><b>›</b></div>
+    <div class="lessons-audit-pills">${proposed ? '<span class="order-pill">Bar exam order⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-group">${proposed ? "Bar exam subjects" : "Subjects"}</div>
+    ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
+    ${proposed ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>Bar exam order</strong><em>Business Associations, Civil Procedure…</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your recommended subject sequence</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
   </div>`;
 }
 
@@ -306,11 +329,11 @@ function renderHistoryEmpty(version) {
 
 const barCurrentTools = [
   { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Medical lecture notes", "Clinical notes", "Revision notes"] },
-  { id: "canvas", icon: "◇", title: "Create canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Spinal cord", "ECG axis", "Antibiotic ladder"] },
-  { id: "flowcharts", icon: "⌁", title: "Get flowcharts", subtitle: "See how concepts connect", suggestions: ["Cardiac cycle", "Nephron", "Coagulation cascade"] },
+  { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["ECG axis map", "Spinal cord lesions", "Antibiotic ladder"] },
+  { id: "flowcharts", icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", suggestions: ["Cardiac cycle", "Nephron", "Coagulation cascade"] },
   { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Cranial nerves", "Drug of choice", "Vitamins"] },
   { id: "drill", icon: "?", title: "Take a quiz", subtitle: "Improve accuracy and speed", suggestions: ["Pharmacology", "Anatomy", "Pathology"] },
-  { id: "outlines", icon: "≡", title: "Get high-yield notes", subtitle: "Focus on exam-relevant points", suggestions: ["Cardiac murmurs", "Antibiotics", "Renal physiology"] },
+  { id: "outlines", icon: "≡", title: "Find high-yield lessons", subtitle: "Open exam-focused lessons", suggestions: ["Cardiac murmurs", "Antibiotics", "Renal physiology"] },
   { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough concepts stick", suggestions: ["Cranial nerves", "Drug adverse effects", "Vitamins"] },
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent quizzes", "Subject gaps", "Weak topics"] },
 ];
@@ -403,6 +426,7 @@ function renderFlashcards(version) {
 function renderPreview(item, version) {
   if (item.kind === "navigation") return renderNavigation(version);
   if (item.kind === "practice-landing") return renderPracticeLanding(version);
+  if (item.kind === "lessons-ordering") return renderLessonsOrdering(version);
   if (item.kind === "drill-builder") return renderDrillBuilder(version);
   if (item.kind === "topic-selection") return renderTopicSelection(version);
   if (item.kind === "by-subject-flow") return renderBySubjectFlow(version);
@@ -434,7 +458,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("bar-terminology-table").innerHTML = renderTerminologyTable();
-document.getElementById("bar-review-list").innerHTML = barReviewItems.map(renderReviewItem).join("");
+mountSharedReview("bar-review-list", "bar", barReviewItems, renderReviewItem);
 
 document.querySelectorAll("[data-bar-rezzy-demo]").forEach((demo) => {
   const stage = demo.querySelector("[data-bar-rezzy-stage]");

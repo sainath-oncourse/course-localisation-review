@@ -30,6 +30,15 @@ const cfaReviewItems = [
     rationale: "Create Quiz is established CFA-product language. By Subject can stay: UWorld explicitly organizes CFA practice by subject and topic, so Oncourse's existing Subject → Topic → Lesson structure is suitable for CFA.",
   },
   {
+    id: "cfa-lessons-ordering",
+    area: "Lessons · Topic list",
+    title: "Lessons topics and ordering control",
+    kind: "lessons-ordering",
+    changeType: "Shared component · CFA values/examples",
+    changes: [["Select Subject", "Select Topic"], ["Search across your Subjects", "Search across CFA topics"], ["Medical ordering choices", "CFA curriculum / Study plan / Alphabetical"]],
+    rationale: "The shared Lessons selector currently says Subject for every course. CFA products consistently use Topic at this level. Add the common Organise by pill, with the CFA curriculum order observed in Salt Solutions rather than medical Organ system or Year of study values.",
+  },
+  {
     id: "cfa-quiz-setup",
     area: "Quiz · Create",
     title: "Quiz setup screen",
@@ -302,6 +311,20 @@ function renderNotes(version) {
   </div>`;
 }
 
+function renderLessonsOrdering(version) {
+  const proposed = version === "proposed";
+  const subjects = [["QM", "Quantitative Methods", "0/146 lessons"], ["EC", "Economics", "0/118 lessons"], ["CI", "Corporate Issuers", "0/92 lessons"]];
+  return `<div class="component-preview lessons-audit-preview">
+    <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
+    <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
+    <div class="lessons-audit-selector"><span>▤</span><strong>${proposed ? "Select Topic" : "Select Subject"}</strong><b>›</b></div>
+    <div class="lessons-audit-pills">${proposed ? '<span class="order-pill">CFA curriculum⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-group">${proposed ? "Level I curriculum" : "All Subjects"}</div>
+    ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
+    ${proposed ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>CFA curriculum</strong><em>Quantitative Methods, Economics…</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your recommended topic sequence</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
+  </div>`;
+}
+
 function renderFlashcardSearchFooter(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview flashcard-phone-frame cfa-flashcard-results-preview">
@@ -500,6 +523,7 @@ function renderRezzyFlashcardWidget(version) {
 function renderPreview(item, version) {
   if (item.kind === "mocks") return renderMocks(version);
   if (item.kind === "practice-shell") return renderPracticeShell(version);
+  if (item.kind === "lessons-ordering") return renderLessonsOrdering(version);
   if (item.kind === "test-setup") return renderTestSetup(version);
   if (item.kind === "topic-selection") return renderTopicSelection(version);
   if (item.kind === "recents") return renderRecents(version);
@@ -534,9 +558,9 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("terminology-table").innerHTML = renderTerminologyTable();
-const cfaReviewOrder = ["practice-shell", "test-setup", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders"];
+const cfaReviewOrder = ["practice-shell", "lessons-ordering", "test-setup", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders"];
 const orderedReviewItems = [...cfaReviewItems].sort((a, b) => cfaReviewOrder.indexOf(a.kind) - cfaReviewOrder.indexOf(b.kind));
-document.getElementById("cfa-review-list").innerHTML = orderedReviewItems.map(renderReviewItem).join("");
+mountSharedReview("cfa-review-list", "cfa", orderedReviewItems, renderReviewItem);
 
 document.querySelectorAll("[data-savvy-demo]").forEach((demo) => {
   const stage = demo.querySelector("[data-savvy-stage]");

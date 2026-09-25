@@ -37,6 +37,15 @@ const lsatReviewItems = [
     rationale: "Practice is the umbrella destination and Custom Drill clearly identifies a user-built short practice set. By Subject, Tests and Recents describe different ways to browse the existing content, so those tabs stay unchanged.",
   },
   {
+    id: "lsat-lessons-ordering",
+    area: "Lessons · Subject list",
+    title: "Lessons subjects and ordering control",
+    kind: "lessons-ordering",
+    changeType: "Shared component · LSAT values/examples",
+    changes: [["No visible ordering control", "Organise by: LSAT order"], ["Medical ordering choices", "LSAT order / Study plan / Alphabetical"], ["Generic subject examples", "Logical Reasoning / Reading Comprehension"]],
+    rationale: "Lessons uses the shared My Path subject selector and All, High Yield and Bookmarks pills. Keep Subject for LSAT, add the shared Organise by pill ahead of those filters, and populate its values from LSAT structure rather than medical phases. Both 7Sage and LSAT Demon put Logical Reasoning before Reading Comprehension.",
+  },
+  {
     id: "lsat-drill-builder",
     area: "Practice · Create",
     title: "Drill setup screen",
@@ -114,7 +123,7 @@ const lsatReviewItems = [
     title: "Casey tool pills and prompts",
     kind: "casey-home",
     changeType: "Shared component · LSAT values/examples",
-    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "LSAT examples for every tool"], ["Get high-yield notes", "Get study notes"]],
+    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "LSAT examples for every tool"], ["Find high-yield lessons", "Get study notes"]],
     rationale: "Match the CFA review: show every Home pill, preserve the one-tool-at-a-time interaction, and provide concrete LSAT prompts for Upload, Canvas, Flowcharts, Flashcards, Drill, Study Notes, Mnemonics and Weak Areas.",
   },
   {
@@ -202,6 +211,20 @@ function renderPracticeLanding(version) {
     <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Custom Drill" : "Self Assess"}</button></div>
     <div class="practice-segments">${segments.map((item, index) => `<span class="${index === 0 ? "selected" : ""}">${item}</span>`).join("")}</div>
     <div class="lsat-landing-list"><small>SUBJECTS</small><div><i>LR</i><span><strong>Logical Reasoning</strong><em>Questions and topics</em></span><b>›</b></div></div>
+  </div>`;
+}
+
+function renderLessonsOrdering(version) {
+  const proposed = version === "proposed";
+  const subjects = [["LR", "Logical Reasoning", "0/824 lessons"], ["RC", "Reading Comprehension", "0/306 lessons"], ["W", "LSAT Writing", "0/24 lessons"]];
+  return `<div class="component-preview lessons-audit-preview">
+    <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
+    <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
+    <div class="lessons-audit-selector"><span>▤</span><strong>Select Subject</strong><b>›</b></div>
+    <div class="lessons-audit-pills">${proposed ? '<span class="order-pill">LSAT order⌄</span>' : ""}<span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-group">${proposed ? "LSAT curriculum" : "Subjects"}</div>
+    ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
+    ${proposed ? '<div class="lessons-order-menu"><small>ORGANISED BY</small><div><span><strong>LSAT order</strong><em>Logical Reasoning, Reading Comprehension…</em></span><b>✓</b></div><div><span><strong>Study plan</strong><em>Your next recommended skills first</em></span></div><div><span><strong>Alphabetical</strong><em>A to Z</em></span></div></div>' : ""}
   </div>`;
 }
 
@@ -303,11 +326,11 @@ function renderOfficialQuestions(version) {
 
 const lsatCurrentTools = [
   { id: "upload", icon: "▤", title: "Upload your notes", subtitle: "Get Flashcards, Questions and more", special: "upload", suggestions: ["Medical lecture notes", "Clinical notes", "Revision notes"] },
-  { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["Spinal cord", "ECG axis", "Antibiotic ladder"] },
-  { id: "flowcharts", icon: "⌁", title: "Get flowcharts", subtitle: "See how concepts connect", suggestions: ["Cardiac cycle", "Nephron", "Coagulation cascade"] },
+  { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["ECG axis map", "Spinal cord lesions", "Antibiotic ladder"] },
+  { id: "flowcharts", icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", suggestions: ["Cardiac cycle", "Nephron", "Coagulation cascade"] },
   { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Cranial nerves", "Drug of choice", "Vitamins"] },
   { id: "drill", icon: "?", title: "Take a quiz", subtitle: "Improve accuracy and speed", suggestions: ["Pharmacology", "Anatomy", "Pathology"] },
-  { id: "notes", icon: "≡", title: "Get high-yield notes", subtitle: "Focus on exam-relevant points", suggestions: ["Cardiac murmurs", "Antibiotics", "Renal physiology"] },
+  { id: "notes", icon: "≡", title: "Find high-yield lessons", subtitle: "Open exam-focused lessons", suggestions: ["Cardiac murmurs", "Antibiotics", "Renal physiology"] },
   { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough concepts stick", suggestions: ["Cranial nerves", "Drug adverse effects", "Vitamins"] },
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent quizzes", "Subject gaps", "Weak topics"] },
 ];
@@ -400,6 +423,7 @@ function renderFlashcardSearchEmpty(version) {
 function renderPreview(item, version) {
   if (item.kind === "navigation") return renderNavigation(version);
   if (item.kind === "practice-landing") return renderPracticeLanding(version);
+  if (item.kind === "lessons-ordering") return renderLessonsOrdering(version);
   if (item.kind === "drill-builder") return renderDrillBuilder(version);
   if (item.kind === "topic-selection") return renderTopicSelection(version);
   if (item.kind === "by-subject-flow") return renderBySubjectFlow(version);
@@ -429,7 +453,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("lsat-terminology-table").innerHTML = renderTerminologyTable();
-document.getElementById("lsat-review-list").innerHTML = lsatReviewItems.map(renderReviewItem).join("");
+mountSharedReview("lsat-review-list", "lsat", lsatReviewItems, renderReviewItem);
 
 document.querySelectorAll("[data-casey-demo]").forEach((demo) => {
   const stage = demo.querySelector("[data-casey-stage]");
