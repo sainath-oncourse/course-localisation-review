@@ -125,8 +125,8 @@ const lsatReviewItems = [
     title: "Casey tool pills and prompts",
     kind: "casey-home",
     changeType: "Shared component · LSAT values/examples",
-    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "LSAT examples for every tool"], ["Find high-yield lessons", "Get study notes"]],
-    rationale: "Match the CFA review: show every Home pill, preserve the one-tool-at-a-time interaction, and provide concrete LSAT prompts for Upload, Canvas, Flowcharts, Flashcards, Drill, Study Notes, Mnemonics and Weak Areas.",
+    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "LSAT examples for every tool"]],
+    rationale: "Match the CFA review: show every Home pill, preserve the one-tool-at-a-time interaction, and provide concrete LSAT prompts for Upload, Canvas, Flowcharts, Flashcards, Drill, Lessons, Mnemonics and Weak Areas.",
   },
   {
     id: "lsat-casey-widget",
@@ -345,7 +345,7 @@ const lsatCaseyTools = [
   { id: "flowcharts", icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", suggestions: ["Conditional reasoning", "Argument structure", "RC passage map"] },
   { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Common argument flaws", "Conditional indicators", "RC viewpoints"] },
   { id: "drill", icon: "?", title: "Start a drill", subtitle: "Practice a targeted set", suggestions: ["Logical Reasoning", "Reading Comprehension", "My weak question types"] },
-  { id: "notes", icon: "≡", title: "Get study notes", subtitle: "Focus on key LSAT concepts", suggestions: ["Necessary assumptions", "Causal reasoning", "Comparative passages"] },
+  { id: "notes", icon: "≡", title: "Find high-yield lessons", subtitle: "Open exam-focused lessons", suggestions: ["Necessary assumptions", "Causal reasoning", "Comparative passages"] },
   { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough concepts stick", suggestions: ["Logic indicators", "Flaw families", "Question stems"] },
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent drills", "Question-type gaps", "Timing patterns"] },
 ];

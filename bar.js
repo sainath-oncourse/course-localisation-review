@@ -125,7 +125,7 @@ const barReviewItems = [
     title: "BAR tutor tool pills and prompts",
     kind: "rezzy-home",
     changeType: "Shared component · BAR values/examples",
-    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"], ["Find high-yield lessons", "Get high-yield outlines"]],
+    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"]],
     rationale: "Current-code fact: lib/persona/registry.ts maps both LSAT and Bar Exam to Casey. This review does not propose a BAR tutor name; it only changes the tool copy and examples.",
   },
   {
@@ -344,7 +344,7 @@ const barRezzyTools = [
   { id: "flowcharts", icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", suggestions: ["Civil procedure timeline", "Evidence admissibility", "Contract formation"] },
   { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Evidence rules", "Civil procedure deadlines", "Fiduciary duties"] },
   { id: "drill", icon: "?", title: "Start a drill", subtitle: "Practice a targeted set", suggestions: ["Multiple Choice", "Integrated Question Sets", "Performance Tasks"] },
-  { id: "outlines", icon: "≡", title: "Get high-yield outlines", subtitle: "Focus on exam-tested rules", suggestions: ["Negligence elements", "Personal jurisdiction", "Business associations"] },
+  { id: "outlines", icon: "≡", title: "Find high-yield lessons", subtitle: "Open exam-focused lessons", suggestions: ["Negligence elements", "Personal jurisdiction", "Business associations"] },
   { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough rules stick", suggestions: ["Evidence exceptions", "Civil procedure motions", "Contract defenses"] },
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent drills", "Subject gaps", "Question-format gaps"] },
 ];
