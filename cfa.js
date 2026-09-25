@@ -151,7 +151,7 @@ const cfaReviewItems = [
     title: "Reminder suggestions",
     kind: "rezzy-reminders",
     changeType: "Shared component · CFA examples",
-    changes: [["Mock test this Sunday", "Mock exam this Sunday"], ["Read Pharmacology notes", "Read Ethics notes"]],
+    changes: [["Revise flashcards daily", "Review flashcards daily"], ["study, revise, or practise", "study, review, or practice"], ["Mock test this Sunday", "Mock exam this Sunday"], ["Read Pharmacology notes", "Read Ethics notes"]],
     rationale: "Mock Exam is used by all three CFA products. Flashcards and MCQs stay; Pharmacology is replaced by a CFA topic.",
   },
 ];
@@ -429,14 +429,14 @@ const cfaSavvyTools = [
     icon: "?",
     title: "Take a quiz",
     subtitle: "Improve accuracy and speed",
-    suggestions: ["Item sets", "Ethics cases", "Rapid revision"],
+    suggestions: ["Item sets", "Ethics cases", "Rapid review"],
   },
   {
     id: "lessons",
     icon: "≡",
     title: "Find high-yield lessons",
     subtitle: "Open exam-focused lessons",
-    suggestions: ["Fixed income", "Financial statements", "Revision topic"],
+    suggestions: ["Fixed income", "Financial statements", "Review topic"],
   },
   {
     id: "mnemonics",
@@ -517,9 +517,9 @@ function renderRezzyLibrary(version) {
 function renderRezzyReminders(version) {
   const proposed = version === "proposed";
   const reminders = proposed
-    ? ["Revise flashcards daily", "Mock exam this Sunday", "Practice MCQs", "Read Ethics notes"]
+    ? ["Review flashcards daily", "Mock exam this Sunday", "Practice MCQs", "Read Ethics notes"]
     : ["Revise flashcards daily", "Mock test this Sunday", "Practice MCQs", "Read Pharmacology notes"];
-  return `<div class="component-preview rezzy-reminders-preview"><div class="rezzy-gallery-header"><span>‹</span><strong>Reminders</strong><span></span></div><div class="reminder-bell">♢</div><h3>Set your first reminder</h3><p>Ask Savvy to remind you to study, revise, or practise — whenever you need it.</p><button type="button" tabindex="-1">SET A REMINDER</button><small>Try one of these</small><div class="reminder-chips">${reminders.map((item) => `<span>${item}</span>`).join("")}</div></div>`;
+  return `<div class="component-preview rezzy-reminders-preview"><div class="rezzy-gallery-header"><span>‹</span><strong>Reminders</strong><span></span></div><div class="reminder-bell">♢</div><h3>Set your first reminder</h3><p>Ask Savvy to remind you to ${proposed ? "study, review, or practice" : "study, revise, or practise"} — whenever you need it.</p><button type="button" tabindex="-1">SET A REMINDER</button><small>Try one of these</small><div class="reminder-chips">${reminders.map((item) => `<span>${item}</span>`).join("")}</div></div>`;
 }
 
 function renderRezzyFlashcardWidget(version) {
