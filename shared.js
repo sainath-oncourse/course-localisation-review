@@ -8,6 +8,7 @@ const sharedCourses = {
     tutor: "Savvy",
     unit: "Test",
     hierarchy: "area",
+    bySegment: "By Area",
     mock: "Simulated Exam",
     mockShort: "SIMULATED EXAM",
     questionNoun: "questions",
@@ -237,7 +238,7 @@ const sharedRenderers = {
   "tests-empty": (c, v) => {
     const proposed = v === "proposed";
     return `<div class="component-preview sx-screen">
-      <div class="sx-pills"><span>By Subject</span><span class="on">Tests</span><span>Recents</span></div>
+      <div class="sx-pills"><span>${proposed && c.bySegment ? c.bySegment : "By Subject"}</span><span class="on">Tests</span><span>Recents</span></div>
       ${proposed ? "" : `<div class="sx-empty-box sx-bad">No Active Tests Available Today. Please check back tomorrow.</div>`}
       <div class="sx-label">${proposed ? `${c.mock}s` : "Benchmark"}</div>
       <div class="sx-card"><strong>${proposed ? `${c.mock} 1` : "Benchmark 1"}</strong><small>24 Sep · 180 ${proposed ? "questions" : "MCQs"}</small></div>

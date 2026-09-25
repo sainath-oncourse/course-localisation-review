@@ -32,6 +32,7 @@ const icons = {
 const cpaTerms = [
   ["Top curriculum level", "Section", "Section"],
   ["Learning hierarchy", "Section → Unit → Module", "Section → Topic / Subtopic"],
+  ["Level inside a section (AICPA: content area)", "Unit (Becker's own grouping)", "Topic"],
   ["Learning content", "Concept Videos / Digital Textbook", "Video Lectures / Study Guides"],
   ["Practice questions", "MCQs / TBSs", "MCQs / TBSs"],
   ["Question collection", "Practice Questions", "QBank"],
@@ -465,7 +466,7 @@ function renderContentSelection(version) {
       <div class="selection-quick-pills">
         <span class="selected">All</span><span>Weak Topics</span><span>High Yield</span>
       </div>
-      <div class="subject-row"><span class="selection-check">✓</span><span><strong>Auditing and Attestation</strong><small>6 topics</small></span><b>⌃</b></div>
+      <div class="subject-row"><span class="selection-check">✓</span><span><strong>Assessing Risk and Developing a Planned Response</strong><small>6 topics</small></span><b>⌃</b></div>
       <div class="topic-row"><span class="selection-check"></span><span>Ethics and professional responsibilities</span></div>
       <button class="setup-cta" type="button" tabindex="-1">${isProposal ? "START TEST" : "START QUIZ"}</button>
     </div>`;
@@ -478,14 +479,14 @@ function renderRecentTests(version) {
     : ["All", "Paused", "Custom", "Recommended", "Daily", "Weekly"];
   const cards = isProposal
     ? [
-        { title: "Custom Test", subtitle: "Auditing and Attestation", action: "›" },
+        { title: "Custom Test", subtitle: "Assessing Risk and Developing a Planned Response", action: "›" },
         { title: "Recommended Test", subtitle: "Financial Accounting", action: "›" },
-        { title: "Daily Practice Test", subtitle: "Regulation", action: "›" },
+        { title: "Daily Practice Test", subtitle: "Ethics, Professional Responsibilities and General Principles", action: "›" },
       ]
     : [
-        { title: "Custom Quiz", subtitle: "Auditing and Attestation", action: "›" },
+        { title: "Custom Quiz", subtitle: "Assessing Risk and Developing a Planned Response", action: "›" },
         { title: "Recommended Quiz", subtitle: "Financial Accounting", action: "›" },
-        { title: "Daily Practice Quiz", subtitle: "Regulation", action: "›" },
+        { title: "Daily Practice Quiz", subtitle: "Ethics, Professional Responsibilities and General Principles", action: "›" },
       ];
 
   return `
@@ -588,10 +589,10 @@ function renderBySubjectFlow(version) {
           <small>"audit evidence"</small>
           <button type="button" tabindex="-1">${isProposal ? "START TEST" : "START QUIZ"} (30 Qs)</button>
         </div>
-        <div class="mini-subject-row"><i></i><span><strong>Auditing and Attestation</strong><small>142 questions</small></span><b>›</b></div>
+        <div class="mini-subject-row"><i></i><span><strong>Assessing Risk and Developing a Planned Response</strong><small>55 questions</small></span><b>›</b></div>
       </section>
       <section class="mini-app-screen topic-screen-mini">
-        <div class="mini-screen-title">Auditing and Attestation</div>
+        <div class="mini-screen-title">Assessing Risk and Developing a Planned Response</div>
         <div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div>
         <div class="topic-choice selected"><i>✓</i><span>Ethics and responsibilities</span></div>
         <div class="topic-choice selected"><i>✓</i><span>Audit evidence</span></div>
@@ -606,7 +607,7 @@ function renderSearchSavvy(version) {
   return `
     <div class="component-preview search-savvy-preview">
       <div class="search-audit-list">
-        <div><span>⌕</span><strong>${isProposal ? "Search areas" : "Search by Subjects"}</strong><small>Lessons filter sheet · Subjects</small></div>
+        <div><span>⌕</span><strong>${isProposal ? "Search areas" : "Search by Subjects"}</strong><small>Lessons filter sheet · ${isProposal ? "Areas" : "Subjects"}</small></div>
         <div class="unchanged-search"><span>⌕</span><strong>Search questions by keyword…</strong><small>Unchanged</small></div>
       </div>
     </div>`;
@@ -680,7 +681,7 @@ function renderPausedTestPage(version) {
       <div class="paused-page-content">
         <h3>${isProposal ? "Your Test is Paused" : "Your Quiz is Paused"}</h3>
         <p>Questions difficulty adapts to your answers. So you learn optimally.</p>
-        <div class="paused-page-details"><div><strong>Questions</strong><span>11/30</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${isProposal ? "Area" : "Subject"}</strong><span>Auditing and Attestation</span></div></div>
+        <div class="paused-page-details"><div><strong>Questions</strong><span>11/30</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${isProposal ? "Area" : "Subject"}</strong><span>Assessing Risk and Developing a Planned Response</span></div></div>
         <div class="paused-page-features"><span>▤<small>Discuss answers<br />with Savvy</small></span><span>⌁<small>AI weak-spot<br />analysis</small></span><span>Ⅱ<small>Pause &amp;<br />Resume</small></span></div>
       </div>
       <button class="paused-page-cta" type="button" tabindex="-1">${isProposal ? "CONTINUE TEST" : "CONTINUE QUIZ"}</button>
