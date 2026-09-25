@@ -5,7 +5,8 @@
 const sharedCourses = {
   cpa: {
     name: "CPA",
-    notesTool: "Get high-yield notes",
+    notesTool: "Get notes",
+    lessonsTool: "Find lessons",
     tutor: "Savvy",
     unit: "Test",
     hierarchy: "area",
@@ -35,6 +36,7 @@ const sharedCourses = {
   },
   cfa: {
     name: "CFA",
+    lessonsTool: "Find lessons",
     premadeDecks: true,
     bySegment: "By Topic",
     levelPlural: "topics",
@@ -148,7 +150,8 @@ const sharedCourses = {
   },
   nclex: {
     name: "NCLEX",
-    notesTool: "Get high-yield notes",
+    notesTool: "Get notes",
+    lessonsTool: "Find lessons",
     tutor: "Rezzy",
     unit: "Quiz",
     hierarchy: "subject",
@@ -521,7 +524,7 @@ function sharedItemsFor(key) {
     { kind: "daily-plan-pill", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "Home · Today's Plan", title: "Today's Plan activity label", changes: [["PYQs", "Practice Questions"], ["Continue PYQs", "Continue Practice Questions"]], rationale: `Verified in apis/dailyPlan/types.ts:140 and utils/dailyPlan/liveActivity.ts. The label comes from the server's activity type. GET /daily-plan/v2/today already renames “pyqs” to practice_questions outside Indian Medical PG, but Start and time-option changes return plans without the course context, so “pyqs” comes back and ${c.name} sees “PYQs” until the next refresh. Fix on the server (always send practice_questions outside Indian Medical PG) and never label it PYQs in the app for ${c.name}.` },
     { kind: "vibe-followup", courses: ["cpa", "cfa", "lsat", "bar"], area: "Lessons · Exercises", title: "Mood check follow-up", changes: [["Rezzy doctor-coat art (5 of 6 moods)", `${c.tutor} art`], ["…bolus of dopamine… clinical tidbit", `Neutral ${c.name} copy`]], rationale: `Verified in components/notes/exercises/VibeContent.tsx. The mood check appears halfway through lesson exercises. Its images are not persona-aware and its fallback copy is medical; only “Curious” uses ${c.tutor}'s art.` },
     { kind: "readiness-strip", courses: ["cpa", "cfa", "lsat"], area: "Home · Readiness", title: "Readiness strip and plan loader", changes: [["2 of 4 subjects exam ready", `2 of 4 ${c.levelPlural} exam ready`], ["Picking your subjects…", `Picking your ${c.levelPlural}…`]], rationale: `Verified in ProgressionStatusStrip.tsx:175 and dailyPlanStages.ts. Readiness is counted per item in the subject list, which for ${c.name} is ${({ cpa: "the AICPA content areas inside the selected section", cfa: "the CFA Topics of the selected level", lsat: "the LSAT skills (groups of question types)" })[key]}, so the strip should say ${c.levelPlural}, matching the rest of this review.` },
-    { kind: "tutor-home", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} · Home`, title: `${c.tutor} home pills and prompts`, changes: [["Medical prompts under every pill", `${c.name} prompts for every pill`], ...(unit === "Test" ? [["Take a quiz", "Take a test"]] : []), ...(key === "mcat" || key === "nclex" ? [["PYQ practice", "Removed"]] : [])], rationale: `Each pill opens its own prompt sheet. The live API (main) still serves medical defaults such as ECG axis map and Antibiotic ladder. ${key === "mcat" || key === "nclex" ? `No ${c.name} prompt set exists on API main or dev (only bar, cfa, cpa and lsat), and the server fallback includes “PYQ practice” and physician topics such as “STEMI vs NSTEMI”. The ${c.name} prompts shown are proposals and need writing on the API.` : `The ${c.name} prompts shown are the ones already written on API dev (courses/${key}/insights-tool-suggestions), so this only needs releasing.`}` },
+    { kind: "tutor-home", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} · Home`, title: `${c.tutor} home pills and prompts`, changes: [["Medical prompts under every pill", `${c.name} prompts for every pill`], ...(unit === "Test" ? [["Take a quiz", "Take a test"]] : []), ...(key === "mcat" || key === "nclex" ? [["PYQ practice", "Removed"]] : []), ...(c.lessonsTool ? [["Find high-yield lessons", c.lessonsTool]] : [])], rationale: `Each pill opens its own prompt sheet. The live API (main) still serves medical defaults such as ECG axis map and Antibiotic ladder. ${key === "mcat" || key === "nclex" ? `No ${c.name} prompt set exists on API main or dev (only bar, cfa, cpa and lsat), and the server fallback includes “PYQ practice” and physician topics such as “STEMI vs NSTEMI”. The ${c.name} prompts shown are proposals and need writing on the API.` : `The ${c.name} prompts shown are the ones already written on API dev (courses/${key}/insights-tool-suggestions), so this only needs releasing.`}` },
     { kind: "plus-menu", courses: ["cpa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} · Add menu`, title: "“+” menu learning tools", changes: [["Get flowcharts · See how concepts connects", "Learn with Flowcharts · Visualize complex topics easily"], ["Get high-yield notes", c.notesTool || "Get study notes"], ...(unit !== "Quiz" ? [["Take a quiz", unit === "Drill" ? "Start a drill" : "Take a test"]] : [])], rationale: "Verified in components/chat/input/ChatUploadModal.tsx:279-343. The same menu opens from the composer and inside lesson chat. The CFA page already has this card, so the other courses get their own values." },
     { kind: "canvas-empty", courses: ["cpa", "mcat", "nclex"], area: `${c.tutor} drawer · Canvas`, title: "Canvas empty state", changes: [["Medical Canvas suggestions", `${c.name} Canvas suggestions`]], rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx:72-93. The chips are hard-coded medical for every course." },
     { kind: "library-empty", section: "tutor", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} drawer · Library`, title: `From ${c.tutor} library empty state`, changes: [["Medical study-visual suggestions", `${c.name} study-visual suggestions`]], rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx:142-151. The chips are hard-coded medical for every course." },

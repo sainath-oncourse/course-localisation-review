@@ -87,6 +87,7 @@ const reviewItems = [
     changes: [
       { from: "Select Subject", to: "Select Area" },
       { from: "Search across your Subjects", to: "Search across your Areas" },
+      { from: "High Yield (filter pill)", to: "Hide for CPA" },
     ],
     rationale:
       "Verified in components/lessons/myPath/SubjectSelectorBottomSheet. In CPA, a Section is the whole exam part (AUD, FAR, REG, BAR, ISC, TCP) and is chosen with the Home section switcher. This list shows the AICPA Blueprint content areas inside the selected section (e.g. AUD Area I–IV), so “Area” is the accurate term; “Section” would clash with the switcher. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
@@ -131,9 +132,10 @@ const reviewItems = [
     changeType: "Shared component · CPA values",
     changes: [
       { from: "START QUIZ", to: "START TEST" },
+      { from: "High Yield (filter pill)", to: "Hide for CPA" },
     ],
     rationale:
-      "Choose Topics and its search box are accurate for CPA and stay unchanged. Only the start action moves to Test wording. All, Weak Topics and High Yield remain.",
+      "Choose Topics and its search box are accurate for CPA and stay unchanged. Only the start action moves to Test wording. All and Weak Topics remain; High Yield is hidden for CPA.",
   },
   {
     id: "recent-tests",
@@ -181,6 +183,7 @@ const reviewItems = [
       { from: "By Subject", to: "By Area" },
       { from: "START QUIZ (30 Qs)", to: "START TEST (30 Qs)" },
       { from: "START QUIZ (3 topics)", to: "START TEST (3 topics)" },
+      { from: "High Yield (filter pill)", to: "Hide for CPA" },
     ],
     rationale:
       "In CPA, a Section is the whole exam part (AUD, FAR, REG, BAR, ISC, TCP) and is chosen with the Home section switcher. This list shows the AICPA Blueprint content areas inside the selected section (e.g. AUD Area I–IV), so “Area” is the accurate term; “Section” would clash with the switcher. Apply Area and Test as CPA values of the shared component, not a global rename. All and High Yield remain unchanged.",
@@ -248,10 +251,10 @@ const reviewItems = [
     area: "Flashcards · Generate with AI",
     title: "AI generation loading state",
     current: "flashcards.search_loading_text",
-    proposed: "High-yield CPA flashcards",
+    proposed: "Your CPA flashcards",
     changeType: "Shared component · CPA copy",
     changes: [
-      { from: "flashcards.search_loading_text (raw key)", to: "Creating high-yield CPA flashcards for you..." },
+      { from: "flashcards.search_loading_text (raw key)", to: "Creating your CPA flashcards..." },
     ],
     rationale:
       "Verified in app/(app)/snippets/flashcards/create-prompt.tsx:282. The key is missing from the base copy file that CPA uses, so the raw key shows today. The medical wording (topper flashcards, PYQs) must not be copied over.",
@@ -262,13 +265,13 @@ const reviewItems = [
     area: "Flashcards · Search",
     title: "No search results",
     current: "Topper-level flashcards",
-    proposed: "High-yield flashcards",
+    proposed: "Flashcards for any CPA topic",
     changeType: "Shared component · CPA copy",
     changes: [
-      { from: "Generate topper-level flashcards", to: "Generate high-yield flashcards" },
+      { from: "Generate topper-level flashcards", to: "Generate flashcards for any CPA topic" },
     ],
     rationale:
-      "Topper is medical-course language. High Yield is already used elsewhere in the CPA experience and communicates the same value.",
+      "Topper is medical-course language. Becker and UWorld do not use Topper or High Yield inside their products, so the sentence simply names the flashcards.",
   },
 ];
 
@@ -370,7 +373,7 @@ function renderLessonsOrdering(version) {
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>${isProposal ? "Select Area" : "Select Subject"}</strong><b>›</b></div>
-    <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-pills"><span>All</span>${isProposal ? "" : "<span>High Yield</span>"}<span>Bookmarks</span></div>
     <div class="lessons-audit-group">${isProposal ? "AUD content areas" : "All Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
   </div>`;
@@ -464,7 +467,7 @@ function renderContentSelection(version) {
         <span>Search by keyword or browse topics</span>
       </div>
       <div class="selection-quick-pills">
-        <span class="selected">All</span><span>Weak Topics</span><span>High Yield</span>
+        <span class="selected">All</span><span>Weak Topics</span>${isProposal ? "" : "<span>High Yield</span>"}
       </div>
       <div class="subject-row"><span class="selection-check">✓</span><span><strong>Assessing Risk and Developing a Planned Response</strong><small>6 topics</small></span><b>⌃</b></div>
       <div class="topic-row"><span class="selection-check"></span><span>Ethics and professional responsibilities</span></div>
@@ -583,7 +586,7 @@ function renderBySubjectFlow(version) {
       <section class="mini-app-screen">
         <div class="mini-screen-title">${isProposal ? "By Area" : "By Subject"}</div>
         <div class="mini-search">⌕ &nbsp; Search questions by keyword...</div>
-        <div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div>
+        <div class="mini-pills"><span class="active">All</span>${isProposal ? "" : "<span>★ High Yield</span>"}</div>
         <div class="keyword-result">
           <strong>Found 30 questions</strong>
           <small>"audit evidence"</small>
@@ -593,7 +596,7 @@ function renderBySubjectFlow(version) {
       </section>
       <section class="mini-app-screen topic-screen-mini">
         <div class="mini-screen-title">Assessing Risk and Developing a Planned Response</div>
-        <div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div>
+        <div class="mini-pills"><span class="active">All</span>${isProposal ? "" : "<span>★ High Yield</span>"}</div>
         <div class="topic-choice selected"><i>✓</i><span>Ethics and responsibilities</span></div>
         <div class="topic-choice selected"><i>✓</i><span>Audit evidence</span></div>
         <div class="topic-choice selected"><i>✓</i><span>Risk assessment</span></div>
@@ -638,7 +641,7 @@ function renderFlashcardsAiGeneration(version) {
 function renderFlashcardsAiLoading(version) {
   const isProposal = version === "proposed";
   const loadingCopy = isProposal
-    ? "Creating high-yield CPA flashcards for you..."
+    ? "Creating your CPA flashcards..."
     : "flashcards.search_loading_text";
 
   return `
@@ -656,7 +659,7 @@ function renderFlashcardsAiLoading(version) {
 function renderFlashcardsSearchEmpty(version) {
   const isProposal = version === "proposed";
   const supportingCopy = isProposal
-    ? "Oncourse can generate high-yield flashcards for any CPA topic."
+    ? "Oncourse can generate flashcards for any CPA topic."
     : "Oncourse can generate topper-level flashcards for any topic that you like";
 
   return `

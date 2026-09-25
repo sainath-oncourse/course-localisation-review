@@ -35,7 +35,7 @@ const cfaReviewItems = [
     title: "Lessons topic selector",
     kind: "lessons-ordering",
     changeType: "Shared component · CFA values/examples",
-    changes: [["By Subject | Theme", "By Topic | Theme"], ["Select Subject", "Select Topic"], ["Search across your Subjects", "Search across your Topics"], ["Topic 1 · 3 Lessons", "Learning Module 1 · 3 Lessons"]],
+    changes: [["By Subject | Theme", "By Topic | Theme"], ["Select Subject", "Select Topic"], ["Search across your Subjects", "Search across your Topics"], ["Topic 1 · 3 Lessons", "Learning Module 1 · 3 Lessons"], ["High Yield (filter pill)", "Hide for CFA"]],
     rationale: "Verified in app/(app)/(tabs)/lessons.tsx:380, SubjectSelectorBottomSheet and PathTopicCard.tsx:290. CFA Institute and all three CFA products call the top curriculum level a Topic (UWorld “Topics and Learning Modules”, Salt “Topic Reviews”, AnalystPrep “Topic 2 - Quantitative Methods”). The level below is a Learning Module (CFA Institute and UWorld; Salt and AnalystPrep say Reading). The app's own “topic” cards are CFA Learning Modules (e.g. Alternative Investment Features, Methods, and Structures), so they must be renamed too or the screen would read Topic → Topic. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
   },
   {
@@ -53,7 +53,7 @@ const cfaReviewItems = [
     title: "Choose Topics screen",
     kind: "topic-selection",
     changeType: "Shared component · CFA values",
-    changes: [["Choose Topics", "Choose Learning Modules"], ["Search by keyword or browse topics", "Search by keyword or browse learning modules"], ["Weak Topics", "Weak Modules"], ["11 topics", "11 learning modules"]],
+    changes: [["Choose Topics", "Choose Learning Modules"], ["Search by keyword or browse topics", "Search by keyword or browse learning modules"], ["Weak Topics", "Weak Modules"], ["11 topics", "11 learning modules"], ["High Yield (filter pill)", "Hide for CFA"]],
     rationale: "Verified in app/(app)/evaluation/test/setup/subject.tsx. The rows here are CFA Topics that expand into Learning Modules, so the heading, search and counts should use the CFA names. “Weak Modules” is shortened to fit the pill. START QUIZ stays.",
   },
   {
@@ -62,7 +62,7 @@ const cfaReviewItems = [
     title: "Start from a topic or learning module",
     kind: "by-subject",
     changeType: "Shared component · CFA values",
-    changes: [["By Subject", "By Topic"], ["START QUIZ (3 topics)", "START QUIZ (3 modules)"]],
+    changes: [["By Subject", "By Topic"], ["START QUIZ (3 topics)", "START QUIZ (3 modules)"], ["High Yield (filter pill)", "Hide for CFA"]],
     rationale: "Verified in components/evaluation/SubjectsSection.tsx and app/(app)/quiz/subject/[subjectId]. The list is CFA Topics; opening one shows its Learning Modules. Quiz wording stays.",
   },
   {
@@ -239,7 +239,7 @@ function renderTopicSelection(version) {
     <div class="component-preview content-selection-preview">
       <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Choose Learning Modules" : "Choose Topics"}</strong></div>
       <div class="selection-search"><span>⌕</span><span>${proposed ? "Search by keyword or browse learning modules" : "Search by keyword or browse topics"}</span></div>
-      <div class="selection-quick-pills"><span class="selected">All</span><span>${proposed ? "Weak Modules" : "Weak Topics"}</span><span>High Yield</span></div>
+      <div class="selection-quick-pills"><span class="selected">All</span><span>${proposed ? "Weak Modules" : "Weak Topics"}</span>${proposed ? "" : "<span>High Yield</span>"}</div>
       <div class="subject-row"><span class="selection-check">✓</span><span><strong>Quantitative Methods</strong><small>${proposed ? "11 learning modules" : "11 topics"}</small></span><b>⌃</b></div>
       <div class="topic-row"><span class="selection-check"></span><span>The Time Value of Money in Finance</span></div>
       <button class="setup-cta" type="button" tabindex="-1">START QUIZ</button>
@@ -284,8 +284,8 @@ function renderBySubject(version) {
   const proposed = version === "proposed";
   return `
     <div class="component-preview two-screen-preview">
-      <section class="mini-app-screen"><div class="mini-screen-title">${proposed ? "By Topic" : "By Subject"}</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="keyword-result"><strong>Found 30 questions</strong><small>“time value of money”</small><button type="button" tabindex="-1">START QUIZ (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Quantitative Methods</strong><small>355 questions</small></span><b>›</b></div></section>
-      <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Quantitative Methods</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="topic-choice selected"><i>✓</i><span>Rates and returns</span></div><div class="topic-choice selected"><i>✓</i><span>Time value of money</span></div><div class="topic-choice selected"><i>✓</i><span>Statistical measures</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">START QUIZ ${proposed ? "(3 modules)" : "(3 topics)"}</button></section>
+      <section class="mini-app-screen"><div class="mini-screen-title">${proposed ? "By Topic" : "By Subject"}</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span>${proposed ? "" : "<span>★ High Yield</span>"}</div><div class="keyword-result"><strong>Found 30 questions</strong><small>“time value of money”</small><button type="button" tabindex="-1">START QUIZ (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Quantitative Methods</strong><small>355 questions</small></span><b>›</b></div></section>
+      <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Quantitative Methods</div><div class="mini-pills"><span class="active">All</span>${proposed ? "" : "<span>★ High Yield</span>"}</div><div class="topic-choice selected"><i>✓</i><span>Rates and returns</span></div><div class="topic-choice selected"><i>✓</i><span>Time value of money</span></div><div class="topic-choice selected"><i>✓</i><span>Statistical measures</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">START QUIZ ${proposed ? "(3 modules)" : "(3 topics)"}</button></section>
     </div>`;
 }
 
@@ -337,7 +337,7 @@ function renderLessonsOrdering(version) {
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
     <div class="lessons-audit-pills"><span class="${proposed ? "" : ""}">${proposed ? "By Topic" : "By Subject"}</span><span>Theme</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>${proposed ? "Select Topic" : "Select Subject"}</strong><b>›</b></div>
-    <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-pills"><span>All</span>${proposed ? "" : "<span>High Yield</span>"}<span>Bookmarks</span></div>
     <div class="lessons-audit-group">${proposed ? "All Topics" : "All Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
     <div class="lessons-audit-group">Inside Alternative Investments</div>
