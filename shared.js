@@ -5,6 +5,7 @@
 const sharedCourses = {
   cpa: {
     name: "CPA",
+    notesTool: "Get high-yield notes",
     tutor: "Savvy",
     unit: "Test",
     hierarchy: "area",
@@ -64,14 +65,16 @@ const sharedCourses = {
   },
   lsat: {
     name: "LSAT",
+    notesTool: "Get notes",
+    lessonsTool: "Find lessons",
     bySegment: "By Skill",
     levelPlural: "skills",
     levelWord: "Skill",
     tutor: "Casey",
     unit: "Drill",
     hierarchy: "subject",
-    mock: "Practice Test",
-    mockShort: "PRACTICE TEST",
+    mock: "PrepTest",
+    mockShort: "PREPTEST",
     questionNoun: "questions",
     examples: {
       canvas: ["Argument map", "Conditional logic", "Passage map"],
@@ -82,14 +85,15 @@ const sharedCourses = {
       mnemonics: ["Conditional logic", "Reasoning flaws", "Passage structure"],
       weak: ["Recent drills", "Question-type gaps", "Study plan"],
     },
-    reminders: ["Revise flashcards daily", "Practice test this Sunday", "Do a Logical Reasoning drill", "Review Reading Comprehension notes"],
+    reminders: ["Revise flashcards daily", "PrepTest this Sunday", "Do a Logical Reasoning drill", "Review Reading Comprehension notes"],
     shareCopy: "I've been studying for the LSAT with Casey, an AI tutor that explains reasoning and builds drills and flashcards for me.",
-    perksBank: "LSAT question bank – Logical Reasoning, Reading Comprehension and full practice tests",
-    discountBank: "LSAT question bank – Drills and practice tests with explanations",
+    perksBank: "LSAT question bank – Logical Reasoning, Reading Comprehension and full PrepTests",
+    discountBank: "LSAT question bank – Drills and PrepTests with explanations",
   },
   bar: {
     name: "BAR",
-    notesTool: "Get high-yield outlines",
+    notesTool: "Get outlines",
+    lessonsTool: "Find lessons",
     tutor: "Casey",
     unit: "Drill",
     hierarchy: "subject",
@@ -112,6 +116,7 @@ const sharedCourses = {
   },
   mcat: {
     name: "MCAT",
+    notesTool: "Get high-yield notes",
     tutor: "Rezzy",
     unit: "Quiz",
     hierarchy: "subject",
@@ -143,6 +148,7 @@ const sharedCourses = {
   },
   nclex: {
     name: "NCLEX",
+    notesTool: "Get high-yield notes",
     tutor: "Rezzy",
     unit: "Quiz",
     hierarchy: "subject",
@@ -193,7 +199,7 @@ function sharedTools(c, proposed) {
     { icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", key: "flowcharts" },
     { icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", key: "flashcards" },
     { icon: "?", title: quizTitle, subtitle: "Improve accuracy and speed", key: "quiz" },
-    { icon: "≡", title: "Find high-yield lessons", subtitle: "Open exam-focused lessons", key: "lessons" },
+    { icon: "≡", title: proposed && c.lessonsTool ? c.lessonsTool : "Find high-yield lessons", subtitle: "Open exam-focused lessons", key: "lessons" },
     { icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough concepts stick", key: "mnemonics" },
     { icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", key: "weak" },
   ].map((tool) => ({ ...tool, suggestions: tool.key ? ex[tool.key] : [] }));
@@ -517,24 +523,24 @@ function sharedItemsFor(key) {
     { kind: "readiness-strip", courses: ["cpa", "cfa", "lsat"], area: "Home · Readiness", title: "Readiness strip and plan loader", changes: [["2 of 4 subjects exam ready", `2 of 4 ${c.levelPlural} exam ready`], ["Picking your subjects…", `Picking your ${c.levelPlural}…`]], rationale: `Verified in ProgressionStatusStrip.tsx:175 and dailyPlanStages.ts. Readiness is counted per item in the subject list, which for ${c.name} is ${({ cpa: "the AICPA content areas inside the selected section", cfa: "the CFA Topics of the selected level", lsat: "the LSAT skills (groups of question types)" })[key]}, so the strip should say ${c.levelPlural}, matching the rest of this review.` },
     { kind: "tutor-home", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} · Home`, title: `${c.tutor} home pills and prompts`, changes: [["Medical prompts under every pill", `${c.name} prompts for every pill`], ...(unit === "Test" ? [["Take a quiz", "Take a test"]] : []), ...(key === "mcat" || key === "nclex" ? [["PYQ practice", "Removed"]] : [])], rationale: `Each pill opens its own prompt sheet. The live API (main) still serves medical defaults such as ECG axis map and Antibiotic ladder. ${key === "mcat" || key === "nclex" ? `No ${c.name} prompt set exists on API main or dev (only bar, cfa, cpa and lsat), and the server fallback includes “PYQ practice” and physician topics such as “STEMI vs NSTEMI”. The ${c.name} prompts shown are proposals and need writing on the API.` : `The ${c.name} prompts shown are the ones already written on API dev (courses/${key}/insights-tool-suggestions), so this only needs releasing.`}` },
     { kind: "plus-menu", courses: ["cpa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} · Add menu`, title: "“+” menu learning tools", changes: [["Get flowcharts · See how concepts connects", "Learn with Flowcharts · Visualize complex topics easily"], ["Get high-yield notes", c.notesTool || "Get study notes"], ...(unit !== "Quiz" ? [["Take a quiz", unit === "Drill" ? "Start a drill" : "Take a test"]] : [])], rationale: "Verified in components/chat/input/ChatUploadModal.tsx:279-343. The same menu opens from the composer and inside lesson chat. The CFA page already has this card, so the other courses get their own values." },
-    { kind: "canvas-empty", courses: ["cpa", "mcat", "nclex"], area: `${c.tutor} drawer · Canvas`, title: "Canvas empty state", changes: [["Medical Canvas suggestions", "CPA Canvas suggestions"]], rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx:72-93. The chips are hard-coded medical for every course." },
+    { kind: "canvas-empty", courses: ["cpa", "mcat", "nclex"], area: `${c.tutor} drawer · Canvas`, title: "Canvas empty state", changes: [["Medical Canvas suggestions", `${c.name} Canvas suggestions`]], rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx:72-93. The chips are hard-coded medical for every course." },
     { kind: "library-empty", section: "tutor", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} drawer · Library`, title: `From ${c.tutor} library empty state`, changes: [["Medical study-visual suggestions", `${c.name} study-visual suggestions`]], rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx:142-151. The chips are hard-coded medical for every course." },
     { kind: "library-empty", section: "notes", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} drawer · Library`, title: "From My Notes library empty state", changes: [["Medical upload suggestions", `${c.name} upload suggestions`]], rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx:156-165. This is the main way into notes for these courses." },
     { kind: "reminders", courses: ["cpa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} drawer · Reminders`, title: "Reminder suggestions", changes: [["Mock test this Sunday", c.reminders[1]], ["Read Pharmacology notes", c.reminders[3]], ...(c.reminders[2] !== "Practice MCQs" ? [["Practice MCQs", c.reminders[2]]] : [])], rationale: "Verified in components/reminders/RezzyRemindersScreen.tsx:39-44. The chips are hard-coded for every course; Pharmacology is medical." },
     { kind: "quiz-widget", courses: ["cpa"], area: `${c.tutor} · Generated activity`, title: "Generated test widget", changes: [["CUSTOM QUIZ", "CUSTOM TEST"], ["Quiz generated", "Test generated"]], rationale: "Verified in components/chat/tools/RelatedQuiz/index.tsx:35 and ToolRenderer.tsx. LSAT and BAR already have Drill values for this widget." },
     { kind: "chat-history-empty", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} drawer · Chats`, title: "Chat history empty state", changes: [["No rezzy conversations yet.", `No ${c.tutor} chats yet.`], ["No quiz_analysis conversations yet.", "No quiz analysis chats yet."]], rationale: "Verified in components/chat/core/PastChatsDrawerContent.tsx:320. The message is built from internal type names, so it shows “rezzy” and “quiz_analysis” to every course." },
     { kind: "share-message", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} · Chat`, title: "Share an answer", changes: [["quiz.chat_share_pyqs (raw key)", `${c.name} share message`]], rationale: "Verified in components/chat/actions/MessageActions.tsx:111. The key is missing from the base copy file, so the raw key is sent. The medical version mentions an “AI medical resident” and PYQs, so it cannot be reused." },
-    { kind: "flashcard-loading", courses: ["lsat", "mcat", "nclex"], area: "Flashcards · Generate with AI", title: "AI generation loading state", changes: [["flashcards.search_loading_text", "Creating your LSAT flashcards…"]], rationale: "Verified in app/(app)/snippets/flashcards/create-prompt.tsx:282. The key is missing from the base copy file, so every non-medical course sees the raw key." },
+    { kind: "flashcard-loading", courses: ["lsat", "mcat", "nclex"], area: "Flashcards · Generate with AI", title: "AI generation loading state", changes: [["flashcards.search_loading_text", `Creating your ${c.name} flashcards…`]], rationale: "Verified in app/(app)/snippets/flashcards/create-prompt.tsx:282. The key is missing from the base copy file, so every non-medical course sees the raw key." },
     { kind: "flashcard-footer", courses: ["cpa", "lsat", "bar", "mcat", "nclex"], area: "Flashcards · Search results", title: "“Looking for more?” footer", changes: [["topper-level flashcards", `flashcards for any ${c.name} topic`]], rationale: "Verified in components/flashcards/SearchSection/FlashcardList.tsx:183-187. It shows below short result lists (under 20 cards) and repeats the Topper wording of the empty state." },
     { kind: "flashcard-filters", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "Flashcards · Search results", title: "Search result filters", changes: [["By Toppers", c.premadeDecks ? "By Oncourse" : "Remove chip"]], rationale: c.premadeDecks && key !== "cfa" ? `Verified in components/snippets/FlashcardFilters.tsx:23: the chip filters to premade (type: premade) cards. The API has a ${c.name} Anki import pipeline for system decks (scripts/anki-course-import); confirm the ${c.name} decks are live, then keep the chip as By Oncourse, since “Toppers” is Indian medical-exam slang.` : c.premadeDecks ? "Verified in components/snippets/FlashcardFilters.tsx:23: the chip filters to premade (type: premade) cards. CFA has premade decks: the API imported 3,193 owner-authored CFA Level I–III cards to staging on 24 Sep (pending validation). Keep the chip, but “Toppers” is Indian medical-exam slang, so name it By Oncourse." : `Verified in components/snippets/FlashcardFilters.tsx:23: the chip filters to premade (type: premade) cards. There is no premade ${c.name} flashcard import in the API, so the chip would always return nothing. Remove it until premade ${c.name} decks exist; All, By Me and Imported stay.` },
-    { kind: "emoji-picker", courses: ["cpa", "cfa", "lsat", "bar", "mcat"], area: "Flashcards · Save to deck", title: "New deck emoji picker", changes: [["Medical & Clinical Context category", c.name === "LSAT" || c.name === "BAR" ? "Law & Reasoning" : "Finance & Accounting"], ["Preset “Recently used”: 🫁🚑😷💊🩺", "Study emojis, or the user's real recent picks"]], rationale: "Verified in components/flashcards/SearchSection/SaveToDeckBottomSheet.tsx:25-31. “Recently used” is a hard-coded medical preset, not the user's history, and one category is medical." },
+    { kind: "emoji-picker", courses: ["cpa", "cfa", "lsat", "bar", "mcat"], area: "Flashcards · Save to deck", title: "New deck emoji picker", changes: [["Medical & Clinical Context category", c.name === "LSAT" || c.name === "BAR" ? "Law & Reasoning" : c.name === "MCAT" ? "Science & Biology" : "Finance & Accounting"], ["Preset “Recently used”: 🫁🚑😷💊🩺", "Study emojis, or the user's real recent picks"]], rationale: "Verified in components/flashcards/SearchSection/SaveToDeckBottomSheet.tsx:25-31. “Recently used” is a hard-coded medical preset, not the user's history, and one category is medical." },
     { kind: "flashcard-segments", courses: ["cpa", "cfa", "lsat"], area: "Flashcards · Home", title: "Flashcards tab segments", changes: [["By Subject", c.bySegment]], rationale: `Verified in pages/(tabs)/flashcards/index.tsx:395. The first segment lists the same subject list as Quiz and Lessons, which for ${c.name} is ${({ cpa: "AICPA content areas", cfa: "CFA Topics", lsat: "LSAT skills" })[key]}. Themes and My Decks stay.` },
     { kind: "lessons-filter-search", courses: ["cfa", "lsat"], area: "Lessons · Search", title: "Lessons filter search field", changes: [["Subjects (filter tab)", `${c.levelWord}s`], ["Search by Subjects", `Search ${c.levelPlural}`]], rationale: `Verified in components/lessons/FilterBottomSheet/index.tsx:60-64 and :180. The Subjects filter lists ${({ cfa: "CFA Topics", lsat: "LSAT skills" })[key]}, so both the tab and the search box should say ${c.levelWord}s. CPA has its own card for this sheet.` },
-    { kind: "readiness-dimension", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "My Progress · Readiness", title: "Readiness dimensions sheet", changes: [["Using what you know on a clinical vignette.", "Using what you know on an exam-style scenario."]], rationale: "Verified in components/myProgress/ReadinessTab.tsx:71. “Clinical vignette” is medical." },
+    { kind: "readiness-dimension", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "My Progress · Readiness", title: "Readiness dimensions sheet", changes: [["Using what you know on a clinical vignette.", c.applicationText || "Using what you know on an exam-style scenario."]], rationale: "Verified in components/myProgress/ReadinessTab.tsx:71. “Clinical vignette” is medical." },
     { kind: "study-points", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "My Progress · Badges", title: "Study Points activities", changes: key === "mcat" || key === "nclex" ? [["Solve a Clinical Round", "Remove"], ...(key === "nclex" ? [["—", "Play Code Blue"]] : [])] : [["Play Image Rush", "Remove"], ["Solve a Clinical Round", "Remove"], ["—", "Play Medle"], ...(unit !== "Quiz" ? [["Attempt a Quiz", `Attempt a ${unit}`]] : [])], rationale: key === "mcat" || key === "nclex" ? `Verified in StudyPointsInfoModal and lib/games/playVisibility.ts. ${c.name} gets ${c.games}, but not Clinical Rounds, so “Solve a Clinical Round” must go${key === "nclex" ? " and Code Blue should be listed" : ""}.` : `Verified in StudyPointsInfoModal (native and web). Image Rush and Clinical Rounds are hidden for ${c.name}, while Medle, which ${c.name} does get, is missing.` },
     { kind: "profile-avatar", courses: ["cpa", "cfa", "lsat", "bar", "mcat"], area: "Profile", title: "Profile avatar", changes: [["🧑🏻‍⚕️ health-worker emoji", "🧑‍🎓 student emoji"]], rationale: "Verified in ProfileScreen.tsx:260 and ProfileHeader.tsx:27. Every course gets a medical avatar." },
-    { kind: "membership-perks", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "Membership", title: "Your Max perks", changes: [["100k+ question bank – PYQs, mock tests…", c.perksBank], ["40k+ flashcards", "Flashcards"], ["Bloom's mastery, projected rank", "Exam readiness, mastery"]], rationale: `Verified in components/pricing/Membership/index.tsx:36-67 (web too). PYQs, the medical bank sizes and “projected rank” (a NEET-PG idea) do not apply to ${c.name}.` },
-    { kind: "cancel-flow", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "Membership · Cancel flow", title: "Cancel flow features and discount", changes: [["Mini-games (Synapses, Clinical Rounds)", "Mini-games (Synapses, Probe)"], ["100k+ question bank – PYQs, mock tests…", c.discountBank]], rationale: `Verified in app/(app)/cancel-flow/index.tsx:158-176 and 614-702. Clinical Rounds is not available to ${c.name}; PYQs and medical bank sizes are wrong. Separately, the discount button offers Medical PG plans (engineering issue, not copy).` },
+    { kind: "membership-perks", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "Membership", title: "Your Max perks", changes: [["100k+ question bank – PYQs, mock tests…", c.perksBank], ["40k+ flashcards", "Flashcards"], ["Bloom's mastery, projected rank", "Exam readiness, mastery"], ...(c.gamesNow ? [[c.gamesNow, c.games]] : [])], rationale: `Verified in components/pricing/Membership/index.tsx:36-67 (web too). PYQs, the medical bank sizes and “projected rank” (a NEET-PG idea) do not apply to ${c.name}.` },
+    { kind: "cancel-flow", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "Membership · Cancel flow", title: "Cancel flow features and discount", changes: [["Mini-games (Synapses, Clinical Rounds)", `Mini-games (${c.games ? c.games.replace(" & ", ", ") : "Synapses, Probe"})`], ["100k+ question bank – PYQs, mock tests…", c.discountBank]], rationale: `Verified in app/(app)/cancel-flow/index.tsx:158-176 and 614-702. Clinical Rounds is not available to ${c.name}; PYQs and medical bank sizes are wrong. Separately, the discount button offers Medical PG plans (engineering issue, not copy).` },
   ];
   return items
     .filter((item) => item.courses.includes(key))
@@ -713,10 +719,10 @@ function renderCourseStructure(courseKey) {
 const labelCourseNames = {
   cpa: { builder: "Create Test", mocks: "Simulated Exams / Mini Exams", weekly: "Hide for CPA", topperChip: "Remove chip" },
   cfa: { builder: "Create Quiz", mocks: "Mock Exams (remove Mini-Benchmark)", weekly: "Hide for CFA", topperChip: "By Oncourse" },
-  lsat: { builder: "Custom Drill", mocks: "Practice Tests / Mini Practice Tests", weekly: "Hide for LSAT", topperChip: "Remove chip" },
+  lsat: { builder: "Create Drill", mocks: "PrepTests (remove Mini-Benchmark)", weekly: "Hide for LSAT", topperChip: "Remove chip" },
   bar: { builder: "Custom Drill", mocks: "Exam Simulations / Half Section", weekly: "Hide for BAR", topperChip: "Remove chip" },
   mcat: { builder: "Create Quiz", mocks: "Full-Length Exams / Half-Length Exams", weekly: "Hide for MCAT", topperChip: "By Oncourse" },
-  nclex: { builder: "Create Quiz", mocks: "Readiness Assessments / Mini Assessments", weekly: "Hide for NCLEX (pass/fail exam)", topperChip: "By Oncourse" },
+  nclex: { builder: "Create Quiz", mocks: "Readiness Assessments (remove Mini-Benchmark)", weekly: "Hide for NCLEX (pass/fail exam)", topperChip: "By Oncourse" },
 };
 
 const ALL = ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"];

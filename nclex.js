@@ -40,9 +40,9 @@ const nclexItems = [
     id: "nclex-test-filters", course: "nclex", kind: "screen", screenKey: "test-filters", area: "Quiz · Tests", title: "Tests filters and exam names",
     screenTitle: "Tests",
     current: [{ pills: ["All", "Benchmark", "Mini-Benchmark", "My Attempts"], bad: [1, 2], firstOn: true }, { card: "Weekly Score Predictor Test", sub: "Fallback card title", bad: true }, { card: "Your Benchmark Test is Ready", sub: "Ready sheet title", bad: true }],
-    proposed: [{ pills: ["All", "Readiness Assessments", "Mini Assessments", "My Attempts"], hi: [1, 2], firstOn: true }, { card: "Hidden for NCLEX", sub: "NCLEX is pass/fail, there is no score to predict", hi: true }, { card: "Your Readiness Assessment is Ready", sub: "Ready sheet title", hi: true }],
-    changes: [["Benchmark", "Readiness Assessments"], ["Mini-Benchmark", "Mini Assessments"], ["Weekly Score Predictor Test", "Hide for NCLEX"]],
-    rationale: "Verified in TestsSection.tsx:534-536, TodayQuizSection.tsx:40 and QuizReadyBottomSheet.tsx:86-87. Archer calls its test a Readiness Assessment and UWorld calls its tests NCLEX Readiness Assessments. NCLEX is pass/fail, so a score predictor makes no sense.",
+    proposed: [{ pills: ["All", "Readiness Assessments", "My Attempts"], hi: [1], firstOn: true }, { card: "Hidden for NCLEX", sub: "NCLEX is pass/fail, there is no score to predict", hi: true }, { card: "Your Readiness Assessment is Ready", sub: "Ready sheet title", hi: true }],
+    changes: [["Benchmark", "Readiness Assessments"], ["Mini-Benchmark", "Remove for NCLEX"], ["Weekly Score Predictor Test", "Hide for NCLEX"]],
+    rationale: "Verified in TestsSection.tsx:534-536, TodayQuizSection.tsx:40 and QuizReadyBottomSheet.tsx:86-87. Archer calls its test a Readiness Assessment and UWorld calls its tests NCLEX Readiness Assessments. No NCLEX competitor has a mini assessment, so Mini-Benchmark is removed rather than renamed. NCLEX is pass/fail, so a score predictor makes no sense.",
   },
   {
     id: "nclex-case-study", course: "nclex", kind: "screen", area: "Quiz · In quiz", title: "NGN case study screen", where: "Start a quiz with a case study → case screen (chart tabs and header)",

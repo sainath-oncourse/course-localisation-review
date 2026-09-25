@@ -44,7 +44,7 @@ const barReviewItems = [
     title: "Lessons subject list · ordering pending",
     kind: "lessons-ordering",
     changeType: "Shared component · BAR values/examples",
-    changes: [["Ordering filter", "Not decided yet"]],
+    changes: [["Ordering filter", "Not decided yet"], ["High Yield (filter pill)", "Hide for BAR"]],
     layout: "verified",
     rationale: "Verified in components/lessons/myPath (Lessons tab). Subject is already correct for BAR, so no wording change is needed. Ordering filter (Organise by) is not decided yet, so it is not proposed here. This card stays as a placeholder until the ordering options are agreed.",
   },
@@ -63,7 +63,7 @@ const barReviewItems = [
     title: "Choose topics screen",
     kind: "topic-selection",
     changeType: "Shared component · BAR value",
-    changes: [["START QUIZ", "START DRILL"]],
+    changes: [["START QUIZ", "START DRILL"], ["High Yield (filter pill)", "Hide for BAR"]],
     rationale: "The shared topic-selection route currently hard-codes START QUIZ. Make the action course-aware: BAR uses START DRILL, LSAT uses START DRILL, CPA uses START TEST, and CFA keeps START QUIZ. The rest of this BAR screen stays unchanged.",
   },
   {
@@ -72,7 +72,7 @@ const barReviewItems = [
     title: "Start from a subject or topic",
     kind: "by-subject-flow",
     changeType: "Shared component · BAR value",
-    changes: [["START QUIZ", "START DRILL"]],
+    changes: [["START QUIZ", "START DRILL"], ["High Yield (filter pill)", "Hide for BAR"]],
     rationale: "This is the separate direct By Subject route, not the Custom Drill topic-selection screen. By Subject and the BAR hierarchy stay unchanged; both launch actions must use Drill for BAR.",
   },
   {
@@ -125,7 +125,7 @@ const barReviewItems = [
     title: "BAR tutor tool pills and prompts",
     kind: "rezzy-home",
     changeType: "Shared component · BAR values/examples",
-    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"]],
+    changes: [["Take a quiz", "Start a drill"], ["Medical tool examples", "BAR examples for every tool"], ["Find high-yield lessons", "Find lessons"]],
     rationale: "Current-code fact: lib/persona/registry.ts maps both LSAT and Bar Exam to Casey. This review does not propose a BAR tutor name; it only changes the tool copy and examples.",
   },
   {
@@ -179,7 +179,7 @@ const barReviewItems = [
     title: "BAR flashcard examples",
     kind: "flashcards",
     changeType: "Shared component · BAR examples/copy",
-    changes: [["Medical prompt examples", "BAR prompt examples"], ["Missing BAR loading translation", "Building high-yield BAR flashcards"]],
+    changes: [["Medical prompt examples", "BAR prompt examples"], ["Missing BAR loading translation", "Building your BAR flashcards"]],
     rationale: "The current Create action reaches this screen on origin/dev. Its examples are medical, and BAR has no search_loading_text translation, so both the examples and loading line need BAR-specific copy.",
   },
 ];
@@ -223,7 +223,7 @@ function renderLessonsOrdering(version) {
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>Select Subject</strong><b>›</b></div>
-    <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
+    <div class="lessons-audit-pills"><span>All</span>${proposed ? "" : "<span>High Yield</span>"}<span>Bookmarks</span></div>
     <div class="lessons-audit-group">${proposed ? "Bar exam subjects" : "Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
   </div>`;
@@ -250,7 +250,7 @@ function renderTopicSelection(version) {
   return `<div class="component-preview bar-topic-preview">
     <div class="create-test-topline"><span>‹</span><strong>Choose Topics</strong></div>
     <div class="bar-topic-search">⌕ <span>Search by keyword or browse topics</span></div>
-    <div class="bar-topic-quick"><span>□ &nbsp;All</span><span>□ &nbsp;Weak Topics</span><span>□ &nbsp;High Yield</span></div>
+    <div class="bar-topic-quick"><span>□ &nbsp;All</span><span>□ &nbsp;Weak Topics</span>${proposed ? "" : "<span>□ &nbsp;High Yield</span>"}</div>
     <div class="bar-topic-subject"><span><i>✅</i><b>Business Associations</b></span><em>2 TOPICS</em><strong>⌃</strong></div>
     <div class="bar-topic-row"><span>□ &nbsp;All</span></div>
     <div class="bar-topic-row"><span>□ &nbsp;Agency and authority</span></div>
@@ -283,8 +283,8 @@ function renderReadySheet(version) {
 function renderBySubjectFlow(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview two-screen-preview">
-    <section class="mini-app-screen"><div class="mini-screen-title">By Subject</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="keyword-result"><strong>Found 30 questions</strong><small>“apparent authority”</small><button type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Business Associations</strong><small>Questions and topics</small></span><b>›</b></div></section>
-    <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Business Associations</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="topic-choice selected"><i>✓</i><span>Agency and authority</span></div><div class="topic-choice selected"><i>✓</i><span>Corporations</span></div><div class="topic-choice selected"><i>✓</i><span>Fiduciary duties</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (3 topics)</button></section>
+    <section class="mini-app-screen"><div class="mini-screen-title">By Subject</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span>${proposed ? "" : "<span>★ High Yield</span>"}</div><div class="keyword-result"><strong>Found 30 questions</strong><small>“apparent authority”</small><button type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Business Associations</strong><small>Questions and topics</small></span><b>›</b></div></section>
+    <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Business Associations</div><div class="mini-pills"><span class="active">All</span>${proposed ? "" : "<span>★ High Yield</span>"}</div><div class="topic-choice selected"><i>✓</i><span>Agency and authority</span></div><div class="topic-choice selected"><i>✓</i><span>Corporations</span></div><div class="topic-choice selected"><i>✓</i><span>Fiduciary duties</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (3 topics)</button></section>
   </div>`;
 }
 
@@ -344,7 +344,7 @@ const barRezzyTools = [
   { id: "flowcharts", icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", suggestions: ["Civil procedure timeline", "Evidence admissibility", "Contract formation"] },
   { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Evidence rules", "Civil procedure deadlines", "Fiduciary duties"] },
   { id: "drill", icon: "?", title: "Start a drill", subtitle: "Practice a targeted set", suggestions: ["Multiple Choice", "Integrated Question Sets", "Performance Tasks"] },
-  { id: "outlines", icon: "≡", title: "Find high-yield lessons", subtitle: "Open exam-focused lessons", suggestions: ["Negligence elements", "Personal jurisdiction", "Business associations"] },
+  { id: "outlines", icon: "≡", title: "Find lessons", subtitle: "Open exam-focused lessons", suggestions: ["Negligence elements", "Personal jurisdiction", "Business associations"] },
   { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough rules stick", suggestions: ["Evidence exceptions", "Civil procedure motions", "Contract defenses"] },
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent drills", "Subject gaps", "Question-format gaps"] },
 ];
@@ -420,7 +420,7 @@ function renderFlashcardsSearchEmpty(version) {
 function renderFlashcards(version) {
   const proposed = version === "proposed";
   const examples = proposed ? [["Civil Procedure", 8], ["Business Associations", 10], ["Evidence Rules", 8]] : [["Urea Cycle", 8], ["Cardiac Potentials", 10], ["Conduction System of Heart", 2]];
-  return `<div class="component-preview flashcard-phone-frame flashcard-ai-preview bar-flashcard-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcard-plain-header"><span>‹</span><strong>Generate Flashcards with AI</strong></div><div class="flashcard-screen-body"><label>Describe the flashcards you want in detail</label><div class="flashcard-prompt-field">Enter a prompt</div><label>Examples of what others are making</label><div class="flashcard-smart-pills">${examples.map(([title, count]) => `<span><strong>${title}</strong><small>${count} Cards</small></span>`).join("")}</div><div class="bar-loading-copy"><span class="bar-loading-spark">✦</span><span><strong>Crafting your flashcards</strong><small>${proposed ? "Building high-yield BAR flashcards" : "flashcards.search_loading_text"}</small></span></div><button class="flashcard-disabled-cta" type="button" tabindex="-1">MAKE ME FLASHCARDS</button></div></div>`;
+  return `<div class="component-preview flashcard-phone-frame flashcard-ai-preview bar-flashcard-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcard-plain-header"><span>‹</span><strong>Generate Flashcards with AI</strong></div><div class="flashcard-screen-body"><label>Describe the flashcards you want in detail</label><div class="flashcard-prompt-field">Enter a prompt</div><label>Examples of what others are making</label><div class="flashcard-smart-pills">${examples.map(([title, count]) => `<span><strong>${title}</strong><small>${count} Cards</small></span>`).join("")}</div><div class="bar-loading-copy"><span class="bar-loading-spark">✦</span><span><strong>Crafting your flashcards</strong><small>${proposed ? "Building your BAR flashcards" : "flashcards.search_loading_text"}</small></span></div><button class="flashcard-disabled-cta" type="button" tabindex="-1">MAKE ME FLASHCARDS</button></div></div>`;
 }
 
 function renderPreview(item, version) {
