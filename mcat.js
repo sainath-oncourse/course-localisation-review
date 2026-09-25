@@ -45,22 +45,6 @@ const mcatItems = [
     rationale: "Verified in TestsSection.tsx:534-536 and QuizReadyBottomSheet.tsx:86-87. Benchmark is Oncourse's Indian-PG test name. AAMC and Blueprint say Full-Length (students say “FL”); Blueprint's shorter exam is half-length.",
   },
   {
-    id: "mcat-passage-reader", course: "mcat", kind: "screen", area: "Quiz · In quiz", title: "Passage set reader", where: "Start any quiz with a passage set → passage screen before the questions",
-    screenTitle: "Passage",
-    current: [{ h: "Passages A and B", bad: true }, { p: "Passage text… plus Table 1" }, { card: "5 questions", sub: "START QUESTIONS" }, { card: "FINISH PASSAGE", sub: "Footer on the last question" }],
-    proposed: [{ h: "Passage", hi: true }, { p: "Passage text… plus Table 1" }, { card: "Questions 1–5 refer to this passage", sub: "START QUESTIONS", hi: true }, { card: "FINISH PASSAGE", sub: "Footer on the last question" }],
-    changes: [["Passages A and B (any passage with a table or figure)", "Passage"], ["5 questions", "Questions 1–5 refer to this passage"]],
-    rationale: "Verified in formats/ReadingPassageShell.tsx:116-117. MCAT passages use the LSAT passage reader, which titles any passage with more than one exhibit “Passages A and B” (LSAT comparative reading). UWorld labels MCAT sets “Questions 1-6 refer to the passage below”.",
-  },
-  {
-    id: "mcat-review-scoring", course: "mcat", kind: "screen", area: "Quiz · Results", title: "Answer review: passage groups", where: "Finish a quiz → Report card → “Review all answers”",
-    screenTitle: "Explanations",
-    current: [{ card: "Reading passage 3", sub: "5 questions · scored as one question", bad: true }, { pills: ["Passage(s) (1)"] }, { card: "Case 3 · Exhibits", sub: "Exhibits modal title", bad: true }],
-    proposed: [{ card: "Passage 3", sub: "5 questions", hi: true }, { pills: ["Passage (1)"] }, { card: "Passage 3", sub: "Passage modal title", hi: true }],
-    changes: [["Reading passage 3 · 5 questions · scored as one question", "Passage 3 · 5 questions"], ["Case 3 · Exhibits", "Passage 3"]],
-    rationale: "Verified in result/explanation-list.tsx:182-199 and :842. Every MCAT passage question is scored separately, so “scored as one question” is wrong, and “Reading passage”/“Case · Exhibits” are LSAT and case-study wording.",
-  },
-  {
     id: "mcat-report-copy", course: "mcat", kind: "screen", area: "Quiz · Results", title: "Report card wording", where: "Finish a quiz → Report card → miss-pattern and confidence cards",
     screenTitle: "Report card",
     current: [{ card: "You picked · First-line answer", sub: "Miss-pattern card", bad: true }, { card: "Went your way · Cost you marks", sub: "Confidence card", bad: true }, { pills: ["By difficulty", "By subject", "Practise next"], bad: [2] }],
