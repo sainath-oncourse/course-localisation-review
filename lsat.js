@@ -1,7 +1,9 @@
 const lsatTerms = [
   ["Main learning area", "Study Plan / Lesson Library", "Lessons / Skills"],
   ["Curriculum areas", "Foundations / Logical Reasoning / Reading Comprehension", "Logical Reasoning / Reading Comprehension"],
-  ["Curriculum hierarchy", "Category → Module → Lesson", "Skills / Lessons"],
+  ["Curriculum hierarchy", "Unit → Module → Lesson", "Unit → Skill → Lesson"],
+  ["Groups of question types", "Module (e.g. “Conditional and Set Logic”)", "Skill (Skills tab: Unit / Skill / Questions)"],
+  ["Individual question types", "Question types (“We track 22 question types”)", "Question Types (dashboard tab)"],
   ["Practice umbrella", "Practice", "Practice"],
   ["Short custom practice", "Drill", "Drill"],
   ["Complete LR or RC block", "Section", "Section"],
@@ -33,18 +35,17 @@ const lsatReviewItems = [
     title: "Practice landing screen",
     kind: "practice-landing",
     changeType: "Shared component · LSAT values",
-    changes: [["Quiz", "Practice"], ["Self Assess", "Custom Drill"]],
-    rationale: "Practice is the umbrella destination and Custom Drill clearly identifies a user-built short practice set. By Subject, Tests and Recents describe different ways to browse the existing content, so those tabs stay unchanged.",
+    changes: [["Quiz", "Practice"], ["Self Assess", "Custom Drill"], ["By Subject", "By Skill"]],
+    rationale: "Practice is the umbrella destination and Custom Drill clearly identifies a user-built short practice set. The LSAT has no subjects. This list is groups of related question types (e.g. Assumptions and flaws → Flaw in the Reasoning, Necessary Assumption). LSAC describes what the test measures as “skills” (“Detecting assumptions…”, “Identifying flaws in arguments”) and LSAT Demon's lessons have a Skills tab (columns Unit / Skill / Questions). 7Sage calls its equivalent groups modules. Topic stays for the level below, and Section stays reserved for a full LR or RC block. Tests and Recents stay unchanged.",
   },
   {
     id: "lsat-lessons-ordering",
-    area: "Lessons · Subject list",
-    title: "Lessons subject list · ordering pending",
+    area: "Lessons · Skill list",
+    title: "Lessons skill selector",
     kind: "lessons-ordering",
     changeType: "Shared component · LSAT values/examples",
-    changes: [["Ordering filter", "Not decided yet"]],
-    layout: "verified",
-    rationale: "Verified in components/lessons/myPath (Lessons tab). Subject is already correct for LSAT, so no wording change is needed. Ordering filter (Organise by) is not decided yet, so it is not proposed here. This card stays as a placeholder until the ordering options are agreed.",
+    changes: [["By Subject | Theme", "By Skill | Theme"], ["Select Subject", "Select Skill"], ["Search across your Subjects", "Search across your Skills"], ["All Subjects", "All Skills"]],
+    rationale: "Verified in app/(app)/(tabs)/lessons.tsx:380 and SubjectSelectorBottomSheet. The LSAT has no subjects. This list is groups of related question types (e.g. Assumptions and flaws → Flaw in the Reasoning, Necessary Assumption). LSAC describes what the test measures as “skills” (“Detecting assumptions…”, “Identifying flaws in arguments”) and LSAT Demon's lessons have a Skills tab (columns Unit / Skill / Questions). 7Sage calls its equivalent groups modules. Topic stays for the level below, and Section stays reserved for a full LR or RC block. “Topic 1 · 5 Lessons” stays unchanged. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
   },
   {
     id: "lsat-drill-builder",
@@ -52,7 +53,7 @@ const lsatReviewItems = [
     title: "Drill setup screen",
     kind: "drill-builder",
     changeType: "Shared component · LSAT values",
-    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["Image Based", "Remove for LSAT"]],
+    changes: [["Create a Self-Assessment", "Custom Drill"], ["Choose the mode of quiz", "Choose a drill mode"], ["Image Based", "Remove for LSAT"], ["Subjects and tags", "Skills and tags"]],
     rationale: "Verified in app/(app)/evaluation/test/setup/mode.tsx. Keep the current Number of questions, Filters, Question Type and CHOOSE TOPICS controls. Image Based is a generic medical-bank filter and should be hidden for LSAT.",
   },
   {
@@ -62,16 +63,16 @@ const lsatReviewItems = [
     kind: "topic-selection",
     changeType: "Shared component · LSAT value",
     changes: [["START QUIZ", "START DRILL"]],
-    rationale: "The shared topic-selection route currently hard-codes START QUIZ. Make the action course-aware: LSAT and BAR use START DRILL, CPA uses START TEST, and CFA keeps START QUIZ. The search, filters, subjects and topics stay unchanged.",
+    rationale: "The shared topic-selection route currently hard-codes START QUIZ. Make the action course-aware: LSAT and BAR use START DRILL, CPA uses START TEST, and CFA keeps START QUIZ. Choose Topics, its search and the topic rows stay unchanged; each row group is a skill.",
   },
   {
     id: "lsat-by-subject-flow",
-    area: "Practice · By Subject",
-    title: "Start from a subject or topic",
+    area: "Practice · By Skill",
+    title: "Start from a skill or topic",
     kind: "by-subject-flow",
-    changeType: "Shared component · LSAT value",
-    changes: [["START QUIZ", "START DRILL"]],
-    rationale: "This is the separate direct By Subject route, not the Custom Drill topic-selection screen. By Subject and the LSAT hierarchy stay unchanged; both launch actions must use Drill for LSAT.",
+    changeType: "Shared component · LSAT values",
+    changes: [["By Subject", "By Skill"], ["START QUIZ", "START DRILL"]],
+    rationale: "This is the direct By Subject route, not the Custom Drill topic-selection screen. The list is LSAT skills (groups of question types) and each opens its topics. Both launch actions must use Drill for LSAT.",
   },
   {
     id: "lsat-test-types",
@@ -106,7 +107,7 @@ const lsatReviewItems = [
     title: "Drill ready sheet states",
     kind: "ready-sheet",
     changeType: "Shared component · LSAT values",
-    changes: [["Your Quiz is Ready", "Your Drill is Ready"], ["START QUIZ", "START DRILL"], ["Your Quiz is Ready · paused", "Resume Your Drill"], ["RESUME QUIZ", "RESUME DRILL"]],
+    changes: [["Your Quiz is Ready", "Your Drill is Ready"], ["START QUIZ", "START DRILL"], ["Your Quiz is Ready · paused", "Resume Your Drill"], ["RESUME QUIZ", "RESUME DRILL"], ["Subject · 3 Topics", "Skill · 3 Topics"]],
     rationale: "The title and action should match the activity being created or resumed. A Section or Practice Test should use its own name in the same reusable component.",
   },
   {
@@ -115,7 +116,7 @@ const lsatReviewItems = [
     title: "Paused drill page",
     kind: "paused-page",
     changeType: "Shared component · LSAT values",
-    changes: [["Your Quiz is Paused", "Resume Your Drill"], ["CONTINUE QUIZ", "CONTINUE DRILL"]],
+    changes: [["Your Quiz is Paused", "Resume Your Drill"], ["CONTINUE QUIZ", "CONTINUE DRILL"], ["Subject", "Skill"]],
     rationale: "The full-page continuation state uses the same shared activity noun. For an LSAT drill it must say Drill; sections and practice tests should inherit their own activity name.",
   },
   {
@@ -206,25 +207,28 @@ function renderNavigation(version) {
 
 function renderPracticeLanding(version) {
   const proposed = version === "proposed";
-  const segments = ["By Subject", "Tests", "Recents"];
+  const segments = [proposed ? "By Skill" : "By Subject", "Tests", "Recents"];
   return `<div class="component-preview practice-shell-preview">
     <div class="practice-shell-header"><div class="practice-shell-icon">?</div><strong>${proposed ? "Practice" : "Quiz"}</strong></div>
     <div class="practice-actions"><button type="button" tabindex="-1"><span>☆</span> Bookmarked</button><button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Custom Drill" : "Self Assess"}</button></div>
     <div class="practice-segments">${segments.map((item, index) => `<span class="${index === 0 ? "selected" : ""}">${item}</span>`).join("")}</div>
-    <div class="lsat-landing-list"><small>SUBJECTS</small><div><i>LR</i><span><strong>Logical Reasoning</strong><em>Questions and topics</em></span><b>›</b></div></div>
+    <div class="lsat-landing-list"><small>${proposed ? "SKILLS" : "SUBJECTS"}</small><div><i>AF</i><span><strong>Assumptions and flaws</strong><em>84 Questions</em></span><b>›</b></div></div>
   </div>`;
 }
 
 function renderLessonsOrdering(version) {
   const proposed = version === "proposed";
-  const subjects = [["LR", "Logical Reasoning", "0/824 lessons"], ["RC", "Reading Comprehension", "0/306 lessons"], ["W", "LSAT Writing", "0/24 lessons"]];
+  const skills = [["AF", "Assumptions and flaws", "0/13 lessons"], ["CF", "Conditional and Formal Logic", "0/11 lessons"], ["DI", "Drawing inferences from text", "0/9 lessons"]];
   return `<div class="component-preview lessons-audit-preview">
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
-    <div class="lessons-audit-selector"><span>▤</span><strong>Select Subject</strong><b>›</b></div>
+    <div class="lessons-audit-pills"><span>${proposed ? "By Skill" : "By Subject"}</span><span>Theme</span></div>
+    <div class="lessons-audit-selector"><span>▤</span><strong>${proposed ? "Select Skill" : "Select Subject"}</strong><b>›</b></div>
     <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
-    <div class="lessons-audit-group">${proposed ? "LSAT curriculum" : "Subjects"}</div>
-    ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
+    <div class="lessons-audit-group">${proposed ? "All Skills" : "All Subjects"}</div>
+    ${skills.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
+    <div class="lessons-audit-group">Inside Assumptions and flaws</div>
+    <div class="lessons-audit-card"><i>1</i><span><strong>Flaw in the Reasoning</strong><small>Topic 1 · 5 Lessons</small></span><b>▶</b></div>
   </div>`;
 }
 
@@ -238,7 +242,7 @@ function renderDrillBuilder(version) {
     <p class="create-test-prompt">${proposed ? "Choose a drill mode" : "Choose the mode of quiz"}</p>
     <div class="mode-options"><div class="mode-option selected-mode"><span class="mode-radio"></span><span><strong>Practice Mode</strong><small>Learn as you go</small></span></div><div class="mode-option"><span class="mode-radio"></span><span><strong>Exam Mode</strong><small>Just like an exam</small></span></div></div>
     <div class="setup-label">Number of questions</div><div class="bar-number-select"><span>10</span><b>⌄</b></div>
-    <div class="setup-label">Filters</div><div class="bar-filter-row"><span>Subjects and tags</span><b>⌄</b></div>
+    <div class="setup-label">Filters</div><div class="bar-filter-row"><span>${proposed ? "Skills and tags" : "Subjects and tags"}</span><b>⌄</b></div>
     <div class="setup-label">Question Type</div><div class="setup-pills bar-question-pills">${questionFilters.map((label, index) => `<span class="${index === 0 ? "active-pill" : ""}">${label}</span>`).join("")}</div>
     <button class="setup-cta" type="button" tabindex="-1">CHOOSE TOPICS</button>
   </div>`;
@@ -250,10 +254,10 @@ function renderTopicSelection(version) {
     <div class="create-test-topline"><span>‹</span><strong>Choose Topics</strong></div>
     <div class="bar-topic-search">⌕ <span>Search by keyword or browse topics</span></div>
     <div class="bar-topic-quick"><span>□ &nbsp;All</span><span>□ &nbsp;Weak Topics</span><span>□ &nbsp;High Yield</span></div>
-    <div class="bar-topic-subject"><span><i>✅</i><b>Logical Reasoning</b></span><em>2 TOPICS</em><strong>⌃</strong></div>
+    <div class="bar-topic-subject"><span><i>✅</i><b>Assumptions and flaws</b></span><em>2 TOPICS</em><strong>⌃</strong></div>
     <div class="bar-topic-row"><span>□ &nbsp;All</span></div>
     <div class="bar-topic-row"><span>□ &nbsp;Necessary Assumption</span></div>
-    <div class="bar-topic-row"><span>□ &nbsp;Flaw</span></div>
+    <div class="bar-topic-row"><span>□ &nbsp;Flaw in the Reasoning</span></div>
     <button class="setup-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"}</button>
   </div>`;
 }
@@ -298,20 +302,20 @@ function renderReadySheet(version) {
     { label: "New", title: proposed ? "Your Drill is Ready" : "Your Quiz is Ready", action: proposed ? "START DRILL" : "START QUIZ" },
     { label: "Paused", title: proposed ? "Resume Your Drill" : "Your Quiz is Ready", action: proposed ? "RESUME DRILL" : "RESUME QUIZ" },
   ];
-  return `<div class="component-preview resume-states-preview">${states.map((state) => `<section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.label === "New" ? "Create flow" : "Practice history"}</span></div><div class="phone-stage"><div class="ghost-app-content"><span class="ghost-app-title"></span><span class="ghost-app-card"></span><span class="ghost-app-card short"></span></div><div class="stage-dim"></div><div class="real-bottom-sheet"><div class="real-sheet-grabber"></div><button class="real-sheet-close" type="button" tabindex="-1">×</button><div class="real-sheet-header"><h3>${state.title}</h3><p>Review question types, difficulty and timing before you begin.</p></div><div class="real-detail-list"><div><strong>Questions</strong><span>10</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>Area</strong><span>Logical Reasoning<br><small>3 Question Types</small></span></div></div><button class="real-sheet-action" type="button" tabindex="-1">${state.action}</button></div></div></section>`).join("")}</div>`;
+  return `<div class="component-preview resume-states-preview">${states.map((state) => `<section class="sheet-state-demo"><div class="state-heading"><strong>${state.label}</strong><span>${state.label === "New" ? "Create flow" : "Practice history"}</span></div><div class="phone-stage"><div class="ghost-app-content"><span class="ghost-app-title"></span><span class="ghost-app-card"></span><span class="ghost-app-card short"></span></div><div class="stage-dim"></div><div class="real-bottom-sheet"><div class="real-sheet-grabber"></div><button class="real-sheet-close" type="button" tabindex="-1">×</button><div class="real-sheet-header"><h3>${state.title}</h3><p>Review question types, difficulty and timing before you begin.</p></div><div class="real-detail-list"><div><strong>Questions</strong><span>10</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${version === "proposed" ? "Skill" : "Subject"}</strong><span>Assumptions and flaws<br><small>3 Topics</small></span></div></div><button class="real-sheet-action" type="button" tabindex="-1">${state.action}</button></div></div></section>`).join("")}</div>`;
 }
 
 function renderBySubjectFlow(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview two-screen-preview">
-    <section class="mini-app-screen"><div class="mini-screen-title">By Subject</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="keyword-result"><strong>Found 30 questions</strong><small>“conditional reasoning”</small><button type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Logical Reasoning</strong><small>Question types and topics</small></span><b>›</b></div></section>
-    <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Logical Reasoning</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="topic-choice selected"><i>✓</i><span>Necessary Assumption</span></div><div class="topic-choice selected"><i>✓</i><span>Strengthen</span></div><div class="topic-choice selected"><i>✓</i><span>Flaw</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (3 topics)</button></section>
+    <section class="mini-app-screen"><div class="mini-screen-title">${proposed ? "By Skill" : "By Subject"}</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="keyword-result"><strong>Found 30 questions</strong><small>“conditional reasoning”</small><button type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Assumptions and flaws</strong><small>84 questions</small></span><b>›</b></div></section>
+    <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Assumptions and flaws</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="topic-choice selected"><i>✓</i><span>Necessary Assumption</span></div><div class="topic-choice selected"><i>✓</i><span>Sufficient Assumption</span></div><div class="topic-choice selected"><i>✓</i><span>Flaw in the Reasoning</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">${proposed ? "START DRILL" : "START QUIZ"} (3 topics)</button></section>
   </div>`;
 }
 
 function renderPausedPage(version) {
   const proposed = version === "proposed";
-  return `<div class="component-preview paused-page-preview"><span class="page-back">‹</span><div class="paused-page-content"><h3>${proposed ? "Resume Your Drill" : "Your Quiz is Paused"}</h3><p>Questions difficulty adapts to your answers. So you learn optimally.</p><div class="paused-page-details"><div><strong>Questions</strong><span>11/20</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>Subject</strong><span>Logical Reasoning</span></div></div><div class="paused-page-features"><span>▤<small>Discuss answers<br />with Casey</small></span><span>⌁<small>AI weak-spot<br />analysis</small></span><span>Ⅱ<small>Pause &amp;<br />Resume</small></span></div></div><button class="paused-page-cta" type="button" tabindex="-1">${proposed ? "CONTINUE DRILL" : "CONTINUE QUIZ"}</button></div>`;
+  return `<div class="component-preview paused-page-preview"><span class="page-back">‹</span><div class="paused-page-content"><h3>${proposed ? "Resume Your Drill" : "Your Quiz is Paused"}</h3><p>Questions difficulty adapts to your answers. So you learn optimally.</p><div class="paused-page-details"><div><strong>Questions</strong><span>11/20</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${proposed ? "Skill" : "Subject"}</strong><span>Assumptions and flaws</span></div></div><div class="paused-page-features"><span>▤<small>Discuss answers<br />with Casey</small></span><span>⌁<small>AI weak-spot<br />analysis</small></span><span>Ⅱ<small>Pause &amp;<br />Resume</small></span></div></div><button class="paused-page-cta" type="button" tabindex="-1">${proposed ? "CONTINUE DRILL" : "CONTINUE QUIZ"}</button></div>`;
 }
 
 function renderOfficialQuestions(version) {
