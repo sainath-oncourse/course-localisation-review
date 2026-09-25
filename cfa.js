@@ -26,8 +26,8 @@ const cfaReviewItems = [
     title: "Quiz landing screen",
     kind: "practice-shell",
     changeType: "Shared component · CFA values",
-    changes: [["Self Assess", "Create Quiz"]],
-    rationale: "Create Quiz is established CFA-product language. By Subject can stay: UWorld explicitly organizes CFA practice by subject and topic, so Oncourse's existing Subject → Topic → Lesson structure is suitable for CFA.",
+    changes: [["Self Assess", "Create Quiz"], ["By Subject", "By Topic"]],
+    rationale: "Create Quiz is established CFA-product language. CFA Institute and all three CFA products call the top curriculum level a Topic (UWorld “Topics and Learning Modules”, Salt “Topic Reviews”, AnalystPrep “Topic 2 - Quantitative Methods”). The level below is a Learning Module (CFA Institute and UWorld; Salt and AnalystPrep say Reading).",
   },
   {
     id: "cfa-lessons-ordering",
@@ -35,8 +35,8 @@ const cfaReviewItems = [
     title: "Lessons topic selector",
     kind: "lessons-ordering",
     changeType: "Shared component · CFA values/examples",
-    changes: [["Select Subject", "Select Topic"], ["Search across your Subjects", "Search across CFA topics"]],
-    rationale: "Verified in components/lessons/myPath/SubjectSelectorBottomSheet. The shared Lessons selector says Subject for every course; all three CFA products call this level Topic. Open decision: CFA Quiz cards still keep By Subject, so Subject vs Topic must be chosen once for the whole course. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
+    changes: [["By Subject | Theme", "By Topic | Theme"], ["Select Subject", "Select Topic"], ["Search across your Subjects", "Search across your Topics"], ["Topic 1 · 3 Lessons", "Learning Module 1 · 3 Lessons"]],
+    rationale: "Verified in app/(app)/(tabs)/lessons.tsx:380, SubjectSelectorBottomSheet and PathTopicCard.tsx:290. CFA Institute and all three CFA products call the top curriculum level a Topic (UWorld “Topics and Learning Modules”, Salt “Topic Reviews”, AnalystPrep “Topic 2 - Quantitative Methods”). The level below is a Learning Module (CFA Institute and UWorld; Salt and AnalystPrep say Reading). The app's own “topic” cards are CFA Learning Modules (e.g. Alternative Investment Features, Methods, and Structures), so they must be renamed too or the screen would read Topic → Topic. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
   },
   {
     id: "cfa-quiz-setup",
@@ -44,8 +44,26 @@ const cfaReviewItems = [
     title: "Quiz setup screen",
     kind: "test-setup",
     changeType: "Shared component · CFA values",
-    changes: [["Create a Self-Assessment", "Create Quiz"], ["Choose the mode of quiz", "Choose a quiz mode"], ["Image Based", "Remove for CFA"]],
+    changes: [["Create a Self-Assessment", "Create Quiz"], ["Choose the mode of quiz", "Choose a quiz mode"], ["Image Based", "Remove for CFA"], ["CHOOSE TOPICS", "CHOOSE LEARNING MODULES"]],
     rationale: "Create Quiz is used by AnalystPrep and matches the preceding CTA. Keep the real Practice Mode, Exam Mode, Number of questions and Question Type controls. Hide Image Based unless CFA question metadata genuinely supports it.",
+  },
+  {
+    id: "cfa-topic-selection",
+    area: "Quiz · Create",
+    title: "Choose Topics screen",
+    kind: "topic-selection",
+    changeType: "Shared component · CFA values",
+    changes: [["Choose Topics", "Choose Learning Modules"], ["Search by keyword or browse topics", "Search by keyword or browse learning modules"], ["Weak Topics", "Weak Modules"], ["11 topics", "11 learning modules"]],
+    rationale: "Verified in app/(app)/evaluation/test/setup/subject.tsx. The rows here are CFA Topics that expand into Learning Modules, so the heading, search and counts should use the CFA names. “Weak Modules” is shortened to fit the pill. START QUIZ stays.",
+  },
+  {
+    id: "cfa-by-subject-flow",
+    area: "Quiz · By Topic",
+    title: "Start from a topic or learning module",
+    kind: "by-subject",
+    changeType: "Shared component · CFA values",
+    changes: [["By Subject", "By Topic"], ["START QUIZ (3 topics)", "START QUIZ (3 modules)"]],
+    rationale: "Verified in components/evaluation/SubjectsSection.tsx and app/(app)/quiz/subject/[subjectId]. The list is CFA Topics; opening one shows its Learning Modules. Quiz wording stays.",
   },
   {
     id: "cfa-mock-exams",
@@ -70,7 +88,7 @@ const cfaReviewItems = [
     title: "Quiz ready sheet states",
     kind: "resume-sheet",
     changeType: "Shared component · CFA values",
-    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"]],
+    changes: [["Your Quiz is Ready · paused quiz", "Resume Your Quiz"], ["Subject · 4 Topics", "Topic · 4 Learning Modules"]],
     rationale: "Keep the first-start Quiz title. When that quiz is paused and opened from Recents, change only the title to Resume Your Quiz; the existing RESUME QUIZ action remains correct.",
   },
   {
@@ -193,7 +211,7 @@ function renderPracticeShell(version) {
         <button type="button" tabindex="-1"><span>☆</span> Bookmarked</button>
         <button class="${proposed ? "changed-action" : ""}" type="button" tabindex="-1"><span>✦</span> ${proposed ? "Create Quiz" : "Self Assess"}</button>
       </div>
-      <div class="practice-segments"><span>By Subject</span><span class="selected">Tests</span><span>Recents</span></div>
+      <div class="practice-segments"><span>${proposed ? "By Topic" : "By Subject"}</span><span class="selected">Tests</span><span>Recents</span></div>
       <div class="practice-content-sample"><div class="sample-label">Available tests</div><div class="sample-card"><span class="sample-icon"></span><span class="sample-lines"><i></i><i></i></span><span class="sample-chevron">›</span></div></div>
     </div>`;
 }
@@ -209,9 +227,9 @@ function renderTestSetup(version) {
         <div class="mode-option"><span class="mode-radio"></span><span><strong>Exam Mode</strong><small>Just like an exam</small></span></div>
       </div>
       <div class="setup-label">Number of questions</div><div class="question-count">15 <span>⌄</span></div>
-      <div class="setup-label">Filters</div><div class="question-count">Subjects and tags <span>⌄</span></div>
+      <div class="setup-label">Filters</div><div class="question-count">${proposed ? "Topics and tags" : "Subjects and tags"} <span>⌄</span></div>
       <div class="setup-label">Question Type</div><div class="setup-pills"><span class="active-pill">All</span><span>Unattempted</span><span>Attempted</span><span>Previously Incorrect</span>${proposed ? "" : "<span>Image Based</span>"}<span>Bookmarked</span></div>
-      <button class="setup-cta" type="button" tabindex="-1">CHOOSE TOPICS</button>
+      <button class="setup-cta" type="button" tabindex="-1">${proposed ? "CHOOSE LEARNING MODULES" : "CHOOSE TOPICS"}</button>
     </div>`;
 }
 
@@ -219,12 +237,12 @@ function renderTopicSelection(version) {
   const proposed = version === "proposed";
   return `
     <div class="component-preview content-selection-preview">
-      <div class="create-test-topline"><span>‹</span><strong>Choose Topics</strong></div>
-      <div class="selection-search"><span>⌕</span><span>Search by keyword or browse topics</span></div>
-      <div class="selection-quick-pills"><span class="selected">All</span><span>Weak Topics</span><span>High Yield</span></div>
-      <div class="subject-row"><span class="selection-check">✓</span><span><strong>Quantitative Methods</strong><small>11 topics</small></span><b>⌃</b></div>
+      <div class="create-test-topline"><span>‹</span><strong>${proposed ? "Choose Learning Modules" : "Choose Topics"}</strong></div>
+      <div class="selection-search"><span>⌕</span><span>${proposed ? "Search by keyword or browse learning modules" : "Search by keyword or browse topics"}</span></div>
+      <div class="selection-quick-pills"><span class="selected">All</span><span>${proposed ? "Weak Modules" : "Weak Topics"}</span><span>High Yield</span></div>
+      <div class="subject-row"><span class="selection-check">✓</span><span><strong>Quantitative Methods</strong><small>${proposed ? "11 learning modules" : "11 topics"}</small></span><b>⌃</b></div>
       <div class="topic-row"><span class="selection-check"></span><span>The Time Value of Money in Finance</span></div>
-      <button class="setup-cta" type="button" tabindex="-1">${proposed ? "START TEST" : "START QUIZ"}</button>
+      <button class="setup-cta" type="button" tabindex="-1">START QUIZ</button>
     </div>`;
 }
 
@@ -255,7 +273,7 @@ function renderResumeSheet(version) {
       <div class="phone-stage"><div class="ghost-app-content"><span class="ghost-app-title"></span><span class="ghost-app-card"></span><span class="ghost-app-card short"></span></div><div class="stage-dim"></div>
         <div class="real-bottom-sheet"><div class="real-sheet-grabber"></div><button class="real-sheet-close" type="button" tabindex="-1">×</button>
           <div class="real-sheet-header"><h3>${state.title}</h3><p>Questions difficulty adapts to your answers. So you learn optimally.</p></div>
-          <div class="real-detail-list"><div><strong>Questions</strong><span>30</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>Subject</strong><span>Quantitative Methods<br><small>4 Topics</small></span></div></div>
+          <div class="real-detail-list"><div><strong>Questions</strong><span>30</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${proposed ? "Topic" : "Subject"}</strong><span>Quantitative Methods<br><small>${proposed ? "4 Learning Modules" : "4 Topics"}</small></span></div></div>
           <button class="real-sheet-action" type="button" tabindex="-1">${state.action}</button>
         </div>
       </div>
@@ -266,8 +284,8 @@ function renderBySubject(version) {
   const proposed = version === "proposed";
   return `
     <div class="component-preview two-screen-preview">
-      <section class="mini-app-screen"><div class="mini-screen-title">By Subject</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="keyword-result"><strong>Found 30 questions</strong><small>“time value of money”</small><button type="button" tabindex="-1">${proposed ? "START TEST" : "START QUIZ"} (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Quantitative Methods</strong><small>355 questions</small></span><b>›</b></div></section>
-      <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Quantitative Methods</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="topic-choice selected"><i>✓</i><span>Rates and returns</span></div><div class="topic-choice selected"><i>✓</i><span>Time value of money</span></div><div class="topic-choice selected"><i>✓</i><span>Statistical measures</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">${proposed ? "START TEST" : "START QUIZ"} (3 topics)</button></section>
+      <section class="mini-app-screen"><div class="mini-screen-title">${proposed ? "By Topic" : "By Subject"}</div><div class="mini-search">⌕ &nbsp; Search questions by keyword...</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="keyword-result"><strong>Found 30 questions</strong><small>“time value of money”</small><button type="button" tabindex="-1">START QUIZ (30 Qs)</button></div><div class="mini-subject-row"><i></i><span><strong>Quantitative Methods</strong><small>355 questions</small></span><b>›</b></div></section>
+      <section class="mini-app-screen topic-screen-mini"><div class="mini-screen-title">Quantitative Methods</div><div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div><div class="topic-choice selected"><i>✓</i><span>Rates and returns</span></div><div class="topic-choice selected"><i>✓</i><span>Time value of money</span></div><div class="topic-choice selected"><i>✓</i><span>Statistical measures</span></div><button class="mini-bottom-cta" type="button" tabindex="-1">START QUIZ ${proposed ? "(3 modules)" : "(3 topics)"}</button></section>
     </div>`;
 }
 
@@ -317,10 +335,13 @@ function renderLessonsOrdering(version) {
   return `<div class="component-preview lessons-audit-preview">
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
+    <div class="lessons-audit-pills"><span class="${proposed ? "" : ""}">${proposed ? "By Topic" : "By Subject"}</span><span>Theme</span></div>
     <div class="lessons-audit-selector"><span>▤</span><strong>${proposed ? "Select Topic" : "Select Subject"}</strong><b>›</b></div>
     <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
-    <div class="lessons-audit-group">${proposed ? "Level I curriculum" : "All Subjects"}</div>
+    <div class="lessons-audit-group">${proposed ? "All Topics" : "All Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
+    <div class="lessons-audit-group">Inside Alternative Investments</div>
+    <div class="lessons-audit-card"><i>1</i><span><strong>Alternative Investment Features, Methods, and Structures</strong><small>${proposed ? "Learning Module 1 · 3 Lessons" : "Topic 1 · 3 Lessons"}</small></span><b>▶</b></div>
   </div>`;
 }
 
@@ -429,7 +450,7 @@ const cfaSavvyTools = [
     icon: "⌕",
     title: "Find my weak areas",
     subtitle: "Know and improve your weak spots",
-    suggestions: ["Recent practice", "Subject gaps", "Study plan"],
+    suggestions: ["Recent practice", "Topic gaps", "Study plan"],
   },
 ];
 
@@ -557,7 +578,7 @@ function renderReviewItem(item, index) {
 }
 
 document.getElementById("terminology-table").innerHTML = renderTerminologyTable();
-const cfaReviewOrder = ["practice-shell", "lessons-ordering", "test-setup", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders"];
+const cfaReviewOrder = ["practice-shell", "lessons-ordering", "test-setup", "topic-selection", "by-subject", "mocks", "recents", "resume-sheet", "flashcard-examples", "flashcard-loading", "flashcard-empty", "flashcard-search-footer", "rezzy-tools", "rezzy-canvas", "rezzy-reminders"];
 const orderedReviewItems = [...cfaReviewItems].sort((a, b) => cfaReviewOrder.indexOf(a.kind) - cfaReviewOrder.indexOf(b.kind));
 mountSharedReview("cfa-review-list", "cfa", orderedReviewItems, renderReviewItem);
 

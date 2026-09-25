@@ -9,6 +9,8 @@ const sharedCourses = {
     unit: "Test",
     hierarchy: "area",
     bySegment: "By Area",
+    levelPlural: "areas",
+    levelWord: "Area",
     mock: "Simulated Exam",
     mockShort: "SIMULATED EXAM",
     questionNoun: "questions",
@@ -33,6 +35,9 @@ const sharedCourses = {
   cfa: {
     name: "CFA",
     premadeDecks: true,
+    bySegment: "By Topic",
+    levelPlural: "topics",
+    levelWord: "Topic",
     tutor: "Savvy",
     unit: "Quiz",
     hierarchy: "subject",
@@ -46,7 +51,7 @@ const sharedCourses = {
       quiz: ["Item sets", "Ethics cases", "Rapid revision"],
       lessons: ["Fixed income", "Financial statements", "Revision topic"],
       mnemonics: ["Ethics Standards", "DuPont analysis", "Portfolio process"],
-      weak: ["Recent practice", "Subject gaps", "Study plan"],
+      weak: ["Recent practice", "Topic gaps", "Study plan"],
     },
     canvasChips: ["Yield curve visualizer", "DCF sensitivity model", "Bond duration explorer", "Efficient frontier", "Financial statements map"],
     libraryTutorChips: ["Explain duration and convexity", "Create a cash flow map", "Visualize the efficient frontier", "Compare active vs passive"],
@@ -54,7 +59,7 @@ const sharedCourses = {
     reminders: ["Revise flashcards daily", "Mock exam this Sunday", "Practice MCQs", "Read Ethics notes"],
     shareCopy: "I've been studying for the CFA with Savvy, an AI tutor that explains concepts and builds practice quizzes and flashcards for me.",
     widgetQuestion: "Which measure best estimates a bond's price change for a small change in yield?",
-    perksBank: "CFA question bank – Item sets, MCQs and mock exams across every subject",
+    perksBank: "CFA question bank – Item sets, MCQs and mock exams across every topic",
     discountBank: "CFA question bank – Item sets, mock exams and quizzes with explanations",
   },
   lsat: {
@@ -276,8 +281,8 @@ const sharedRenderers = {
   "readiness-strip": (c, v) => {
     const proposed = v === "proposed";
     return `<div class="component-preview sx-screen">
-      <div class="sx-strip"><span><small>Your readiness</small><strong>Developing</strong><em class="${proposed ? "" : "sx-bad"}">${proposed ? "2 of 4 areas exam ready" : "2 of 4 subjects exam ready"}</em></span><b>VIEW</b></div>
-      <div class="sx-card"><small>Plan loader</small><strong>${proposed ? "Picking your areas…" : "Picking your subjects…"}</strong></div>
+      <div class="sx-strip"><span><small>Your readiness</small><strong>Developing</strong><em class="${proposed ? "" : "sx-bad"}">${proposed ? `2 of 4 ${c.levelPlural} exam ready` : "2 of 4 subjects exam ready"}</em></span><b>VIEW</b></div>
+      <div class="sx-card"><small>Plan loader</small><strong>${proposed ? `Picking your ${c.levelPlural}…` : "Picking your subjects…"}</strong></div>
     </div>`;
   },
 
@@ -365,6 +370,29 @@ const sharedRenderers = {
     </div>`;
   },
 
+  "flashcard-segments": (c, v) => {
+    const proposed = v === "proposed";
+    return `<div class="component-preview sx-screen">
+      <div class="sx-top"><span>▥</span><strong>Flashcards</strong></div>
+      <div class="sx-search">⌕ Search across your Flashcards</div>
+      <div class="sx-pills"><span class="on ${proposed ? "" : "sx-bad-chip"}">${proposed ? c.bySegment : "By Subject"}</span><span>Themes</span><span>My Decks</span></div>
+      <div class="sx-card"><strong>${c.examples.lessons[0]}</strong><small>12/40 Due</small></div>
+      <div class="sx-card"><strong>${c.examples.lessons[1]}</strong><small>64 Cards</small></div>
+    </div>`;
+  },
+
+  "lessons-filter-search": (c, v) => {
+    const proposed = v === "proposed";
+    return `<div class="component-preview sx-screen">
+      <div class="sx-top"><span>‹</span><strong>Filter</strong></div>
+      <div class="sx-pills"><span>Sort</span><span class="on">${proposed ? `${c.levelWord}s` : "Subjects"}</span><span>Type</span><span>Tags</span></div>
+      <div class="sx-search ${proposed ? "" : "sx-bad"}">⌕ ${proposed ? `Search ${c.levelPlural}` : "Search by Subjects"}</div>
+      <div class="sx-card"><strong>${c.examples.lessons[0]}</strong></div>
+      <div class="sx-card"><strong>${c.examples.lessons[1]}</strong></div>
+      <button class="sx-cta" type="button" tabindex="-1">APPLY</button>
+    </div>`;
+  },
+
   "flashcard-loading": (c, v) => {
     const proposed = v === "proposed";
     return `<div class="component-preview flashcard-phone-frame flashcard-loading-preview"><div class="flashcard-phone-status"><span>9:41</span><span>● ◔ ▰</span></div><div class="flashcard-plain-header"><span>‹</span><strong></strong></div><div class="flashcard-full-loader"><div class="flashcard-loader-animation"><span>▤</span></div><strong>Crafting your flashcards</strong><p class="${proposed ? "" : "sx-bad"}">${proposed ? `Creating your ${c.name} flashcards…` : "flashcards.search_loading_text"}</p></div></div>`;
@@ -394,7 +422,7 @@ function sharedItemsFor(key) {
     { kind: "test-card-count", courses: ["cpa", "bar"], area: "Practice · Tests", title: `${c.mock} card question count`, changes: [["{n} MCQs", "{n} questions"]], rationale: `Verified in TestTemplateListCard.tsx:250. ${c.name === "CPA" ? "CPA exams include task-based simulations" : "The bar exam includes MEE essays and MPT performance tests"}, so counting everything as MCQs is inaccurate.` },
     { kind: "end-dialog", courses: ["lsat", "bar"], area: "Practice · In drill", title: "End drill confirmation", changes: [["You are about to end the quiz", "You are about to end the drill"], ["YES, END THE QUIZ", "YES, END THE DRILL"]], rationale: "Verified in app/(app)/evaluation/test/question/end.tsx. The same dialog already has a CPA Test card, so LSAT and BAR get their Drill value too." },
     { kind: "vibe-followup", courses: ["cpa", "cfa", "lsat", "bar"], area: "Lessons · Exercises", title: "Mood check follow-up", changes: [["Rezzy doctor-coat art (5 of 6 moods)", `${c.tutor} art`], ["…bolus of dopamine… clinical tidbit", `Neutral ${c.name} copy`]], rationale: `Verified in components/notes/exercises/VibeContent.tsx. The mood check appears halfway through lesson exercises. Its images are not persona-aware and its fallback copy is medical; only “Curious” uses ${c.tutor}'s art.` },
-    { kind: "readiness-strip", courses: ["cpa"], area: "Home · Readiness", title: "Readiness strip and plan loader", changes: [["2 of 4 subjects exam ready", "2 of 4 areas exam ready"], ["Picking your subjects…", "Picking your areas…"]], rationale: "Verified in ProgressionStatusStrip.tsx:175 and dailyPlanStages.ts. Readiness is counted per content area inside the selected CPA section (e.g. AUD Area I–IV), so the strip should say areas, matching the rest of this review." },
+    { kind: "readiness-strip", courses: ["cpa", "cfa"], area: "Home · Readiness", title: "Readiness strip and plan loader", changes: [["2 of 4 subjects exam ready", `2 of 4 ${c.levelPlural} exam ready`], ["Picking your subjects…", `Picking your ${c.levelPlural}…`]], rationale: `Verified in ProgressionStatusStrip.tsx:175 and dailyPlanStages.ts. Readiness is counted per item in the subject list, which for ${c.name} is ${key === "cpa" ? "the AICPA content areas inside the selected section" : "the CFA Topics of the selected level"}, so the strip should say ${c.levelPlural}, matching the rest of this review.` },
     { kind: "tutor-home", courses: ["cpa", "cfa"], area: `${c.tutor} · Home`, title: `${c.tutor} home pills and prompts`, changes: [["Medical prompts under every pill", `${c.name} prompts for every pill`], ...(unit === "Test" ? [["Take a quiz", "Take a test"]] : [])], rationale: `Each pill opens its own prompt sheet. The live API (main) still serves medical defaults such as ECG axis map and Antibiotic ladder. The ${c.name} prompts shown are the ones already written on API dev (courses/${key}/insights-tool-suggestions), so this only needs releasing.` },
     { kind: "plus-menu", courses: ["cpa", "lsat", "bar"], area: `${c.tutor} · Add menu`, title: "“+” menu learning tools", changes: [["Get flowcharts · See how concepts connects", "Learn with Flowcharts · Visualize complex topics easily"], ["Get high-yield notes", c.notesTool || "Get study notes"], ...(unit !== "Quiz" ? [["Take a quiz", unit === "Drill" ? "Start a drill" : "Take a test"]] : [])], rationale: "Verified in components/chat/input/ChatUploadModal.tsx:279-343. The same menu opens from the composer and inside lesson chat. The CFA page already has this card, so the other courses get their own values." },
     { kind: "canvas-empty", courses: ["cpa"], area: `${c.tutor} drawer · Canvas`, title: "Canvas empty state", changes: [["Medical Canvas suggestions", "CPA Canvas suggestions"]], rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx:72-93. The chips are hard-coded medical for every course." },
@@ -408,6 +436,8 @@ function sharedItemsFor(key) {
     { kind: "flashcard-footer", courses: ["cpa", "lsat", "bar"], area: "Flashcards · Search results", title: "“Looking for more?” footer", changes: [["topper-level flashcards", `flashcards for any ${c.name} topic`]], rationale: "Verified in components/flashcards/SearchSection/FlashcardList.tsx:183-187. It shows below short result lists (under 20 cards) and repeats the Topper wording of the empty state." },
     { kind: "flashcard-filters", courses: ["cpa", "cfa", "lsat", "bar"], area: "Flashcards · Search results", title: "Search result filters", changes: [["By Toppers", c.premadeDecks ? "By Oncourse" : "Remove chip"]], rationale: c.premadeDecks ? "Verified in components/snippets/FlashcardFilters.tsx:23: the chip filters to premade (type: premade) cards. CFA has premade decks: the API imported 3,193 owner-authored CFA Level I–III cards to staging on 24 Sep (pending validation). Keep the chip, but “Toppers” is Indian medical-exam slang, so name it By Oncourse." : `Verified in components/snippets/FlashcardFilters.tsx:23: the chip filters to premade (type: premade) cards. There is no premade ${c.name} flashcard import in the API, so the chip would always return nothing. Remove it until premade ${c.name} decks exist; All, By Me and Imported stay.` },
     { kind: "emoji-picker", courses: ["cpa", "cfa", "lsat", "bar"], area: "Flashcards · Save to deck", title: "New deck emoji picker", changes: [["Medical & Clinical Context category", c.name === "LSAT" || c.name === "BAR" ? "Law & Reasoning" : "Finance & Accounting"], ["Preset “Recently used”: 🫁🚑😷💊🩺", "Study emojis, or the user's real recent picks"]], rationale: "Verified in components/flashcards/SearchSection/SaveToDeckBottomSheet.tsx:25-31. “Recently used” is a hard-coded medical preset, not the user's history, and one category is medical." },
+    { kind: "flashcard-segments", courses: ["cpa", "cfa"], area: "Flashcards · Home", title: "Flashcards tab segments", changes: [["By Subject", c.bySegment]], rationale: `Verified in pages/(tabs)/flashcards/index.tsx:395. The first segment lists the same subject list as Quiz and Lessons, which for ${c.name} is ${key === "cpa" ? "AICPA content areas" : "CFA Topics"}. Themes and My Decks stay.` },
+    { kind: "lessons-filter-search", courses: ["cfa"], area: "Lessons · Search", title: "Lessons filter search field", changes: [["Subjects (filter tab)", "Topics"], ["Search by Subjects", "Search topics"]], rationale: "Verified in components/lessons/FilterBottomSheet/index.tsx:60-64 and :180. The Subjects filter lists CFA Topics, so both the tab and the search box should say Topics. CPA has its own card for this sheet." },
     { kind: "readiness-dimension", courses: ["cpa", "cfa", "lsat", "bar"], area: "My Progress · Readiness", title: "Readiness dimensions sheet", changes: [["Using what you know on a clinical vignette.", "Using what you know on an exam-style scenario."]], rationale: "Verified in components/myProgress/ReadinessTab.tsx:71. “Clinical vignette” is medical." },
     { kind: "study-points", courses: ["cpa", "cfa", "lsat", "bar"], area: "My Progress · Badges", title: "Study Points activities", changes: [["Play Image Rush", "Remove"], ["Solve a Clinical Round", "Remove"], ["—", "Play Medle"], ...(unit !== "Quiz" ? [["Attempt a Quiz", `Attempt a ${unit}`]] : [])], rationale: `Verified in StudyPointsInfoModal (native and web). Image Rush and Clinical Rounds are hidden for ${c.name}, while Medle, which ${c.name} does get, is missing.` },
     { kind: "profile-avatar", courses: ["cpa", "cfa", "lsat", "bar"], area: "Profile", title: "Profile avatar", changes: [["🧑🏻‍⚕️ health-worker emoji", "🧑‍🎓 student emoji"]], rationale: "Verified in ProfileScreen.tsx:260 and ProfileHeader.tsx:27. Every course gets a medical avatar." },
@@ -461,6 +491,8 @@ function whereFor(courseKey, kind) {
     "vibe-followup": "Lessons tab → open a lesson → Exercises → halfway “How you feeling?” check → pick a mood",
     "readiness-strip": "Home tab → readiness strip under the header; the loader text shows while today's plan is being built",
     "flashcard-create": "Flashcards tab → Create → Generate with AI",
+    "flashcard-segments": "Flashcards tab → segments under the action buttons (By Subject · Themes · My Decks)",
+    "lessons-filter-search": "Lessons tab → Theme → open a theme → FILTER → Subjects → search box",
     "flashcard-loading": "Flashcards tab → Create → Generate with AI → MAKE ME FLASHCARDS → loading screen",
     "flashcard-empty": "Flashcards tab → search bar → search a topic that has no cards",
     "flashcard-footer": "Flashcards tab → search bar → search a topic that returns fewer than 20 cards → end of the list",
@@ -509,6 +541,7 @@ const ownCardScreens = {
   "lsat-library-casey-empty": "library-tutor", "bar-library-casey-empty": "library-tutor",
   "lsat-library-notes-empty": "library-notes", "bar-library-notes-empty": "library-notes",
   "cfa-rezzy-reminders": "reminders",
+  "cfa-topic-selection": "topic-selection", "cfa-by-subject-flow": "by-subject",
 };
 
 function sharedScreenKey(item) {
