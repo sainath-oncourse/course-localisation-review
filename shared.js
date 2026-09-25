@@ -75,8 +75,8 @@ const sharedCourses = {
     tutor: "Casey",
     unit: "Drill",
     hierarchy: "subject",
-    mock: "PrepTest",
-    mockShort: "PREPTEST",
+    mock: "Practice Test",
+    mockShort: "PRACTICE TEST",
     questionNoun: "questions",
     examples: {
       canvas: ["Argument map", "Conditional logic", "Passage map"],
@@ -87,10 +87,10 @@ const sharedCourses = {
       mnemonics: ["Conditional logic", "Reasoning flaws", "Passage structure"],
       weak: ["Recent drills", "Question-type gaps", "Study plan"],
     },
-    reminders: ["Revise flashcards daily", "PrepTest this Sunday", "Do a Logical Reasoning drill", "Review Reading Comprehension notes"],
+    reminders: ["Revise flashcards daily", "Practice test this Sunday", "Do a Logical Reasoning drill", "Review Reading Comprehension notes"],
     shareCopy: "I've been studying for the LSAT with Casey, an AI tutor that explains reasoning and builds drills and flashcards for me.",
-    perksBank: "LSAT question bank – Logical Reasoning, Reading Comprehension and full PrepTests",
-    discountBank: "LSAT question bank – Drills and PrepTests with explanations",
+    perksBank: "LSAT question bank – Logical Reasoning, Reading Comprehension and full practice tests",
+    discountBank: "LSAT question bank – Drills and practice tests with explanations",
   },
   bar: {
     name: "BAR",
@@ -150,6 +150,7 @@ const sharedCourses = {
   },
   nclex: {
     name: "NCLEX",
+    reviewVerb: true,
     notesTool: "Get high-yield notes",
     tutor: "Rezzy",
     unit: "Quiz",
@@ -163,14 +164,14 @@ const sharedCourses = {
       flowcharts: ["Delegation rules", "Infection control precautions", "Clinical judgment steps"],
       flashcards: ["Lab values", "Medication classes", "Isolation precautions"],
       quiz: ["SATA practice", "NGN case study", "Pharmacology"],
-      lessons: ["Prioritization", "Pharmacological therapies", "Revision topic"],
+      lessons: ["Prioritization", "Pharmacological therapies", "Review topic"],
       mnemonics: ["Lab values", "Delegation", "Medication side effects"],
       weak: ["Recent practice", "Client Needs gaps", "Study plan"],
     },
     canvasChips: ["Fluid & electrolyte balance", "Insulin onset and peak", "ABG interpreter", "Prioritization (ABCs)", "IV fluid chooser"],
     libraryTutorChips: ["Explain fluid and electrolyte balance", "Create a delegation flowchart", "Map isolation precautions", "Compare insulin types"],
     libraryNotesChips: ["Upload your Pharmacology notes", "Snap your Med-Surg notes", "Add a lab values table"],
-    reminders: ["Revise flashcards daily", "Readiness assessment this Sunday", "Practice SATA questions", "Read Pharmacology notes"],
+    reminders: ["Review flashcards daily", "Readiness assessment this Sunday", "Practice SATA questions", "Read Pharmacology notes"],
     shareCopy: "I've been studying for the NCLEX with Rezzy, an AI tutor that explains nursing concepts and builds practice questions and flashcards for me.",
     widgetQuestion: "Which client should the nurse assess first?",
     perksBank: "NCLEX question bank – NGN case studies, SATA and every Client Needs category",
@@ -262,7 +263,7 @@ const sharedRenderers = {
 
   reminders: (c, v) => {
     const chips = v === "proposed" ? c.reminders : ["Revise flashcards daily", "Mock test this Sunday", "Practice MCQs", "Read Pharmacology notes"];
-    return `<div class="component-preview rezzy-reminders-preview"><div class="rezzy-gallery-header"><span>‹</span><strong>Reminders</strong><span></span></div><div class="reminder-bell">♢</div><h3>Set your first reminder</h3><p>Ask ${c.tutor} to remind you to study, revise, or practise — whenever you need it.</p><button type="button" tabindex="-1">SET A REMINDER</button><small>Try one of these</small><div class="reminder-chips">${chips.map((x) => `<span>${x}</span>`).join("")}</div></div>`;
+    return `<div class="component-preview rezzy-reminders-preview"><div class="rezzy-gallery-header"><span>‹</span><strong>Reminders</strong><span></span></div><div class="reminder-bell">♢</div><h3>Set your first reminder</h3><p>Ask ${c.tutor} to remind you to ${v === "proposed" && c.reviewVerb ? "study, review, or practice" : "study, revise, or practise"} — whenever you need it.</p><button type="button" tabindex="-1">SET A REMINDER</button><small>Try one of these</small><div class="reminder-chips">${chips.map((x) => `<span>${x}</span>`).join("")}</div></div>`;
   },
 
   "quiz-widget": (c, v) => {
@@ -523,12 +524,12 @@ function sharedItemsFor(key) {
     { kind: "daily-plan-pill", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: "Home · Today's Plan", title: "Today's Plan activity label", changes: [["PYQs", "Practice Questions"], ["Continue PYQs", "Continue Practice Questions"]], rationale: `Verified in apis/dailyPlan/types.ts:140 and utils/dailyPlan/liveActivity.ts. The label comes from the server's activity type. GET /daily-plan/v2/today already renames “pyqs” to practice_questions outside Indian Medical PG, but Start and time-option changes return plans without the course context, so “pyqs” comes back and ${c.name} sees “PYQs” until the next refresh. Fix on the server (always send practice_questions outside Indian Medical PG) and never label it PYQs in the app for ${c.name}.` },
     { kind: "vibe-followup", courses: ["cpa", "cfa", "lsat", "bar"], area: "Lessons · Exercises", title: "Mood check follow-up", changes: [["Rezzy doctor-coat art (5 of 6 moods)", `${c.tutor} art`], ["…bolus of dopamine… clinical tidbit", `Neutral ${c.name} copy`]], rationale: `Verified in components/notes/exercises/VibeContent.tsx. The mood check appears halfway through lesson exercises. Its images are not persona-aware and its fallback copy is medical; only “Curious” uses ${c.tutor}'s art.` },
     { kind: "readiness-strip", courses: ["cpa", "cfa", "lsat"], area: "Home · Readiness", title: "Readiness strip and plan loader", changes: [["2 of 4 subjects exam ready", `2 of 4 ${c.levelPlural} exam ready`], ["Picking your subjects…", `Picking your ${c.levelPlural}…`]], rationale: `Verified in ProgressionStatusStrip.tsx:175 and dailyPlanStages.ts. Readiness is counted per item in the subject list, which for ${c.name} is ${({ cpa: "the AICPA content areas inside the selected section", cfa: "the CFA Topics of the selected level", lsat: "the LSAT skills (groups of question types)" })[key]}, so the strip should say ${c.levelPlural}, matching the rest of this review.` },
-    { kind: "tutor-home", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} · Home`, title: `${c.tutor} home pills and prompts`, changes: [["Medical prompts under every pill", `${c.name} prompts for every pill`], ...(unit === "Test" ? [["Take a quiz", "Take a test"]] : []), ...(key === "mcat" || key === "nclex" ? [["PYQ practice", "Removed"]] : []), ...(c.lessonsTool ? [["Find high-yield lessons", c.lessonsTool]] : [])], rationale: `Each pill opens its own prompt sheet. The live API (main) still serves medical defaults such as ECG axis map and Antibiotic ladder. ${key === "mcat" || key === "nclex" ? `No ${c.name} prompt set exists on API main or dev (only bar, cfa, cpa and lsat), and the server fallback includes “PYQ practice” and physician topics such as “STEMI vs NSTEMI”. The ${c.name} prompts shown are proposals and need writing on the API.` : `The ${c.name} prompts shown are the ones already written on API dev (courses/${key}/insights-tool-suggestions), so this only needs releasing.`}` },
+    { kind: "tutor-home", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} · Home`, title: `${c.tutor} home pills and prompts`, changes: [["Medical prompts under every pill", `${c.name} prompts for every pill`], ...(unit === "Test" ? [["Take a quiz", "Take a test"]] : []), ...(key === "mcat" || key === "nclex" ? [["PYQ practice", "Removed"]] : []), ...(c.lessonsTool ? [["Find high-yield lessons", c.lessonsTool]] : []), ...(c.reviewVerb ? [["Revision topic", "Review topic"]] : [])], rationale: `Each pill opens its own prompt sheet. The live API (main) still serves medical defaults such as ECG axis map and Antibiotic ladder. ${key === "mcat" || key === "nclex" ? `No ${c.name} prompt set exists on API main or dev (only bar, cfa, cpa and lsat), and the server fallback includes “PYQ practice” and physician topics such as “STEMI vs NSTEMI”. The ${c.name} prompts shown are proposals and need writing on the API.` : `The ${c.name} prompts shown are the ones already written on API dev (courses/${key}/insights-tool-suggestions), so this only needs releasing.`}` },
     { kind: "plus-menu", courses: ["cpa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} · Add menu`, title: "“+” menu learning tools", changes: [["Get flowcharts · See how concepts connects", "Learn with Flowcharts · Visualize complex topics easily"], ["Get high-yield notes", c.notesTool || "Get study notes"], ...(unit !== "Quiz" ? [["Take a quiz", unit === "Drill" ? "Start a drill" : "Take a test"]] : [])], rationale: "Verified in components/chat/input/ChatUploadModal.tsx:279-343. The same menu opens from the composer and inside lesson chat. The CFA page already has this card, so the other courses get their own values." },
     { kind: "canvas-empty", courses: ["cpa", "mcat", "nclex"], area: `${c.tutor} drawer · Canvas`, title: "Canvas empty state", changes: [["Medical Canvas suggestions", `${c.name} Canvas suggestions`]], rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx:72-93. The chips are hard-coded medical for every course." },
     { kind: "library-empty", section: "tutor", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} drawer · Library`, title: `From ${c.tutor} library empty state`, changes: [["Medical study-visual suggestions", `${c.name} study-visual suggestions`]], rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx:142-151. The chips are hard-coded medical for every course." },
     { kind: "library-empty", section: "notes", courses: ["cpa", "cfa", "mcat", "nclex"], area: `${c.tutor} drawer · Library`, title: "From My Notes library empty state", changes: [["Medical upload suggestions", `${c.name} upload suggestions`]], rationale: "Verified in components/chat/core/RezzyLibraryGallery.tsx:156-165. This is the main way into notes for these courses." },
-    { kind: "reminders", courses: ["cpa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} drawer · Reminders`, title: "Reminder suggestions", changes: [["Mock test this Sunday", c.reminders[1]], ["Read Pharmacology notes", c.reminders[3]], ...(c.reminders[2] !== "Practice MCQs" ? [["Practice MCQs", c.reminders[2]]] : [])], rationale: "Verified in components/reminders/RezzyRemindersScreen.tsx:39-44. The chips are hard-coded for every course; Pharmacology is medical." },
+    { kind: "reminders", courses: ["cpa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} drawer · Reminders`, title: "Reminder suggestions", changes: [...(c.reviewVerb ? [["Revise flashcards daily", c.reminders[0]], ["study, revise, or practise", "study, review, or practice"]] : []), ["Mock test this Sunday", c.reminders[1]], ["Read Pharmacology notes", c.reminders[3]], ...(c.reminders[2] !== "Practice MCQs" ? [["Practice MCQs", c.reminders[2]]] : [])], rationale: "Verified in components/reminders/RezzyRemindersScreen.tsx:39-44. The chips are hard-coded for every course; Pharmacology is medical." },
     { kind: "quiz-widget", courses: ["cpa"], area: `${c.tutor} · Generated activity`, title: "Generated test widget", changes: [["CUSTOM QUIZ", "CUSTOM TEST"], ["Quiz generated", "Test generated"]], rationale: "Verified in components/chat/tools/RelatedQuiz/index.tsx:35 and ToolRenderer.tsx. LSAT and BAR already have Drill values for this widget." },
     { kind: "chat-history-empty", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} drawer · Chats`, title: "Chat history empty state", changes: [["rezzy (internal name, lowercase)", c.tutor], ["quiz_analysis", "quiz analysis"]], rationale: "Verified in components/chat/core/PastChatsDrawerContent.tsx:320. The wording is fine, but the message inserts the internal type name, so every course sees the lowercase code name “rezzy” (even Savvy and Casey courses) and “quiz_analysis” with an underscore. Show the display name instead." },
     { kind: "share-message", courses: ["cpa", "cfa", "lsat", "bar", "mcat", "nclex"], area: `${c.tutor} · Chat`, title: "Share an answer", changes: [["quiz.chat_share_pyqs (raw key)", `${c.name} share message`]], rationale: "Verified in components/chat/actions/MessageActions.tsx:111. The key is missing from the base copy file, so the raw key is sent. The medical version mentions an “AI medical resident” and PYQs, so it cannot be reused." },
@@ -721,7 +722,7 @@ function renderCourseStructure(courseKey) {
 const labelCourseNames = {
   cpa: { builder: "Create Test", mocks: "Simulated Exams / Mini Exams", weekly: "Hide for CPA", topperChip: "Remove chip" },
   cfa: { builder: "Create Quiz", mocks: "Mock Exams (remove Mini-Benchmark)", weekly: "Hide for CFA", topperChip: "By Oncourse" },
-  lsat: { builder: "Create Drill", mocks: "PrepTests (remove Mini-Benchmark)", weekly: "Hide for LSAT", topperChip: "Remove chip" },
+  lsat: { builder: "Create Drill", mocks: "Practice Tests (remove Mini-Benchmark)", weekly: "Hide for LSAT", topperChip: "Remove chip" },
   bar: { builder: "Custom Drill", mocks: "Exam Simulations / Half Section", weekly: "Hide for BAR", topperChip: "Remove chip" },
   mcat: { builder: "Create Quiz", mocks: "Full-Length Exams / Half-Length Exams", weekly: "Hide for MCAT", topperChip: "By Oncourse" },
   nclex: { builder: "Create Quiz", mocks: "Readiness Assessments (remove Mini-Benchmark)", weekly: "Hide for NCLEX (pass/fail exam)", topperChip: "By Oncourse" },

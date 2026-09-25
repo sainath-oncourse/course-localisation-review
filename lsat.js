@@ -80,8 +80,8 @@ const lsatReviewItems = [
     title: "Full and mini practice tests",
     kind: "test-types",
     changeType: "Copy + provenance rule",
-    changes: [["Benchmark", "PrepTests"], ["Benchmark 1", "PrepTest 1"], ["Mini-Benchmark", "Remove for LSAT"]],
-    rationale: "LSAC’s LawHub (“Access Full PrepTests”) and 7Sage (“PrepTest”, “PT”) call full LSAT practice tests PrepTests. No LSAT competitor has a mini test, so Mini-Benchmark is removed rather than renamed. Section stays reserved for one complete Logical Reasoning or Reading Comprehension block.",
+    changes: [["Benchmark", "Practice Tests"], ["Benchmark 1", "Practice Test 1"], ["Mini-Benchmark", "Remove for LSAT"]],
+    rationale: "“PrepTest” is LSAC’s branded name for its official tests; students and platforms more commonly say “practice test” (7Sage “practice tests”, LSAT Demon “Full-length Practice Tests”), so the generic term is clearer. No LSAT competitor has a mini test, so Mini-Benchmark is removed rather than renamed. Section stays reserved for one complete Logical Reasoning or Reading Comprehension block.",
   },
   {
     id: "lsat-history",
@@ -266,8 +266,8 @@ function renderTestTypes(version) {
   const proposed = version === "proposed";
   return `<div class="component-preview cfa-mock-preview lsat-test-preview">
     <div class="cfa-screen-bar"><span></span><strong>${proposed ? "Practice" : "Quiz"}</strong><i></i></div>
-    <div class="cfa-pills mock-pills"><span>All</span><span class="active">${proposed ? "PrepTests" : "Benchmark"}</span>${proposed ? "" : "<span>Mini-Benchmark</span>"}<span>My Attempts</span></div>
-    <div class="cfa-mock-card"><div class="cfa-mock-title"><span>▤</span><span><strong>${proposed ? "PrepTest 1" : "Benchmark 1"}</strong><small>${proposed ? "Full LSAT-style test" : "Realistic assessment"}</small></span></div><div class="cfa-benchmark-row"><span>4 sections</span><b>START</b></div></div>
+    <div class="cfa-pills mock-pills"><span>All</span><span class="active">${proposed ? "Practice Tests" : "Benchmark"}</span>${proposed ? "" : "<span>Mini-Benchmark</span>"}<span>My Attempts</span></div>
+    <div class="cfa-mock-card"><div class="cfa-mock-title"><span>▤</span><span><strong>${proposed ? "Practice Test 1" : "Benchmark 1"}</strong><small>${proposed ? "Full LSAT-style test" : "Realistic assessment"}</small></span></div><div class="cfa-benchmark-row"><span>4 sections</span><b>START</b></div></div>
     ${proposed ? "" : '<div class="cfa-mock-card compact"><div class="cfa-mock-title"><span>PT</span><span><strong>Mini-Benchmark</strong><small>Shorter timed question set</small></span></div><div class="cfa-benchmark-row"><span>25 questions</span><b>START</b></div></div>'}
   </div>`;
 }
