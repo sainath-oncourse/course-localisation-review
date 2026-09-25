@@ -733,7 +733,6 @@ const labelInventory = [
   { group: "PYQ", label: "PYQs, mock tests, and drills with explanations", where: "Membership → Cancel → 25% off offer", source: "App code", seen: ALL, to: (c) => c.discountBank, screen: "cancel-flow" },
   { group: "PYQ", label: "Get Flashcards, PYQs & More.", where: "Notes list → upload card (also baked into the empty-state image)", source: "App code", seen: ALL, to: () => "Get Flashcards, Practice Questions & More." },
   { group: "PYQ", label: "Looks like there aren't any PYQs here!", where: "Smart Note → Practice Q tab → error state", source: "App code", seen: ALL, to: () => "Looks like there aren't any practice questions here!" },
-  { group: "PYQ", label: "{n} PYQs", where: "Featured lesson cards (web Explore page)", source: "App code", seen: ["cpa", "cfa", "lsat", "bar"], to: () => "{n} practice questions" },
   { group: "PYQ", label: "quiz.chat_share_pyqs (raw key)", where: "Tutor chat → Share on an answer", source: "Missing copy key", seen: ALL, to: (c) => `${c.name} share message`, screen: "share-message" },
   { group: "Topper", label: "By Toppers", where: "Flashcards search → filter chips (also the tutor's flashcard sheet)", source: "App code", seen: ALL, to: (c, k) => labelCourseNames[k].topperChip, screen: "flashcard-filters" },
   { group: "Topper", label: "topper-level flashcards", where: "Flashcards search → no results / “Looking for more?”", source: "App code", seen: ALL, to: () => "flashcards", screen: "flashcard-empty" },

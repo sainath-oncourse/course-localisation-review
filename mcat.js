@@ -77,14 +77,6 @@ const mcatItems = [
     rationale: "Verified in lib/persona/registry.ts:285-290 (MCAT falls back to Rezzy) and the API persona prompt. Pre-meds have no patients, and the NEET/Hinglish resident framing shapes every AI reply. No MCAT persona prompt exists on API main or dev. Whether MCAT keeps the Rezzy name and doctor art is a product decision.",
   },
   {
-    id: "mcat-benchmark-banner", course: "mcat", kind: "screen", area: "Home · Explore", title: "Benchmark banner", where: "Explore tab (and web home) → benchmark banner, when a live benchmark exists for the course",
-    screenTitle: "Explore",
-    current: [{ card: "200 Questions covering all subjects" }, { p: "Enhanced with AI trained on 5,000+ AKT focused questions", bad: true }, { p: "AI-powered algorithm to predict your INICET score from this test.", bad: true }],
-    proposed: [{ card: "Full-length exam covering all four sections", hi: true }, { p: "Timed like test day, with section-by-section feedback", hi: true }, { p: "See your estimated score on the 472–528 scale.", hi: true }],
-    changes: [["AKT focused questions", "Timed like test day"], ["predict your INICET score", "Estimated score on the 472–528 scale"]],
-    rationale: "Verified in components/learn/new-homepage/BenchmarkTestBanner.tsx:35-37. The copy is hard-coded for the UK AKT and the Indian INI-CET exams and shows to any course with a live benchmark.",
-  },
-  {
     id: "mcat-lessons-web-groups", course: "mcat", kind: "screen", area: "Lessons · Subject list", title: "Subject picker groups (web)", where: "Lessons (web) → Select Subject → subject sheet",
     screenTitle: "Select Subject",
     current: [{ h: "Pre-clinical", bad: true }, { card: "Biochemistry" }, { h: "Clinical", bad: true }, { card: "General Chemistry" }, { h: "Other", bad: true }, { card: "Psychology" }],

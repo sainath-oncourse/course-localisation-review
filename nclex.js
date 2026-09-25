@@ -77,14 +77,6 @@ const nclexItems = [
     rationale: "Verified in lib/persona/registry.ts:285-290 and the API persona prompt. A physician resident is the wrong mentor for nurses, and diagnosing is outside nursing scope. No NCLEX persona prompt exists on API main or dev. The privacy copy about patient data is fine for NCLEX.",
   },
   {
-    id: "nclex-benchmark-banner", course: "nclex", kind: "screen", area: "Home · Explore", title: "Benchmark banner", where: "Explore tab (and web home) → benchmark banner, when a live benchmark exists for the course",
-    screenTitle: "Explore",
-    current: [{ card: "200 Questions covering all subjects" }, { p: "Enhanced with AI trained on 5,000+ AKT focused questions", bad: true }, { p: "AI-powered algorithm to predict your INICET score from this test.", bad: true }],
-    proposed: [{ card: "Readiness assessment covering every Client Needs category", hi: true }, { p: "NGN case studies and SATA, like the real exam", hi: true }, { p: "See your probability of passing.", hi: true }],
-    changes: [["AKT focused questions", "NGN case studies and SATA"], ["predict your INICET score", "Probability of passing"]],
-    rationale: "Verified in components/learn/new-homepage/BenchmarkTestBanner.tsx:35-37. The copy is hard-coded for the UK AKT and the Indian INI-CET exams.",
-  },
-  {
     id: "nclex-lessons-web-groups", course: "nclex", kind: "screen", area: "Lessons · Subject list", title: "Subject picker groups (web)", where: "Lessons (web) → Select Subject → subject sheet",
     screenTitle: "Select Subject",
     current: [{ h: "Pre-clinical", bad: true }, { card: "Anatomy & Physiology" }, { h: "Clinical", bad: true }, { card: "Management of Care" }, { card: "Pharmacological & Parenteral Therapies" }],
