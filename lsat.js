@@ -329,7 +329,7 @@ const lsatCurrentTools = [
   { id: "canvas", icon: "◇", title: "Create a Canvas", subtitle: "Make an interactive visual", special: "canvas", suggestions: ["ECG axis map", "Spinal cord lesions", "Antibiotic ladder"] },
   { id: "flowcharts", icon: "⌁", title: "Learn with Flowcharts", subtitle: "Visualize complex topics easily", suggestions: ["Cardiac cycle", "Nephron", "Coagulation cascade"] },
   { id: "flashcards", icon: "▥", title: "Review Flashcards", subtitle: "Recall faster, retain longer", suggestions: ["Cranial nerves", "Drug of choice", "Vitamins"] },
-  { id: "drill", icon: "?", title: "Take a quiz", subtitle: "Improve accuracy and speed", suggestions: ["Pharmacology", "Anatomy", "Pathology"] },
+  { id: "drill", icon: "?", title: "Take a quiz", subtitle: "Improve accuracy and speed", suggestions: ["Pharmacology", "Anatomy", "PYQ practice"] },
   { id: "notes", icon: "≡", title: "Find high-yield lessons", subtitle: "Open exam-focused lessons", suggestions: ["Cardiac murmurs", "Antibiotics", "Renal physiology"] },
   { id: "mnemonics", icon: "✦", title: "Memorize with mnemonics", subtitle: "Make tough concepts stick", suggestions: ["Cranial nerves", "Drug adverse effects", "Vitamins"] },
   { id: "weak-areas", icon: "⌕", title: "Find my weak areas", subtitle: "Know and improve your weak spots", suggestions: ["Recent quizzes", "Subject gaps", "Weak topics"] },

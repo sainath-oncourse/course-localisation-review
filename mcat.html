@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A visual review of MCAT-specific terminology changes in Oncourse."
+    />
+    <title>Oncourse · MCAT language review</title>
+    <link rel="stylesheet" href="./styles.css?v=35" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Oncourse language review home">
+        <span class="brand-mark" aria-hidden="true">O</span>
+        <span>Oncourse</span>
+      </a>
+      <div class="header-actions">
+        <nav class="course-switcher" aria-label="Course review">
+          <a href="./index.html">CPA</a>
+          <a href="./cfa.html">CFA</a>
+          <a href="./lsat.html">LSAT</a>
+          <a href="./bar.html">BAR</a>
+          <a class="active" href="./mcat.html">MCAT</a>
+          <a href="./nclex.html">NCLEX</a>
+        </nav>
+        <div class="issue-badge">ONC2-7197</div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="page-heading mcat-heading" aria-labelledby="page-title">
+        <p class="eyebrow">ONC2-7197 · MCAT</p>
+        <h1 id="page-title">Course language review</h1>
+        <p class="page-intro">
+          A screen-by-screen MCAT terminology review grounded in the latest Oncourse dev code and competitor public websites and help centers.
+        </p>
+      </section>
+
+      <section class="terminology-section" aria-labelledby="mcat-terminology-title">
+        <header class="section-heading">
+          <div>
+            <p class="card-kicker">Competitor reference</p>
+            <h2 id="mcat-terminology-title">Terms used across MCAT products</h2>
+          </div>
+          <div class="audit-meta" id="mcat-terminology-meta"></div>
+        </header>
+        <div id="mcat-terminology-table"></div>
+      </section>
+
+      <section class="terminology-section structure-section" aria-labelledby="mcat-labels-title">
+        <header class="section-heading">
+          <div>
+            <p class="card-kicker">PYQ, Topper and other exam jargon</p>
+            <h2 id="mcat-labels-title">Labels to remove or rename</h2>
+          </div>
+        </header>
+        <div id="mcat-labels"></div>
+      </section>
+
+      <section class="proposal-heading" aria-labelledby="mcat-proposal-title">
+        <p class="card-kicker">Oncourse MCAT</p>
+        <h2 id="mcat-proposal-title">Screen-by-screen recommendations</h2>
+        <p>Only confirmed, reachable screens from the latest dev branch are shown. Screens with no MCAT copy change are omitted. Onboarding and Games are out of scope. Shared-component badges identify reusable UI whose displayed value must come from the active course.</p>
+      </section>
+
+      <div id="mcat-review-list" class="review-list"></div>
+    </main>
+
+    <script src="./shared.js?v=11"></script>
+    <script src="./mcat.js?v=1"></script>
+  </body>
+</html>

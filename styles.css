@@ -6895,3 +6895,16 @@ h1 {
   .structure-section .structure-intro, .structure-section .structure-flow, .structure-section .structure-note { padding-left: 18px; padding-right: 18px; }
   .structure-flow-label { width: 100%; }
 }
+
+/* Labels to remove or rename */
+.labels-table th small { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; font-size: 12px; }
+.labels-group { display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 999px; background: var(--canvas); color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; vertical-align: 1px; }
+.labels-source { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.labels-source-app { background: var(--blue-soft); color: var(--blue-strong); }
+.labels-source-server { background: var(--amber-soft); color: var(--amber); }
+.labels-source-missing { background: #fdecea; color: #b42318; }
+.labels-table a { color: var(--blue); font-weight: 700; white-space: nowrap; }
+.labels-nocard { color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+.sx-screen .sx-new { color: var(--blue-strong); }
+.sx-pills span.sx-new-chip, .sx-chips span.sx-new-chip { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-strong); }

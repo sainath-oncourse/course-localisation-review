@@ -1,0 +1,122 @@
+// MCAT review page. Terms come from public UWorld, Blueprint and AAMC pages (no logged-in audit yet);
+// screens were verified against origin/dev 41bfa98ac.
+const mcatTermColumns = ["Product area", "UWorld", "Blueprint", "AAMC (official)"];
+const mcatTerms = [
+  ["Top-level structure", "Four sections (Chem/Phys, CARS, Bio/Biochem, Psych/Soc)", "Select a Section", "Sections"],
+  ["Level below a section", "Subjects (Biology, Biochemistry, General Chemistry…)", "Topics", "Foundational Concept → Content Category"],
+  ["Question collection", "QBank", "Qbank", "Section Bank / Question Packs"],
+  ["Practice builder", "Create Test*", "+ Create Practice Set", "—"],
+  ["Practice set", "Test*", "Practice Set", "—"],
+  ["Practice modes", "Tutor / Timed*", "Tutor Mode / Exam Mode", "—"],
+  ["Question types", "Passage sets / standalone", "Passage / Discretes", "Passage-based / independent questions"],
+  ["Practice history", "Previous Tests*", "—", "Previous score reports"],
+  ["Full exam simulation", "Practice Exam (full-length)", "Full-Length (FL)", "Full-Length Practice Exams"],
+  ["Shorter exam", "—", "Half-length Diagnostic / Section Exam", "Unscored Sample Test"],
+  ["Performance", "Performance by Subject and Skill", "Score Report / Aggregate Analytics", "Scaled Score + Percentile Rank"],
+  ["Planning", "Study Planner", "Study Plan", "Study Plan Guide"],
+  ["Flashcards", "Flashcards / decks", "Flashcards", "Flashcards (beta)"],
+  ["AI tutor", "UAsk", "Blue", "—"],
+  ["Official questions", "AAMC Official Prep", "AAMC assignments", "MCAT Official Prep (never “PYQ”)"],
+];
+
+const mcatItems = [
+  {
+    id: "mcat-practice-landing", course: "mcat", kind: "screen", screenKey: "practice-landing", area: "Quiz", title: "Quiz landing and builder title",
+    screenTitle: "Quiz",
+    current: [{ pills: ["Bookmarked", "Self Assess"], bad: [1] }, { pills: ["By Subject", "Tests", "Recents"], firstOn: true }, { h: "Builder title" }, { card: "Create a Self-Assessment", bad: true }, { h: "Recents filter" }, { pills: ["All", "Paused", "Self-Assessment", "Recommended"], bad: [2] }],
+    proposed: [{ pills: ["Bookmarked", "Create Quiz"], hi: [1] }, { pills: ["By Subject", "Tests", "Recents"], firstOn: true }, { h: "Builder title" }, { card: "Create Quiz", hi: true }, { h: "Recents filter" }, { pills: ["All", "Paused", "Custom", "Recommended"], hi: [2] }],
+    changes: [["Self Assess", "Create Quiz"], ["Create a Self-Assessment", "Create Quiz"], ["Self-Assessment (Recents pill, web “NEW SELF-ASSESSMENT QUIZ”)", "Custom / NEW QUIZ"]],
+    rationale: "Verified in quiz.tsx:141, setup/mode.tsx:184 and the mcat.json quiz keys. “Self-Assessment” is Oncourse's Indian-market wording and reads like an official AAMC product. Quiz stays: Kaplan and Blueprint use quiz for custom sets, and UWorld's “Create Test” is not confirmed on MCAT screens.",
+  },
+  {
+    id: "mcat-format-pills", course: "mcat", kind: "screen", screenKey: "builder", area: "Quiz · Create", title: "Question format filter",
+    screenTitle: "Create Quiz",
+    current: [{ h: "Question format" }, { pills: ["SATA", "Case Study", "Integrated", "Reading", "Cloze", "Matrix", "Ordering", "Fill Blank", "Hot Spot", "Highlight"], bad: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Image Based", "Bookmarked"], bad: [3] }],
+    proposed: [{ h: "Question format" }, { pills: ["All", "Passage-based", "Discrete"], hi: [1, 2] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Bookmarked"] }],
+    changes: [["SATA, Case Study, Integrated, Reading, Cloze, Matrix, Ordering, Fill Blank, Hot Spot, Highlight", "Passage-based / Discrete"], ["Image Based", "Remove"]],
+    rationale: "Verified in components/evaluation/QuestionTypePills.tsx:19-30 and utils/course.ts. MCAT shares NCLEX's format list, but every MCAT question is a four-option multiple choice, either in a passage set or standalone, so each pill empties the list. AAMC calls these passage-based and independent questions; Blueprint says “Discretes”. Image Based is not gated by course here even though By Subject hides it.",
+  },
+  {
+    id: "mcat-test-filters", course: "mcat", kind: "screen", screenKey: "test-filters", area: "Quiz · Tests", title: "Tests filters and exam names",
+    screenTitle: "Tests",
+    current: [{ pills: ["All", "Benchmark", "Mini-Benchmark", "My Attempts"], bad: [1, 2], firstOn: true }, { card: "Your Benchmark Test is Ready", sub: "Ready sheet title", bad: true }, { card: "Your Mini Benchmark is Ready", sub: "Ready sheet title", bad: true }],
+    proposed: [{ pills: ["All", "Full-Length Exams", "Half-Length Exams", "My Attempts"], hi: [1, 2], firstOn: true }, { card: "Your Full-Length Exam is Ready", sub: "Ready sheet title", hi: true }, { card: "Your Half-Length Exam is Ready", sub: "Ready sheet title", hi: true }],
+    changes: [["Benchmark", "Full-Length Exams"], ["Mini-Benchmark", "Half-Length Exams"]],
+    rationale: "Verified in TestsSection.tsx:534-536 and QuizReadyBottomSheet.tsx:86-87. Benchmark is Oncourse's Indian-PG test name. AAMC and Blueprint say Full-Length (students say “FL”); Blueprint's shorter exam is half-length.",
+  },
+  {
+    id: "mcat-passage-reader", course: "mcat", kind: "screen", area: "Quiz · In quiz", title: "Passage set reader", where: "Start any quiz with a passage set → passage screen before the questions",
+    screenTitle: "Passage",
+    current: [{ h: "Passages A and B", bad: true }, { p: "Passage text… plus Table 1" }, { card: "5 questions", sub: "START QUESTIONS" }, { card: "FINISH PASSAGE", sub: "Footer on the last question" }],
+    proposed: [{ h: "Passage", hi: true }, { p: "Passage text… plus Table 1" }, { card: "Questions 1–5 refer to this passage", sub: "START QUESTIONS", hi: true }, { card: "FINISH PASSAGE", sub: "Footer on the last question" }],
+    changes: [["Passages A and B (any passage with a table or figure)", "Passage"], ["5 questions", "Questions 1–5 refer to this passage"]],
+    rationale: "Verified in formats/ReadingPassageShell.tsx:116-117. MCAT passages use the LSAT passage reader, which titles any passage with more than one exhibit “Passages A and B” (LSAT comparative reading). UWorld labels MCAT sets “Questions 1-6 refer to the passage below”.",
+  },
+  {
+    id: "mcat-review-scoring", course: "mcat", kind: "screen", area: "Quiz · Results", title: "Answer review: passage groups", where: "Finish a quiz → Report card → “Review all answers”",
+    screenTitle: "Explanations",
+    current: [{ card: "Reading passage 3", sub: "5 questions · scored as one question", bad: true }, { pills: ["Passage(s) (1)"] }, { card: "Case 3 · Exhibits", sub: "Exhibits modal title", bad: true }],
+    proposed: [{ card: "Passage 3", sub: "5 questions", hi: true }, { pills: ["Passage (1)"] }, { card: "Passage 3", sub: "Passage modal title", hi: true }],
+    changes: [["Reading passage 3 · 5 questions · scored as one question", "Passage 3 · 5 questions"], ["Case 3 · Exhibits", "Passage 3"]],
+    rationale: "Verified in result/explanation-list.tsx:182-199 and :842. Every MCAT passage question is scored separately, so “scored as one question” is wrong, and “Reading passage”/“Case · Exhibits” are LSAT and case-study wording.",
+  },
+  {
+    id: "mcat-report-copy", course: "mcat", kind: "screen", area: "Quiz · Results", title: "Report card wording", where: "Finish a quiz → Report card → miss-pattern and confidence cards",
+    screenTitle: "Report card",
+    current: [{ card: "You picked · First-line answer", sub: "Miss-pattern card", bad: true }, { card: "Went your way · Cost you marks", sub: "Confidence card", bad: true }, { pills: ["By difficulty", "By subject", "Practise next"], bad: [2] }],
+    proposed: [{ card: "You picked · Correct answer", sub: "Miss-pattern card", hi: true }, { card: "Went your way · Cost you points", sub: "Confidence card", hi: true }, { pills: ["By difficulty", "By section", "Practice next"], hi: [1, 2] }],
+    changes: [["First-line answer", "Correct answer"], ["Cost you marks", "Cost you points"], ["By subject / Practise next", "By section / Practice next"]],
+    rationale: "Verified in GenerativeAnalysis/widgets/MissPatternCard.tsx:108, ProportionRows.tsx and seedFollowups.ts. “First-line” is physician treatment language; MCAT reports by section, and US spelling is “Practice”.",
+  },
+  {
+    id: "mcat-tutor-persona", course: "mcat", kind: "screen", area: "Rezzy · Chat", title: "Tutor persona and privacy copy", where: "Home → “Ask Rezzy anything” → any chat (persona prompt on the server; banner above messages)",
+    screenTitle: "Rezzy",
+    current: [{ card: "Rezzy — “Resident with Rizz… for medical students preparing for NEET-PG, INI-CET, FMGE and USMLE”", sub: "Server persona prompt (personas/rezzy.md)", bad: true }, { p: "Your chats with Rezzy stay private. Please don't share real patient data.", bad: true }, { p: "Use Rezzy for learning only, not for real-life diagnosis, treatment, or patient care.", bad: true }],
+    proposed: [{ card: "Rezzy — MCAT science and reasoning tutor", sub: "MCAT persona prompt (name and art: decision needed)", hi: true }, { p: "Your chats with Rezzy stay private. Please don't share personal information.", hi: true }, { p: "Rezzy can make mistakes. Check key facts against your AAMC materials.", hi: true }],
+    changes: [["Resident persona for NEET-PG/INI-CET/USMLE", "MCAT science and reasoning tutor (decision needed)"], ["real patient data", "personal information"], ["diagnosis, treatment, or patient care", "Check key facts against your AAMC materials"]],
+    rationale: "Verified in lib/persona/registry.ts:285-290 (MCAT falls back to Rezzy) and the API persona prompt. Pre-meds have no patients, and the NEET/Hinglish resident framing shapes every AI reply. No MCAT persona prompt exists on API main or dev. Whether MCAT keeps the Rezzy name and doctor art is a product decision.",
+  },
+  {
+    id: "mcat-benchmark-banner", course: "mcat", kind: "screen", area: "Home · Explore", title: "Benchmark banner", where: "Explore tab (and web home) → benchmark banner, when a live benchmark exists for the course",
+    screenTitle: "Explore",
+    current: [{ card: "200 Questions covering all subjects" }, { p: "Enhanced with AI trained on 5,000+ AKT focused questions", bad: true }, { p: "AI-powered algorithm to predict your INICET score from this test.", bad: true }],
+    proposed: [{ card: "Full-length exam covering all four sections", hi: true }, { p: "Timed like test day, with section-by-section feedback", hi: true }, { p: "See your estimated score on the 472–528 scale.", hi: true }],
+    changes: [["AKT focused questions", "Timed like test day"], ["predict your INICET score", "Estimated score on the 472–528 scale"]],
+    rationale: "Verified in components/learn/new-homepage/BenchmarkTestBanner.tsx:35-37. The copy is hard-coded for the UK AKT and the Indian INI-CET exams and shows to any course with a live benchmark.",
+  },
+  {
+    id: "mcat-lessons-web-groups", course: "mcat", kind: "screen", area: "Lessons · Subject list", title: "Subject picker groups (web)", where: "Lessons (web) → Select Subject → subject sheet",
+    screenTitle: "Select Subject",
+    current: [{ h: "Pre-clinical", bad: true }, { card: "Biochemistry" }, { h: "Clinical", bad: true }, { card: "General Chemistry" }, { h: "Other", bad: true }, { card: "Psychology" }],
+    proposed: [{ h: "All Subjects", hi: true }, { card: "Biochemistry" }, { card: "General Chemistry" }, { card: "Psychology" }],
+    changes: [["Pre-clinical / Para-clinical / Clinical / Other", "All Subjects (as on the app)"]],
+    rationale: "Verified in SubjectSelectorBottomSheet/index.web.tsx:33-55. The web sheet always applies NEET medical groups by substring (“ENT” matches any name containing “ent”). The native sheet already shows one “All Subjects” group for MCAT.",
+  },
+  {
+    id: "mcat-lesson-video", course: "mcat", kind: "screen", area: "Lessons · Lesson page", title: "Lesson video channel labels", where: "Lessons → open a lesson → video (film) icon",
+    screenTitle: "Videos",
+    current: [{ card: "Professor", sub: "Channel card", bad: true }, { pills: ["Deep Dive", "Rapid Review"] }, { cta: "SWITCH PROFESSOR" }],
+    proposed: [{ card: "Channel", sub: "Channel card", hi: true }, { pills: ["Deep Dive", "Rapid Review"] }, { cta: "SWITCH CHANNEL" }],
+    changes: [["Professor", "Channel"], ["Switch Professor", "Switch Channel"]],
+    rationale: "Verified in components/videoFlix/VideoFlixBrowseContent.tsx:161, 245, 624. “Professor” is Indian coaching-video wording for what are YouTube channels.",
+  },
+  {
+    id: "mcat-flashcard-empty", course: "mcat", kind: "screen", screenKey: "flashcard-empty", area: "Flashcards · Search", title: "No search results",
+    screenTitle: "Flashcards",
+    current: [{ card: "No search results for “titration”" }, { p: "Oncourse can generate topper-level flashcards for any topic that you like", bad: true }, { cta: "GENERATE FLASHCARDS WITH AI" }],
+    proposed: [{ card: "No search results for “titration”" }, { p: "Oncourse can generate flashcards for any MCAT topic you choose", hi: true }, { cta: "GENERATE FLASHCARDS WITH AI" }],
+    changes: [["topper-level flashcards", "flashcards for any MCAT topic"]],
+    rationale: "Verified in components/flashcards/SearchSection/FlashcardList.tsx:170-174. “Topper” is Indian medical-exam slang.",
+  },
+  {
+    id: "mcat-flashcard-examples", course: "mcat", kind: "screen", screenKey: "flashcard-create", area: "Flashcards · Generate with AI", title: "AI flashcard examples",
+    screenTitle: "Generate Flashcards with AI",
+    current: [{ h: "Examples of what others are making" }, { card: "Urea Cycle", sub: "8 Cards" }, { card: "Cardiac Potentials", sub: "10 Cards" }, { card: "Conduction System of Heart", sub: "2 Cards", bad: true }],
+    proposed: [{ h: "Examples of what others are making" }, { card: "Amino Acids", sub: "20 Cards", hi: true }, { card: "Kinematics Equations", sub: "10 Cards", hi: true }, { card: "Psych/Soc Key Terms", sub: "15 Cards", hi: true }],
+    changes: [["Urea Cycle / Cardiac Potentials / Conduction System of Heart", "Amino Acids / Kinematics Equations / Psych/Soc Key Terms"]],
+    rationale: "Verified in app/(app)/snippets/flashcards/create-prompt.tsx:36-55. The examples are medical-school physiology and cover only Bio/Biochem; MCAT also needs Chem/Phys and Psych/Soc.",
+  },
+];
+
+renderTermsTable("mcat", mcatTermColumns, mcatTerms, ["3 products reviewed", "Public websites + help centers", "* from UWorld's USMLE demo, not an MCAT screen", "Latest app UI · origin/dev · 41bfa98ac (25 Sep)"]);
+mountSharedReview("mcat-review-list", "mcat", mcatItems, renderSharedCard);

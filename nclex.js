@@ -1,0 +1,122 @@
+// NCLEX-RN review page. Terms come from public UWorld, Archer, Kaplan and NCSBN pages (no logged-in audit yet);
+// screens were verified against origin/dev 41bfa98ac.
+const nclexTermColumns = ["Product area", "UWorld", "Archer Review", "Kaplan", "NCSBN (official)"];
+const nclexTerms = [
+  ["Top-level structure", "Client Needs plan", "8 NCSBN client need areas", "Categories", "Client Needs (4 categories, 8 subcategories)"],
+  ["QBank filters", "Subjects / Systems", "Subjects / system-based review", "Categories / topics", "—"],
+  ["Question collection", "QBank", "Q-Bank", "Qbank", "Items / item pool"],
+  ["Practice builder", "Create Test", "Create custom practice tests", "Quiz creation", "—"],
+  ["Practice set", "Test", "Test / exam", "Quiz", "—"],
+  ["Practice modes", "Tutor / Timed / Adaptive (CAT)", "Tutor / Test / Timed-Test / CAT", "Timed", "CAT (the exam itself)"],
+  ["Question types", "Extended Multiple Response, Drag and Drop, Drop-Down, Highlight, Matrix/Grid, Bow-tie, Trend, Case Studies", "SATA, Matrix, Drag & Drop, Drop-down cloze, Highlight, Bowtie, Trend, case studies", "Matrix, Multiple-response, Drag-and-drop, Drop-down, Highlight, bow-tie, trend", "Case study, stand-alone item, multiple response (select all that apply)"],
+  ["Practice history", "—", "—", "Quiz History", "—"],
+  ["Full exam simulation", "Adaptive (CAT) practice tests", "CAT exams / ArcherRN Exit Exam", "Full-length NCLEX CATs", "Computerized Adaptive Testing"],
+  ["Readiness test", "Self-Assessments (NCLEX Readiness Assessments)", "Readiness Assessment", "Readiness Test", "—"],
+  ["Performance", "Probability of Passing", "Pass prediction (low / borderline / high / very high)", "Performance page", "Pass/fail · passing standard"],
+  ["Planning", "Study Planner", "Study Calendar", "Study plans", "—"],
+  ["Flashcards", "Flashcards", "—", "Flashcards", "—"],
+  ["AI tutor", "UAsk (AI NCLEX Tutor)", "—", "AI Tutor", "—"],
+  ["Official questions", "NCLEX practice questions", "—", "—", "Confidential; no past papers (never “PYQ”)"],
+];
+
+const nclexItems = [
+  {
+    id: "nclex-practice-landing", course: "nclex", kind: "screen", screenKey: "practice-landing", area: "Quiz", title: "Quiz landing and builder title",
+    screenTitle: "Quiz",
+    current: [{ pills: ["Bookmarked", "Self Assess"], bad: [1] }, { pills: ["By Subject", "Tests", "Recents"], firstOn: true }, { h: "Builder title" }, { card: "Create a Self-Assessment", bad: true }, { h: "Recents filter" }, { pills: ["All", "Paused", "Self-Assessment", "Recommended"], bad: [2] }],
+    proposed: [{ pills: ["Bookmarked", "Create Quiz"], hi: [1] }, { pills: ["By Subject", "Tests", "Recents"], firstOn: true }, { h: "Builder title" }, { card: "Create Quiz", hi: true }, { h: "Recents filter" }, { pills: ["All", "Paused", "Custom", "Recommended"], hi: [2] }],
+    changes: [["Self Assess", "Create Quiz"], ["Create a Self-Assessment", "Create Quiz"], ["Self-Assessment (Recents pill, web “NEW SELF-ASSESSMENT QUIZ”)", "Custom / NEW QUIZ"]],
+    rationale: "Verified in quiz.tsx:141, setup/mode.tsx:184 and the nclex-rn.json quiz keys. UWorld sells its readiness tests as “Self-Assessments”, so using the same word for a custom quiz confuses NCLEX students. Kaplan calls custom sets quizzes, so Quiz stays.",
+  },
+  {
+    id: "nclex-format-pills", course: "nclex", kind: "screen", screenKey: "builder", area: "Quiz · Create", title: "Question format filter",
+    screenTitle: "Create Quiz",
+    current: [{ h: "Question format" }, { pills: ["SATA", "Case Study", "Integrated", "Reading", "Cloze", "Matrix", "Ordering", "Fill Blank", "Hot Spot", "Highlight"], bad: [2, 3] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Image Based", "Bookmarked"], bad: [3] }],
+    proposed: [{ h: "Question format" }, { pills: ["Multiple Choice", "SATA", "Case Study", "Drop-Down Cloze", "Matrix", "Drag and Drop", "Fill in the Blank", "Hot Spot", "Highlight"], hi: [0, 3, 5, 6] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Bookmarked"] }],
+    changes: [["Integrated, Reading", "Remove (NextGen Bar and LSAT formats)"], ["Cloze / Ordering / Fill Blank", "Drop-Down Cloze / Drag and Drop / Fill in the Blank"], ["—", "Multiple Choice"], ["Image Based", "Remove"]],
+    rationale: "Verified in QuestionTypePills.tsx:19-30 and apis/question/formats.ts. NCLEX gets the same list as MCAT, including the Bar's integrated question sets and LSAT's reading passages. The other names follow NCSBN (“Drop-Down Cloze”, drag-and-drop). There is no pill to filter to standard multiple choice.",
+  },
+  {
+    id: "nclex-test-filters", course: "nclex", kind: "screen", screenKey: "test-filters", area: "Quiz · Tests", title: "Tests filters and exam names",
+    screenTitle: "Tests",
+    current: [{ pills: ["All", "Benchmark", "Mini-Benchmark", "My Attempts"], bad: [1, 2], firstOn: true }, { card: "Weekly Score Predictor Test", sub: "Fallback card title", bad: true }, { card: "Your Benchmark Test is Ready", sub: "Ready sheet title", bad: true }],
+    proposed: [{ pills: ["All", "Readiness Assessments", "Mini Assessments", "My Attempts"], hi: [1, 2], firstOn: true }, { card: "Hidden for NCLEX", sub: "NCLEX is pass/fail, there is no score to predict", hi: true }, { card: "Your Readiness Assessment is Ready", sub: "Ready sheet title", hi: true }],
+    changes: [["Benchmark", "Readiness Assessments"], ["Mini-Benchmark", "Mini Assessments"], ["Weekly Score Predictor Test", "Hide for NCLEX"]],
+    rationale: "Verified in TestsSection.tsx:534-536, TodayQuizSection.tsx:40 and QuizReadyBottomSheet.tsx:86-87. Archer calls its test a Readiness Assessment and UWorld calls its tests NCLEX Readiness Assessments. NCLEX is pass/fail, so a score predictor makes no sense.",
+  },
+  {
+    id: "nclex-case-study", course: "nclex", kind: "screen", area: "Quiz · In quiz", title: "NGN case study screen", where: "Start a quiz with a case study → case screen (chart tabs and header)",
+    screenTitle: "Case study",
+    current: [{ pills: ["Exhibit 1", "Exhibit 2", "Exhibit 3"], bad: [0, 1, 2], firstOn: true }, { card: "Q6.2 · Analyze Cues · Part 2/6", bad: true }, { cta: "NEXT STEP" }],
+    proposed: [{ pills: ["Nurses' Notes", "Vital Signs", "Laboratory Results"], hi: [0, 1, 2], firstOn: true }, { card: "Case 6 · Analyze Cues · Question 2 of 6", hi: true }, { cta: "NEXT QUESTION" }],
+    changes: [["Exhibit 1 / Exhibit 2 (chart tabs)", "Nurses' Notes / Vital Signs / Laboratory Results"], ["Part 2/6", "Question 2 of 6"], ["NEXT STEP", "NEXT QUESTION"]],
+    rationale: "Verified in CaseStudyShell.tsx:358-393, :481-539 and apis/question/formats.ts:104-110. Real NGN case studies show the client's chart as named tabs; “Exhibit” is CPA/Bar wording, and splitting the title on “—” also drops the time. “Step” clashes with the clinical judgment step names (Recognize Cues…), which are correct.",
+  },
+  {
+    id: "nclex-review-scoring", course: "nclex", kind: "screen", area: "Quiz · Results", title: "Answer review: case study groups", where: "Finish a quiz → Report card → “Review all answers”",
+    screenTitle: "Explanations",
+    current: [{ card: "Case study 6", sub: "6 steps · scored as one question", bad: true }, { pills: ["Exhibits (3)"] }],
+    proposed: [{ card: "Case study 6", sub: "6 questions", hi: true }, { pills: ["Chart (3)"], hi: [0] }],
+    changes: [["6 steps · scored as one question", "6 questions"], ["Exhibits (3)", "Chart (3)"]],
+    rationale: "Verified in result/explanation-list.tsx:182-199. NCSBN scores each of the six case-study items separately (with partial credit), so “scored as one question” misstates how the exam works.",
+  },
+  {
+    id: "nclex-report-copy", course: "nclex", kind: "screen", area: "Quiz · Results", title: "Report card wording and score", where: "Finish a quiz → Report card; also the chat/daily quiz result card",
+    screenTitle: "Report card",
+    current: [{ card: "On track", sub: "Badge from raw accuracy (Strong / On track / Borderline / Below pace)", bad: true }, { card: "You picked · First-line answer", sub: "Miss-pattern card", bad: true }, { card: "Predicted score 62 / 100", sub: "Quiz widget result card", bad: true }, { card: "Went your way · Cost you marks", bad: true }],
+    proposed: [{ card: "Probability of passing: High", sub: "Or accuracy only, with no pass wording", hi: true }, { card: "You picked · Correct answer", sub: "Miss-pattern card", hi: true }, { card: "Accuracy 62%", sub: "Quiz widget result card", hi: true }, { card: "Went your way · Cost you points", hi: true }],
+    changes: [["Strong / On track / Borderline / Below pace", "Probability of passing (Low → Very High), or accuracy only"], ["First-line answer", "Correct answer"], ["Predicted score", "Accuracy"], ["Cost you marks", "Cost you points"]],
+    rationale: "Verified in ReportCardHeader.tsx:18-29, MissPatternCard.tsx:108, ResultCard.tsx:45. NCLEX is pass/fail and adaptive; UWorld and Archer report a pass likelihood, not a score. “First-line” is prescriber language.",
+  },
+  {
+    id: "nclex-tutor-persona", course: "nclex", kind: "screen", area: "Rezzy · Chat", title: "Tutor persona", where: "Home → “Ask Rezzy anything” → any chat (persona prompt on the server)",
+    screenTitle: "Rezzy",
+    current: [{ card: "Rezzy — “Resident with Rizz… for medical students preparing for NEET-PG, INI-CET, FMGE and USMLE… Hinglish back is natural”", sub: "Server persona prompt (personas/rezzy.md)", bad: true }, { p: "Flashcard prompts: “Diagnostic criteria”, “STEMI vs NSTEMI”", bad: true }],
+    proposed: [{ card: "Rezzy — NCLEX nursing tutor (clinical judgment, Client Needs, NGN)", sub: "NCLEX persona prompt (name and art: decision needed)", hi: true }, { p: "Flashcard prompts: “Lab values”, “Medication classes”", hi: true }],
+    changes: [["Physician resident persona for NEET-PG/INI-CET/USMLE", "Nursing tutor persona (decision needed)"], ["Diagnostic criteria / STEMI vs NSTEMI", "Nursing-scope prompts"]],
+    rationale: "Verified in lib/persona/registry.ts:285-290 and the API persona prompt. A physician resident is the wrong mentor for nurses, and diagnosing is outside nursing scope. No NCLEX persona prompt exists on API main or dev. The privacy copy about patient data is fine for NCLEX.",
+  },
+  {
+    id: "nclex-benchmark-banner", course: "nclex", kind: "screen", area: "Home · Explore", title: "Benchmark banner", where: "Explore tab (and web home) → benchmark banner, when a live benchmark exists for the course",
+    screenTitle: "Explore",
+    current: [{ card: "200 Questions covering all subjects" }, { p: "Enhanced with AI trained on 5,000+ AKT focused questions", bad: true }, { p: "AI-powered algorithm to predict your INICET score from this test.", bad: true }],
+    proposed: [{ card: "Readiness assessment covering every Client Needs category", hi: true }, { p: "NGN case studies and SATA, like the real exam", hi: true }, { p: "See your probability of passing.", hi: true }],
+    changes: [["AKT focused questions", "NGN case studies and SATA"], ["predict your INICET score", "Probability of passing"]],
+    rationale: "Verified in components/learn/new-homepage/BenchmarkTestBanner.tsx:35-37. The copy is hard-coded for the UK AKT and the Indian INI-CET exams.",
+  },
+  {
+    id: "nclex-lessons-web-groups", course: "nclex", kind: "screen", area: "Lessons · Subject list", title: "Subject picker groups (web)", where: "Lessons (web) → Select Subject → subject sheet",
+    screenTitle: "Select Subject",
+    current: [{ h: "Pre-clinical", bad: true }, { card: "Anatomy & Physiology" }, { h: "Clinical", bad: true }, { card: "Management of Care" }, { card: "Pharmacological & Parenteral Therapies" }],
+    proposed: [{ h: "All Subjects", hi: true }, { card: "Anatomy & Physiology" }, { card: "Management of Care" }, { card: "Pharmacological & Parenteral Therapies" }],
+    changes: [["Pre-clinical / Para-clinical / Clinical / Other", "All Subjects (as on the app)"]],
+    rationale: "Verified in SubjectSelectorBottomSheet/index.web.tsx:33-55. The web sheet always applies NEET medical groups by substring (“ENT” matches “Management”). The native sheet already shows one “All Subjects” group for NCLEX.",
+  },
+  {
+    id: "nclex-lesson-video", course: "nclex", kind: "screen", area: "Lessons · Lesson page", title: "Lesson video channel labels", where: "Lessons → open a lesson → video (film) icon",
+    screenTitle: "Videos",
+    current: [{ card: "Professor", sub: "Channel card", bad: true }, { pills: ["Deep Dive", "Rapid Review"] }, { cta: "SWITCH PROFESSOR" }],
+    proposed: [{ card: "Channel", sub: "Channel card", hi: true }, { pills: ["Deep Dive", "Rapid Review"] }, { cta: "SWITCH CHANNEL" }],
+    changes: [["Professor", "Channel"], ["Switch Professor", "Switch Channel"]],
+    rationale: "Verified in components/videoFlix/VideoFlixBrowseContent.tsx:161, 245, 624. “Professor” is Indian coaching-video wording for what are YouTube channels.",
+  },
+  {
+    id: "nclex-flashcard-empty", course: "nclex", kind: "screen", screenKey: "flashcard-empty", area: "Flashcards · Search", title: "No search results",
+    screenTitle: "Flashcards",
+    current: [{ card: "No search results for “heparin”" }, { p: "Oncourse can generate topper-level flashcards for any topic that you like", bad: true }, { cta: "GENERATE FLASHCARDS WITH AI" }],
+    proposed: [{ card: "No search results for “heparin”" }, { p: "Oncourse can generate flashcards for any NCLEX topic you choose", hi: true }, { cta: "GENERATE FLASHCARDS WITH AI" }],
+    changes: [["topper-level flashcards", "flashcards for any NCLEX topic"]],
+    rationale: "Verified in components/flashcards/SearchSection/FlashcardList.tsx:170-174. “Topper” is Indian medical-exam slang.",
+  },
+  {
+    id: "nclex-flashcard-examples", course: "nclex", kind: "screen", screenKey: "flashcard-create", area: "Flashcards · Generate with AI", title: "AI flashcard examples",
+    screenTitle: "Generate Flashcards with AI",
+    current: [{ h: "Examples of what others are making" }, { card: "Urea Cycle", sub: "8 Cards", bad: true }, { card: "Cardiac Potentials", sub: "10 Cards", bad: true }, { card: "Conduction System of Heart", sub: "2 Cards" }],
+    proposed: [{ h: "Examples of what others are making" }, { card: "Critical Lab Values", sub: "15 Cards", hi: true }, { card: "Insulin Types", sub: "8 Cards", hi: true }, { card: "Isolation Precautions", sub: "10 Cards", hi: true }],
+    changes: [["Urea Cycle / Cardiac Potentials / Conduction System of Heart", "Critical Lab Values / Insulin Types / Isolation Precautions"]],
+    rationale: "Verified in app/(app)/snippets/flashcards/create-prompt.tsx:36-55. The examples are medical-school physiology, with nothing on pharmacology, prioritization or Client Needs.",
+  },
+];
+
+renderTermsTable("nclex", nclexTermColumns, nclexTerms, ["4 sources reviewed", "Public websites + help centers", "Latest app UI · origin/dev · 41bfa98ac (25 Sep)"]);
+mountSharedReview("nclex-review-list", "nclex", nclexItems, renderSharedCard);
