@@ -31,6 +31,7 @@ const sharedCourses = {
   },
   cfa: {
     name: "CFA",
+    premadeDecks: true,
     tutor: "Savvy",
     unit: "Quiz",
     hierarchy: "subject",
@@ -341,7 +342,7 @@ const sharedRenderers = {
     return `<div class="component-preview sx-screen">
       <div class="sx-top"><span>▥</span><strong>Flashcards</strong></div>
       <div class="sx-search">⌕ ${q}</div>
-      <div class="sx-pills"><span class="on">All</span><span>By Me</span><span class="${proposed ? "" : "sx-bad-chip"}">${proposed ? "By Oncourse" : "By Toppers"}</span><span>Imported</span></div>
+      <div class="sx-pills"><span class="on">All</span><span>By Me</span>${proposed ? (c.premadeDecks ? "<span>By Oncourse</span>" : "") : `<span class="sx-bad-chip">By Toppers</span>`}<span>Imported</span></div>
       <div class="sx-card"><strong>${c.examples.flashcards[0]}</strong><small>Oncourse</small></div>
       <div class="sx-card"><strong>${c.examples.flashcards[1]}</strong><small>My deck</small></div>
     </div>`;
@@ -404,7 +405,7 @@ function sharedItemsFor(key) {
     { kind: "share-message", courses: ["cpa", "cfa", "lsat", "bar"], area: `${c.tutor} · Chat`, title: "Share an answer", changes: [["quiz.chat_share_pyqs (raw key)", `${c.name} share message`]], rationale: "Verified in components/chat/actions/MessageActions.tsx:111. The key is missing from the base copy file, so the raw key is sent. The medical version mentions an “AI medical resident” and PYQs, so it cannot be reused." },
     { kind: "flashcard-loading", courses: ["lsat"], area: "Flashcards · Generate with AI", title: "AI generation loading state", changes: [["flashcards.search_loading_text", "Creating your LSAT flashcards…"]], rationale: "Verified in app/(app)/snippets/flashcards/create-prompt.tsx:282. The key is missing from the base copy file, so every non-medical course sees the raw key." },
     { kind: "flashcard-footer", courses: ["cpa", "lsat", "bar"], area: "Flashcards · Search results", title: "“Looking for more?” footer", changes: [["topper-level flashcards", `flashcards for any ${c.name} topic`]], rationale: "Verified in components/flashcards/SearchSection/FlashcardList.tsx:183-187. It shows below short result lists (under 20 cards) and repeats the Topper wording of the empty state." },
-    { kind: "flashcard-filters", courses: ["cpa", "cfa", "lsat", "bar"], area: "Flashcards · Search results", title: "Search result filters", changes: [["By Toppers", "By Oncourse"]], rationale: `Verified in components/snippets/FlashcardFilters.tsx:23. The chip appears on every flashcard search. “Toppers” is Indian medical-exam slang; ${c.name} decks are made by Oncourse.` },
+    { kind: "flashcard-filters", courses: ["cpa", "cfa", "lsat", "bar"], area: "Flashcards · Search results", title: "Search result filters", changes: [["By Toppers", c.premadeDecks ? "By Oncourse" : "Remove chip"]], rationale: c.premadeDecks ? "Verified in components/snippets/FlashcardFilters.tsx:23: the chip filters to premade (type: premade) cards. CFA has premade decks: the API imported 3,193 owner-authored CFA Level I–III cards to staging on 24 Sep (pending validation). Keep the chip, but “Toppers” is Indian medical-exam slang, so name it By Oncourse." : `Verified in components/snippets/FlashcardFilters.tsx:23: the chip filters to premade (type: premade) cards. There is no premade ${c.name} flashcard import in the API, so the chip would always return nothing. Remove it until premade ${c.name} decks exist; All, By Me and Imported stay.` },
     { kind: "emoji-picker", courses: ["cpa", "cfa", "lsat", "bar"], area: "Flashcards · Save to deck", title: "New deck emoji picker", changes: [["Medical & Clinical Context category", c.name === "LSAT" || c.name === "BAR" ? "Law & Reasoning" : "Finance & Accounting"], ["Preset “Recently used”: 🫁🚑😷💊🩺", "Study emojis, or the user's real recent picks"]], rationale: "Verified in components/flashcards/SearchSection/SaveToDeckBottomSheet.tsx:25-31. “Recently used” is a hard-coded medical preset, not the user's history, and one category is medical." },
     { kind: "readiness-dimension", courses: ["cpa", "cfa", "lsat", "bar"], area: "My Progress · Readiness", title: "Readiness dimensions sheet", changes: [["Using what you know on a clinical vignette.", "Using what you know on an exam-style scenario."]], rationale: "Verified in components/myProgress/ReadinessTab.tsx:71. “Clinical vignette” is medical." },
     { kind: "study-points", courses: ["cpa", "cfa", "lsat", "bar"], area: "My Progress · Badges", title: "Study Points activities", changes: [["Play Image Rush", "Remove"], ["Solve a Clinical Round", "Remove"], ["—", "Play Medle"], ...(unit !== "Quiz" ? [["Attempt a Quiz", `Attempt a ${unit}`]] : [])], rationale: `Verified in StudyPointsInfoModal (native and web). Image Rush and Clinical Rounds are hidden for ${c.name}, while Medle, which ${c.name} does get, is missing.` },
