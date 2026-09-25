@@ -6871,3 +6871,7 @@ h1 {
 .sx-wide .comparison-grid { grid-template-columns: 1fr; }
 .sx-wide .version-panel + .version-panel { margin-top: 6px; }
 .sx-wide .casey-review-layout .rezzy-phone { width: 100%; max-width: 420px; margin: 0 auto; }
+
+/* "Where in the app" path under each card title */
+.card-where { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 10px 0 0; color: var(--ink); font-size: 14px; line-height: 1.5; }
+.card-where span { padding: 2px 8px; border-radius: 999px; background: var(--blue-soft); color: var(--blue-strong); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }

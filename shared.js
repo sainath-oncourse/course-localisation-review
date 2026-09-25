@@ -436,6 +436,95 @@ function renderSharedCard(item, index) {
   </article>`;
 }
 
+// "Where in the app" paths, written with the labels the app shows today.
+function whereFor(courseKey, kind) {
+  const t = sharedCourses[courseKey].tutor;
+  const paths = {
+    navigation: "Bottom tab bar on every main screen (Quiz · Lessons · Home · Flashcards · Play)",
+    "practice-landing": "Quiz tab (bottom bar) → top of the Quiz screen: header, Bookmarked / Self Assess buttons and the By Subject · Tests · Recents segments",
+    "test-filters": "Quiz tab → Tests segment → filter pills and test list",
+    builder: "Quiz tab → Self Assess button → “Create a Self-Assessment” screen",
+    "topic-selection": "Quiz tab → Self Assess → CHOOSE TOPICS → “Choose Topics” screen",
+    "by-subject": "Quiz tab → By Subject segment → keyword search results, or tap a subject → its topics screen",
+    history: "Quiz tab → Recents segment → past quizzes list",
+    "history-empty": "Quiz tab → Recents segment, before any quiz has been taken",
+    "ready-sheet": "Quiz tab → By Subject → tap a topic (or tap a paused quiz in Recents) → bottom sheet",
+    "paused-page": "Start a quiz → pause it → Quiz tab → Recents → tap the paused quiz → “Your Quiz is Paused” screen",
+    "end-dialog": "During any quiz → End / Finish button → confirmation dialog",
+    "start-screen": "Quiz tab → Tests segment → tap a Benchmark test → start screen shown before the first question",
+    "report-header": "Finish any quiz or test → “Report card” results screen → top summary card",
+    "tests-empty": "Quiz tab → Tests segment → banner at the top of the list",
+    "test-card-count": "Quiz tab → Tests segment → subtitle on each test card",
+    lessons: "Lessons tab → “Select Subject” button (opens the subject sheet) and the pills below it",
+    "lessons-search": "Lessons tab → Theme → open a theme → FILTER → Subjects → search box",
+    "vibe-followup": "Lessons tab → open a lesson → Exercises → halfway “How you feeling?” check → pick a mood",
+    "readiness-strip": "Home tab → readiness strip under the header; the loader text shows while today's plan is being built",
+    "flashcard-create": "Flashcards tab → Create → Generate with AI",
+    "flashcard-loading": "Flashcards tab → Create → Generate with AI → MAKE ME FLASHCARDS → loading screen",
+    "flashcard-empty": "Flashcards tab → search bar → search a topic that has no cards",
+    "flashcard-footer": "Flashcards tab → search bar → search a topic that returns fewer than 20 cards → end of the list",
+    "flashcard-filters": "Flashcards tab → search bar → type 3+ letters → chips above the results",
+    "emoji-picker": "Flashcards tab → search a topic → select cards → SAVE TO DECK → New deck → Change emoji",
+    "tutor-home": `Home tab → “Ask ${t} anything” bar → ${t} home → tool pills above the text box (each pill opens its own prompt sheet)`,
+    "plus-menu": `${t} home → “+” button in the text box (the same menu opens inside lesson chat)`,
+    "canvas-empty": `${t} home → ☰ menu (top left) → Canvas, before any canvas is created`,
+    "library-tutor": `${t} home → ☰ menu → Library → “From ${t}” tab, while empty`,
+    "library-notes": `${t} home → ☰ menu → Library → “From My Notes” tab, while empty`,
+    reminders: `${t} home → ☰ menu → Reminders, before any reminder is set`,
+    "chat-history-empty": `${t} home → ☰ menu → Chats → “${t}” or “Quiz Analysis” tab with no chats`,
+    "share-message": `Any ${t} chat → an answer → Share icon under the message → share sheet text`,
+    "quiz-widget": `${t} chat → ask for a quiz (or use the Take a quiz pill) → quiz card in the reply`,
+    "readiness-dimension": "Home → profile circle (top right) → My Progress → Readiness → tap the “Four dimensions” card",
+    "study-points": "Home → profile circle → My Progress → Badges tab → ⓘ button",
+    "profile-avatar": "Home → profile circle → My Progress → ⚙ settings → Profile (avatar at the top)",
+    "membership-perks": "Profile → Oncourse Max row → Manage → Membership screen → “Your Max perks”",
+    "cancel-flow": "Membership screen → Cancel → “Which features did you use the most?”, then the “Now at 25% off” offer",
+  };
+  return paths[kind] || "";
+}
+
+// Page-owned cards, mapped to the same screen paths.
+const ownCardScreens = {
+  "bottom-navigation": "navigation", "lsat-navigation": "navigation", "bar-navigation": "navigation",
+  "practice-screen-shell": "practice-landing", "cfa-practice-landing": "practice-landing", "lsat-practice-landing": "practice-landing", "bar-practice-landing": "practice-landing",
+  "practice-test-filters": "test-filters", "cfa-mock-exams": "test-filters", "lsat-test-types": "test-filters", "bar-simulations": "test-filters",
+  "create-test-setup": "builder", "cfa-quiz-setup": "builder", "lsat-drill-builder": "builder", "bar-drill-builder": "builder",
+  "create-test-content-selection": "topic-selection", "lsat-topic-selection": "topic-selection", "bar-topic-selection": "topic-selection",
+  "by-subject-flow": "by-subject", "lsat-by-subject-flow": "by-subject", "bar-by-subject-flow": "by-subject",
+  "recent-tests": "history", "cfa-recents": "history", "lsat-history": "history", "bar-practice-history": "history",
+  "lsat-history-empty": "history-empty", "bar-practice-history-empty": "history-empty",
+  "resume-test-sheet": "ready-sheet", "cfa-quiz-ready": "ready-sheet", "lsat-ready-sheet": "ready-sheet", "bar-ready-sheet": "ready-sheet",
+  "paused-test-page": "paused-page", "lsat-paused-page": "paused-page", "bar-paused-page": "paused-page",
+  "end-test-dialog": "end-dialog",
+  "cpa-lessons-ordering": "lessons", "cfa-lessons-ordering": "lessons", "lsat-lessons-ordering": "lessons", "bar-lessons-ordering": "lessons",
+  "search-and-savvy": "lessons-search",
+  "flashcards-ai-generation": "flashcard-create", "cfa-flashcard-examples": "flashcard-create", "lsat-flashcard-create": "flashcard-create", "bar-flashcards": "flashcard-create",
+  "flashcards-ai-loading": "flashcard-loading", "cfa-flashcard-loading": "flashcard-loading",
+  "flashcards-search-empty": "flashcard-empty", "cfa-flashcard-empty": "flashcard-empty", "lsat-flashcard-search-empty": "flashcard-empty", "bar-flashcards-search-empty": "flashcard-empty",
+  "cfa-flashcard-search-footer": "flashcard-footer",
+  "cfa-rezzy-tools": "plus-menu", "lsat-casey-home": "tutor-home", "bar-search-study": "tutor-home",
+  "lsat-casey-widget": "quiz-widget", "bar-casey-widget": "quiz-widget",
+  "cfa-rezzy-canvas": "canvas-empty", "lsat-canvas-empty": "canvas-empty", "bar-canvas-empty": "canvas-empty",
+  "lsat-library-casey-empty": "library-tutor", "bar-library-casey-empty": "library-tutor",
+  "lsat-library-notes-empty": "library-notes", "bar-library-notes-empty": "library-notes",
+  "cfa-rezzy-reminders": "reminders",
+};
+
+function sharedScreenKey(item) {
+  if (item.kind === "library-empty") return item.section === "tutor" ? "library-tutor" : "library-notes";
+  return item.kind;
+}
+
+function addWhereLines(courseKey, entries) {
+  entries.forEach(({ item, shared }) => {
+    const key = shared ? sharedScreenKey(item) : ownCardScreens[item.id];
+    const text = key ? whereFor(courseKey, key) : "";
+    const header = document.querySelector(`#${CSS.escape(item.id)} .card-header`);
+    if (!text || !header || header.querySelector(".card-where")) return;
+    header.insertAdjacentHTML("beforeend", `<p class="card-where"><span>Where in the app</span>${text}</p>`);
+  });
+}
+
 // Merges a page's own cards with the shared cards, grouped by app area, and renders them.
 function mountSharedReview(containerId, courseKey, courseItems, renderCourseCard) {
   const own = courseItems.map((item, i) => ({ item, rank: sharedAreaRank(item.area || ""), seq: i, shared: false }));
@@ -444,4 +533,5 @@ function mountSharedReview(containerId, courseKey, courseItems, renderCourseCard
   document.getElementById(containerId).innerHTML = ordered
     .map((entry, index) => (entry.shared ? renderSharedCard(entry.item, index) : renderCourseCard(entry.item, index)))
     .join("");
+  addWhereLines(courseKey, ordered);
 }
