@@ -6866,3 +6866,8 @@ h1 {
 .sx-screen .sx-bad, .sx-screen p.sx-bad, .flashcard-full-loader p.sx-bad, .cfa-looking-more p.sx-bad { color: #b42318; }
 .sx-bad-box { background: #fdecea; color: #b42318; }
 .sx-chips span.sx-bad-chip { border-color: #f4b4ad; background: #fdecea; color: #b42318; }
+
+/* Tutor home needs the full card width (phone + prompts panel), like the LSAT/BAR cards */
+.sx-wide .comparison-grid { grid-template-columns: 1fr; }
+.sx-wide .version-panel + .version-panel { margin-top: 6px; }
+.sx-wide .casey-review-layout .rezzy-phone { width: 100%; max-width: 420px; margin: 0 auto; }

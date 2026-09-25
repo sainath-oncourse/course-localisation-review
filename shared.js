@@ -427,7 +427,8 @@ function sharedAreaRank(area) {
 function renderSharedCard(item, index) {
   const c = sharedCourses[item.course];
   const render = sharedRenderers[item.kind];
-  return `<article class="review-card" id="${item.id}">
+  const wide = item.kind === "tutor-home" ? " sx-wide" : "";
+  return `<article class="review-card${wide}" id="${item.id}">
     <header class="card-header"><p class="card-kicker">${String(index + 1).padStart(2, "0")} · ${item.area}</p><h2>${item.title}</h2></header>
     <div class="comparison-grid"><section class="version-panel"><div class="version-heading"><span class="version-label">Current</span></div>${render(c, "current", item)}</section><section class="version-panel"><div class="version-heading"><span class="version-label">Proposed</span></div>${render(c, "proposed", item)}</section></div>
     <div class="decision-row"><div><span class="change-type">${item.changeType}</span><div class="change-list">${item.changes.map(([from, to]) => `<div class="change-line"><span class="old-copy">${from}</span><span class="arrow">→</span><span class="new-copy">${to}</span></div>`).join("")}</div></div><div class="decision-copy"><h4>Why this change</h4><p>${item.rationale}</p></div></div>
