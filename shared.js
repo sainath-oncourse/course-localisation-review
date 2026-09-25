@@ -7,7 +7,7 @@ const sharedCourses = {
     name: "CPA",
     tutor: "Savvy",
     unit: "Test",
-    hierarchy: "section",
+    hierarchy: "area",
     mock: "Simulated Exam",
     mockShort: "SIMULATED EXAM",
     questionNoun: "questions",
@@ -18,7 +18,7 @@ const sharedCourses = {
       quiz: ["Simulations", "FAR practice", "Rapid revision"],
       lessons: ["Leases", "Deferred taxes", "Revision topic"],
       mnemonics: ["Internal control", "Governmental funds", "Audit assertions"],
-      weak: ["Recent practice", "Section gaps", "Study plan"],
+      weak: ["Recent practice", "Area gaps", "Study plan"],
     },
     canvasChips: ["Lease classifier", "Depreciation methods", "Tax basis calculator", "Consolidation map", "Audit opinion tree"],
     libraryTutorChips: ["Explain lease classification", "Create a revenue recognition flowchart", "Map audit assertions", "Compare GAAP vs IFRS"],
@@ -275,8 +275,8 @@ const sharedRenderers = {
   "readiness-strip": (c, v) => {
     const proposed = v === "proposed";
     return `<div class="component-preview sx-screen">
-      <div class="sx-strip"><span><small>Your readiness</small><strong>Developing</strong><em class="${proposed ? "" : "sx-bad"}">${proposed ? "2 of 6 sections exam ready" : "2 of 6 subjects exam ready"}</em></span><b>VIEW</b></div>
-      <div class="sx-card"><small>Plan loader</small><strong>${proposed ? "Picking your sections…" : "Picking your subjects…"}</strong></div>
+      <div class="sx-strip"><span><small>Your readiness</small><strong>Developing</strong><em class="${proposed ? "" : "sx-bad"}">${proposed ? "2 of 4 areas exam ready" : "2 of 4 subjects exam ready"}</em></span><b>VIEW</b></div>
+      <div class="sx-card"><small>Plan loader</small><strong>${proposed ? "Picking your areas…" : "Picking your subjects…"}</strong></div>
     </div>`;
   },
 
@@ -393,7 +393,7 @@ function sharedItemsFor(key) {
     { kind: "test-card-count", courses: ["cpa", "bar"], area: "Practice · Tests", title: `${c.mock} card question count`, changes: [["{n} MCQs", "{n} questions"]], rationale: `Verified in TestTemplateListCard.tsx:250. ${c.name === "CPA" ? "CPA exams include task-based simulations" : "The bar exam includes MEE essays and MPT performance tests"}, so counting everything as MCQs is inaccurate.` },
     { kind: "end-dialog", courses: ["lsat", "bar"], area: "Practice · In drill", title: "End drill confirmation", changes: [["You are about to end the quiz", "You are about to end the drill"], ["YES, END THE QUIZ", "YES, END THE DRILL"]], rationale: "Verified in app/(app)/evaluation/test/question/end.tsx. The same dialog already has a CPA Test card, so LSAT and BAR get their Drill value too." },
     { kind: "vibe-followup", courses: ["cpa", "cfa", "lsat", "bar"], area: "Lessons · Exercises", title: "Mood check follow-up", changes: [["Rezzy doctor-coat art (5 of 6 moods)", `${c.tutor} art`], ["…bolus of dopamine… clinical tidbit", `Neutral ${c.name} copy`]], rationale: `Verified in components/notes/exercises/VibeContent.tsx. The mood check appears halfway through lesson exercises. Its images are not persona-aware and its fallback copy is medical; only “Curious” uses ${c.tutor}'s art.` },
-    { kind: "readiness-strip", courses: ["cpa"], area: "Home · Readiness", title: "Readiness strip and plan loader", changes: [["2 of 6 subjects exam ready", "2 of 6 sections exam ready"], ["Picking your subjects…", "Picking your sections…"]], rationale: "Verified in ProgressionStatusStrip.tsx:175 and dailyPlanStages.ts. CPA uses Section across the rest of this review, so the Home strip should match." },
+    { kind: "readiness-strip", courses: ["cpa"], area: "Home · Readiness", title: "Readiness strip and plan loader", changes: [["2 of 4 subjects exam ready", "2 of 4 areas exam ready"], ["Picking your subjects…", "Picking your areas…"]], rationale: "Verified in ProgressionStatusStrip.tsx:175 and dailyPlanStages.ts. Readiness is counted per content area inside the selected CPA section (e.g. AUD Area I–IV), so the strip should say areas, matching the rest of this review." },
     { kind: "tutor-home", courses: ["cpa", "cfa"], area: `${c.tutor} · Home`, title: `${c.tutor} home pills and prompts`, changes: [["Medical prompts under every pill", `${c.name} prompts for every pill`], ...(unit === "Test" ? [["Take a quiz", "Take a test"]] : [])], rationale: `Each pill opens its own prompt sheet. The live API (main) still serves medical defaults such as ECG axis map and Antibiotic ladder. The ${c.name} prompts shown are the ones already written on API dev (courses/${key}/insights-tool-suggestions), so this only needs releasing.` },
     { kind: "plus-menu", courses: ["cpa", "lsat", "bar"], area: `${c.tutor} · Add menu`, title: "“+” menu learning tools", changes: [["Get flowcharts · See how concepts connects", "Learn with Flowcharts · Visualize complex topics easily"], ["Get high-yield notes", c.notesTool || "Get study notes"], ...(unit !== "Quiz" ? [["Take a quiz", unit === "Drill" ? "Start a drill" : "Take a test"]] : [])], rationale: "Verified in components/chat/input/ChatUploadModal.tsx:279-343. The same menu opens from the composer and inside lesson chat. The CFA page already has this card, so the other courses get their own values." },
     { kind: "canvas-empty", courses: ["cpa"], area: `${c.tutor} drawer · Canvas`, title: "Canvas empty state", changes: [["Medical Canvas suggestions", "CPA Canvas suggestions"]], rationale: "Verified in components/chat/core/RezzyCanvasesGallery.tsx:72-93. The chips are hard-coded medical for every course." },

@@ -69,6 +69,7 @@ const reviewItems = [
     changeType: "Shared component · CPA values",
     changes: [
       { from: "Quiz", to: "Practice" },
+      { from: "By Subject", to: "By Area" },
       { from: "Self Assess", to: "Create Test" },
     ],
     rationale:
@@ -77,17 +78,17 @@ const reviewItems = [
   {
     id: "cpa-lessons-ordering",
     kind: "lessons-ordering",
-    area: "Lessons · Section list",
-    title: "Lessons section selector",
+    area: "Lessons · Area list",
+    title: "Lessons area selector",
     current: "Subject terminology with no visible ordering control",
-    proposed: "CPA Sections with an Organise by control",
+    proposed: "CPA content areas",
     changeType: "Shared component · CPA values/examples",
     changes: [
-      { from: "Select Subject", to: "Select Section" },
-      { from: "Search across your Subjects", to: "Search across CPA Sections" },
+      { from: "Select Subject", to: "Select Area" },
+      { from: "Search across your Subjects", to: "Search across your Areas" },
     ],
     rationale:
-      "Verified in components/lessons/myPath/SubjectSelectorBottomSheet. The shared Lessons selector says Subject for every course; Becker and UWorld organize CPA study by Section. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
+      "Verified in components/lessons/myPath/SubjectSelectorBottomSheet. In CPA, a Section is the whole exam part (AUD, FAR, REG, BAR, ISC, TCP) and is chosen with the Home section switcher. This list shows the AICPA Blueprint content areas inside the selected section (e.g. AUD Area I–IV), so “Area” is the accurate term; “Section” would clash with the switcher. Ordering filter (Organise by) is not decided yet, so it is not proposed here.",
   },
   {
     id: "practice-test-filters",
@@ -115,7 +116,6 @@ const reviewItems = [
       { from: "Create a Self-Assessment", to: "Create Test" },
       { from: "Choose the mode of quiz", to: "Choose a test mode" },
       { from: "Question Type (mixed filters)", to: "Question status + Question type" },
-      { from: "CHOOSE TOPICS", to: "CHOOSE SECTIONS & TOPICS" },
     ],
     rationale:
       "Create Test keeps the journey consistent. Separate question history from CPA formats, show MCQs and TBSs explicitly, and reserve Simulated Exam for the fixed exam-like product.",
@@ -124,17 +124,15 @@ const reviewItems = [
     id: "create-test-content-selection",
     kind: "content-selection",
     area: "Practice · Create Test",
-    title: "Section and topic selection",
+    title: "Choose Topics screen",
     current: "Choose Topics",
-    proposed: "Choose Sections & Topics",
+    proposed: "START TEST",
     changeType: "Shared component · CPA values",
     changes: [
-      { from: "Choose Topics", to: "Choose Sections & Topics" },
-      { from: "Search by keyword or browse topics", to: "Search sections or topics" },
       { from: "START QUIZ", to: "START TEST" },
     ],
     rationale:
-      "This screen contains CPA Sections and their topics, so the heading should name both. All, Weak Topics and High Yield can remain unchanged.",
+      "Choose Topics and its search box are accurate for CPA and stay unchanged. Only the start action moves to Test wording. All, Weak Topics and High Yield remain.",
   },
   {
     id: "recent-tests",
@@ -174,17 +172,17 @@ const reviewItems = [
     id: "by-subject-flow",
     kind: "by-subject-flow",
     area: "Practice · By Subject",
-    title: "Start from a section or topic",
+    title: "Start from an area or topic",
     current: "Quiz actions",
     proposed: "Test actions",
     changeType: "Shared component · CPA values",
     changes: [
-      { from: "By Subject", to: "By Section" },
+      { from: "By Subject", to: "By Area" },
       { from: "START QUIZ (30 Qs)", to: "START TEST (30 Qs)" },
       { from: "START QUIZ (3 topics)", to: "START TEST (3 topics)" },
     ],
     rationale:
-      "The underlying routes are shared and currently hard-code Subject and Quiz. Apply Section and Test through CPA-specific terminology—not as a global component rename. Other courses retain their own hierarchy and activity noun. All and High Yield remain unchanged.",
+      "In CPA, a Section is the whole exam part (AUD, FAR, REG, BAR, ISC, TCP) and is chosen with the Home section switcher. This list shows the AICPA Blueprint content areas inside the selected section (e.g. AUD Area I–IV), so “Area” is the accurate term; “Section” would clash with the switcher. Apply Area and Test as CPA values of the shared component, not a global rename. All and High Yield remain unchanged.",
   },
   {
     id: "search-and-savvy",
@@ -192,12 +190,12 @@ const reviewItems = [
     area: "Lessons · Search",
     title: "Lessons filter search field",
     current: "Subjects",
-    proposed: "Sections",
+    proposed: "Areas",
     changes: [
-      { from: "Search by Subjects", to: "Search sections" },
+      { from: "Search by Subjects", to: "Search areas" },
     ],
     rationale:
-      "Verified in components/lessons/FilterBottomSheet/index.tsx:180 (theme and subject filter sheets). CPA uses Sections for its top-level structure. Savvy entry points already show the correct name in the latest code, so they are no longer listed. Keyword search stays unchanged.",
+      "Verified in components/lessons/FilterBottomSheet/index.tsx:180 (theme and subject filter sheets). The subjects in this filter are CPA content areas, not Sections (AUD, FAR, REG…). Savvy entry points already show the correct name in the latest code, so they are no longer listed. Keyword search stays unchanged.",
   },
   {
     id: "paused-test-page",
@@ -349,7 +347,7 @@ function renderPracticeShell(version) {
         </button>
       </div>
       <div class="practice-segments" aria-label="Practice screen sections">
-        <span>${isProposal ? "By Section" : "By Subject"}</span>
+        <span>${isProposal ? "By Area" : "By Subject"}</span>
         <span class="selected">Tests</span>
         <span>${recentLabel}</span>
       </div>
@@ -366,13 +364,13 @@ function renderPracticeShell(version) {
 
 function renderLessonsOrdering(version) {
   const isProposal = version === "proposed";
-  const subjects = [["AUD", "Auditing and Attestation", "0/286 lessons"], ["FAR", "Financial Accounting and Reporting", "0/412 lessons"], ["REG", "Regulation", "0/318 lessons"]];
+  const subjects = [["I", "Ethics, Professional Responsibilities and General Principles", "0/64 lessons"], ["II", "Assessing Risk and Developing a Planned Response", "0/88 lessons"], ["III", "Performing Further Procedures and Obtaining Evidence", "0/92 lessons"]];
   return `<div class="component-preview lessons-audit-preview">
     <div class="lessons-audit-header"><i>▥</i><strong>Lessons</strong></div>
     <div class="lessons-audit-search">⌕ <span>Search across your Lessons</span></div>
-    <div class="lessons-audit-selector"><span>▤</span><strong>${isProposal ? "Select Section" : "Select Subject"}</strong><b>›</b></div>
+    <div class="lessons-audit-selector"><span>▤</span><strong>${isProposal ? "Select Area" : "Select Subject"}</strong><b>›</b></div>
     <div class="lessons-audit-pills"><span>All</span><span>High Yield</span><span>Bookmarks</span></div>
-    <div class="lessons-audit-group">${isProposal ? "CPA Sections" : "All Subjects"}</div>
+    <div class="lessons-audit-group">${isProposal ? "AUD content areas" : "All Subjects"}</div>
     ${subjects.map(([code, name, count]) => `<div class="lessons-audit-card"><i>${code}</i><span><strong>${name}</strong><small>${count}</small></span><b>›</b></div>`).join("")}
   </div>`;
 }
@@ -448,7 +446,7 @@ function renderCreateTestSetup(version) {
              <div class="setup-pills"><span class="active-pill">All</span><span>MCQs</span><span>TBSs</span></div>`
           : `<div class="setup-pills format-row"><span>CPA TBS</span></div>`
       }
-      <button class="setup-cta" type="button" tabindex="-1">${isProposal ? "CHOOSE SECTIONS & TOPICS" : "CHOOSE TOPICS"}</button>
+      <button class="setup-cta" type="button" tabindex="-1">CHOOSE TOPICS</button>
     </div>`;
 }
 
@@ -458,11 +456,11 @@ function renderContentSelection(version) {
     <div class="component-preview content-selection-preview">
       <div class="create-test-topline">
         <span aria-hidden="true">‹</span>
-        <strong>${isProposal ? "Choose Sections & Topics" : "Choose Topics"}</strong>
+        <strong>Choose Topics</strong>
       </div>
       <div class="selection-search">
         <span aria-hidden="true">⌕</span>
-        <span>${isProposal ? "Search sections or topics" : "Search by keyword or browse topics"}</span>
+        <span>Search by keyword or browse topics</span>
       </div>
       <div class="selection-quick-pills">
         <span class="selected">All</span><span>Weak Topics</span><span>High Yield</span>
@@ -561,7 +559,7 @@ function renderResumeTestSheet(version) {
                   <div class="real-detail-list">
                     <div><strong>Questions</strong><span>30</span></div>
                     <div><strong>Mode</strong><span>Practice</span></div>
-                    <div><strong>${isProposal ? "Section" : "Subject"}</strong><span>Auditing and Attestation<br /><small>4 Topics</small></span></div>
+                    <div><strong>${isProposal ? "Area" : "Subject"}</strong><span>Assessing Risk and Developing a Planned Response<br /><small>4 Topics</small></span></div>
                   </div>
                   <div class="real-feature-panel">
                     <div><i class="feature-icon blue">▤</i><span>Discuss answers<br />with ${isProposal ? "Savvy" : "Rezzy"}</span></div>
@@ -582,7 +580,7 @@ function renderBySubjectFlow(version) {
   return `
     <div class="component-preview two-screen-preview">
       <section class="mini-app-screen">
-        <div class="mini-screen-title">${isProposal ? "By Section" : "By Subject"}</div>
+        <div class="mini-screen-title">${isProposal ? "By Area" : "By Subject"}</div>
         <div class="mini-search">⌕ &nbsp; Search questions by keyword...</div>
         <div class="mini-pills"><span class="active">All</span><span>★ High Yield</span></div>
         <div class="keyword-result">
@@ -608,7 +606,7 @@ function renderSearchSavvy(version) {
   return `
     <div class="component-preview search-savvy-preview">
       <div class="search-audit-list">
-        <div><span>⌕</span><strong>${isProposal ? "Search sections" : "Search by Subjects"}</strong><small>Lessons filter sheet · Subjects</small></div>
+        <div><span>⌕</span><strong>${isProposal ? "Search areas" : "Search by Subjects"}</strong><small>Lessons filter sheet · Subjects</small></div>
         <div class="unchanged-search"><span>⌕</span><strong>Search questions by keyword…</strong><small>Unchanged</small></div>
       </div>
     </div>`;
@@ -682,7 +680,7 @@ function renderPausedTestPage(version) {
       <div class="paused-page-content">
         <h3>${isProposal ? "Your Test is Paused" : "Your Quiz is Paused"}</h3>
         <p>Questions difficulty adapts to your answers. So you learn optimally.</p>
-        <div class="paused-page-details"><div><strong>Questions</strong><span>11/30</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${isProposal ? "Section" : "Subject"}</strong><span>Auditing and Attestation</span></div></div>
+        <div class="paused-page-details"><div><strong>Questions</strong><span>11/30</span></div><div><strong>Mode</strong><span>Practice</span></div><div><strong>${isProposal ? "Area" : "Subject"}</strong><span>Auditing and Attestation</span></div></div>
         <div class="paused-page-features"><span>▤<small>Discuss answers<br />with Savvy</small></span><span>⌁<small>AI weak-spot<br />analysis</small></span><span>Ⅱ<small>Pause &amp;<br />Resume</small></span></div>
       </div>
       <button class="paused-page-cta" type="button" tabindex="-1">${isProposal ? "CONTINUE TEST" : "CONTINUE QUIZ"}</button>
