@@ -6886,3 +6886,12 @@ h1 {
 .structure-arrow { color: var(--muted); font-weight: 400; }
 .structure-table td.structure-new { color: var(--blue-strong); font-weight: 700; }
 .structure-note { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
+
+/* Structure section: match the 30px card padding used by .section-heading */
+.structure-section .structure-intro { margin: 0; padding: 22px 30px 16px; }
+.structure-section .structure-flow { margin: 0; padding: 0 30px 22px; }
+.structure-section .structure-note { margin: 0; padding: 14px 30px 22px; border-top: 1px solid var(--line); }
+@media (max-width: 720px) {
+  .structure-section .structure-intro, .structure-section .structure-flow, .structure-section .structure-note { padding-left: 18px; padding-right: 18px; }
+  .structure-flow-label { width: 100%; }
+}
