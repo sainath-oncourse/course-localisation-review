@@ -31,10 +31,10 @@ const nclexItems = [
   {
     id: "nclex-format-pills", course: "nclex", kind: "screen", screenKey: "builder", area: "Quiz · Create", title: "Question format filter",
     screenTitle: "Create Quiz",
-    current: [{ h: "Question format" }, { pills: ["SATA", "Case Study", "Integrated", "Reading", "Cloze", "Matrix", "Ordering", "Fill Blank", "Hot Spot", "Highlight"], bad: [2, 3] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Image Based", "Bookmarked"], bad: [3] }],
-    proposed: [{ h: "Question format" }, { pills: ["Multiple Choice", "SATA", "Case Study", "Drop-Down Cloze", "Matrix", "Drag and Drop", "Fill in the Blank", "Hot Spot", "Highlight"], hi: [0, 3, 5, 6] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Bookmarked"] }],
-    changes: [["Integrated, Reading", "Remove (NextGen Bar and LSAT formats)"], ["Cloze / Ordering / Fill Blank", "Drop-Down Cloze / Drag and Drop / Fill in the Blank"], ["—", "Multiple Choice"], ["Image Based", "Remove"]],
-    rationale: "Verified in QuestionTypePills.tsx:19-30 and apis/question/formats.ts. NCLEX gets the same list as MCAT, including the Bar's integrated question sets and LSAT's reading passages. The other names follow NCSBN (“Drop-Down Cloze”, drag-and-drop). There is no pill to filter to standard multiple choice.",
+    current: [{ h: "Question format" }, { pills: ["SATA", "Case Study", "Integrated", "Reading", "Cloze", "Matrix", "Ordering", "Fill Blank", "Hot Spot", "Highlight"], bad: [2, 3, 6] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Image Based", "Bookmarked"], bad: [3] }],
+    proposed: [{ h: "Question format" }, { pills: ["SATA", "Case Study", "Cloze", "Matrix", "Drag and Drop", "Fill in the Blank", "Hot Spot", "Highlight"], hi: [4, 5] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Bookmarked"] }],
+    changes: [["Integrated, Reading", "Remove (NextGen Bar and LSAT formats)"], ["Ordering", "Drag and Drop"], ["Fill Blank", "Fill in the Blank (grammar only, unverified)"], ["Image Based", "Remove"]],
+    rationale: "Verified in QuestionTypePills.tsx:19-30 and apis/question/formats.ts. NCLEX gets the same list as MCAT, including the Bar's integrated question sets and LSAT's reading passages, which NCLEX does not have. NCSBN, UWorld and Kaplan call ordering items “Drag and Drop”; nobody says “Ordering”. “Cloze” stays: NCSBN (“Cloze (Drop-Down)”) and Kaplan (“Drop-down: Cloze”) use it. SATA, Case Study, Matrix, Hot Spot and Highlight match UWorld, Archer and NCSBN. Engineering note (not copy): there is no pill for standard multiple-choice items.",
   },
   {
     id: "nclex-test-filters", course: "nclex", kind: "screen", screenKey: "test-filters", area: "Quiz · Tests", title: "Tests filters and exam names",

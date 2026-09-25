@@ -32,9 +32,9 @@ const mcatItems = [
     id: "mcat-format-pills", course: "mcat", kind: "screen", screenKey: "builder", area: "Quiz · Create", title: "Question format filter",
     screenTitle: "Create Quiz",
     current: [{ h: "Question format" }, { pills: ["SATA", "Case Study", "Integrated", "Reading", "Cloze", "Matrix", "Ordering", "Fill Blank", "Hot Spot", "Highlight"], bad: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Image Based", "Bookmarked"], bad: [3] }],
-    proposed: [{ h: "Question format" }, { pills: ["All", "Passage-based", "Discrete"], hi: [1, 2] }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Bookmarked"] }],
-    changes: [["SATA, Case Study, Integrated, Reading, Cloze, Matrix, Ordering, Fill Blank, Hot Spot, Highlight", "Passage-based / Discrete"], ["Image Based", "Remove"]],
-    rationale: "Verified in components/evaluation/QuestionTypePills.tsx:19-30 and utils/course.ts. MCAT shares NCLEX's format list, but every MCAT question is a four-option multiple choice, either in a passage set or standalone, so each pill empties the list. AAMC calls these passage-based and independent questions; Blueprint says “Discretes”. Image Based is not gated by course here even though By Subject hides it.",
+    proposed: [{ h: "Question format section hidden for MCAT", hi: true }, { h: "Question type" }, { pills: ["All", "Unattempted", "Previously Incorrect", "Bookmarked"] }],
+    changes: [["SATA, Case Study, Integrated, Reading, Cloze, Matrix, Ordering, Fill Blank, Hot Spot, Highlight", "Hide the format filter for MCAT"], ["Image Based", "Remove"]],
+    rationale: "Verified in components/evaluation/QuestionTypePills.tsx:19-30 and utils/course.ts. MCAT shares NCLEX's format list, but every MCAT question is a four-option multiple choice, either in a passage set or standalone, so each pill empties the list. Image Based is not gated by course here even though By Subject hides it. Engineering note (not copy): if MCAT needs a format filter, competitors split passage-based and discrete/independent questions (Blueprint “Discretes”, AAMC “passage-based and independent”).",
   },
   {
     id: "mcat-test-filters", course: "mcat", kind: "screen", screenKey: "test-filters", area: "Quiz · Tests", title: "Tests filters and exam names",
