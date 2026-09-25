@@ -559,6 +559,49 @@ function addWhereLines(courseKey, entries) {
   });
 }
 
+// Content hierarchy explainer shown above the recommendations (CFA and CPA renamed levels).
+const courseStructures = {
+  cfa: {
+    intro: "CFA Institute organizes each level into Topics, and each Topic into Learning Modules. Oncourse's shared hierarchy calls the same levels Subject and Topic, which makes the app one level off from CFA's own names.",
+    columns: ["CFA Institute", "Oncourse today", "Proposed", "Example from the app"],
+    rows: [
+      ["Level", "Level (Home level switcher: L1 / L2 / L3)", "Level (unchanged)", "Level I"],
+      ["Topic", "Subject", "Topic", "Alternative Investments"],
+      ["Learning Module", "Topic (“Topic 1 · 3 Lessons”)", "Learning Module", "Alternative Investment Features, Methods, and Structures"],
+      ["Learning Outcome Statements and readings", "Lesson", "Lesson (unchanged)", "Categories of alternative investments"],
+    ],
+    competitors: "Competitors: UWorld Topic → Learning Module · Salt Solutions Topic → Reading · AnalystPrep Topic → Reading (“LM 1”)",
+    flow: [["Today", ["Level", "Subject", "Topic", "Lesson"]], ["Proposed", ["Level", "Topic", "Learning Module", "Lesson"]]],
+  },
+  cpa: {
+    intro: "The CPA Exam is split into Sections (AUD, FAR, REG and one discipline). The AICPA Blueprint divides each Section into content Areas. Oncourse already calls the Section switcher “section”, but labels the Areas inside it as Subjects.",
+    columns: ["AICPA / CPA Exam", "Oncourse today", "Proposed", "Example from the app"],
+    rows: [
+      ["Section", "Exam section (Home section switcher: FAR / AUD / REG …)", "Section (unchanged)", "AUD — Auditing and Attestation"],
+      ["Content Area", "Subject", "Area", "Assessing Risk and Developing a Planned Response"],
+      ["Topics within an Area", "Topic", "Topic (unchanged)", "Topics inside the Area"],
+      ["Study content", "Lesson", "Lesson (unchanged)", "Lessons inside each topic"],
+    ],
+    competitors: "Competitors: Becker Section → Unit → Module · UWorld Section → Topic / Subtopic",
+    flow: [["Today", ["Section", "Subject", "Topic", "Lesson"]], ["Proposed", ["Section", "Area", "Topic", "Lesson"]]],
+  },
+};
+
+function renderCourseStructure(courseKey) {
+  const target = document.getElementById(`${courseKey}-structure`);
+  const data = courseStructures[courseKey];
+  if (!target || !data) return;
+  const flow = data.flow.map(([label, steps], i) => `<div class="structure-flow-row"><span class="structure-flow-label">${label}</span>${steps.map((step, j) => {
+    const changed = i === 1 && step !== data.flow[0][1][j];
+    return `${j ? '<b class="structure-arrow">→</b>' : ""}<span class="structure-step ${changed ? "changed" : ""}">${step}</span>`;
+  }).join("")}</div>`).join("");
+  target.innerHTML = `<p class="structure-intro">${data.intro}</p>
+    <div class="structure-flow">${flow}</div>
+    <div class="terms-table-wrap"><table class="terms-table structure-table"><thead><tr>${data.columns.map((c) => `<th>${c}</th>`).join("")}</tr></thead>
+    <tbody>${data.rows.map((row) => `<tr><th>${row[0]}</th><td>${row[1]}</td><td class="${/unchanged/.test(row[2]) ? "" : "structure-new"}">${row[2]}</td><td>${row[3]}</td></tr>`).join("")}</tbody></table></div>
+    <p class="structure-note">${data.competitors}</p>`;
+}
+
 // Merges a page's own cards with the shared cards, grouped by app area, and renders them.
 function mountSharedReview(containerId, courseKey, courseItems, renderCourseCard) {
   const own = courseItems.map((item, i) => ({ item, rank: sharedAreaRank(item.area || ""), seq: i, shared: false }));
@@ -568,4 +611,5 @@ function mountSharedReview(containerId, courseKey, courseItems, renderCourseCard
     .map((entry, index) => (entry.shared ? renderSharedCard(entry.item, index) : renderCourseCard(entry.item, index)))
     .join("");
   addWhereLines(courseKey, ordered);
+  renderCourseStructure(courseKey);
 }
