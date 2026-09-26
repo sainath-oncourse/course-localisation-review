@@ -133,7 +133,7 @@ const cfaReviewItems = [
     title: "Learning tools and prompts",
     kind: "rezzy-tools",
     changeType: "Shared component · CFA values",
-    changes: [["Get flowcharts", "Learn with Flowcharts"], ["See how concepts connects", "Visualize complex topics easily"], ["Get high-yield notes", "Get study notes"]],
+    changes: [["Get flowcharts", "Learn with Flowcharts"], ["See how concepts connects", "Visualize complex topics easily"], ["Get high-yield notes", "Get study notes"], ["Get nudged to study, revise, or practise (reminder tool)", "Get nudged to study, review, or practice"], ["“@Flashcards help me revise”", "“@Flashcards help me review”"]],
     rationale: "Match the Flowcharts row to the latest Home tray. For Notes, keep the existing feature intent and simplify the label to Get study notes; the current subtitle already describes it correctly.",
   },
   {
