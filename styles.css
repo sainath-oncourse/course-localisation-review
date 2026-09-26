@@ -6908,3 +6908,12 @@ h1 {
 
 .sx-screen .sx-new { color: var(--blue-strong); }
 .sx-pills span.sx-new-chip, .sx-chips span.sx-new-chip { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-strong); }
+
+/* Lessons topic rows (Review Entire Topic card) */
+.sx-lesson-row { display: flex; align-items: center; gap: 12px; padding: 8px 4px; }
+.sx-lesson-row span { display: grid; gap: 2px; } .sx-lesson-row small { color: var(--muted); }
+.sx-lesson-row b { margin-left: auto; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: #e6f6ec; color: #168a4b; }
+.sx-lesson-row.sx-rt b { background: #eef1f4; color: #5b6570; }
+.sx-lesson-icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: #d8ecfb; font-style: normal; }
+.sx-book-icon { background: #5a7184; color: #fff; }
+.sx-ex-icon { background: var(--blue); color: #fff; font-size: 18px; }
