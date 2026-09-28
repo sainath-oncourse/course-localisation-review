@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oncourse · Terms to use and avoid</title>
+    <link rel="stylesheet" href="./styles.css?v=37" />
+    <style>
+      .gl-card { margin-top: 24px; }
+      .gl-pad { padding: 8px 30px 26px; }
+      .gl-h { margin: 22px 0 10px; font-size: 16px; }
+      .gl-h.gl-ok { color: var(--green); } .gl-h.gl-no { color: #b42318; }
+      .gl-table td { vertical-align: top; }
+      .gl-term { font-weight: 700; white-space: normal; min-width: 180px; }
+      .gl-term b { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-right: 8px; border-radius: 50%; font-size: 11px; }
+      .gl-ok b { background: var(--green-soft); color: var(--green); }
+      .gl-no b { background: #fdecea; color: #b42318; }
+      .gl-src { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+      .gl-src-competitor { background: var(--blue-soft); color: var(--blue-strong); }
+      .gl-src-official { background: var(--green-soft); color: var(--green); }
+      .gl-src-team { background: var(--amber-soft); color: var(--amber); }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html"><span class="brand-mark">O</span><span>Oncourse</span></a>
+      <div class="header-actions">
+        <nav class="course-switcher" aria-label="Course">
+          <a href="#cpa" data-term-course="cpa">CPA</a>
+          <a href="#cfa" data-term-course="cfa">CFA</a>
+          <a href="#lsat" data-term-course="lsat">LSAT</a>
+          <a href="#bar" data-term-course="bar">BAR</a>
+          <a href="#mcat" data-term-course="mcat">MCAT</a>
+          <a href="#nclex" data-term-course="nclex">NCLEX</a>
+          <a href="#all" data-term-course="all">All</a>
+        </nav>
+        <div class="issue-badge">ONC2-7197</div>
+      </div>
+    </header>
+    <main id="top">
+      <section class="page-heading">
+        <p class="eyebrow">ONC2-7197 · Glossary</p>
+        <h1>Terms to use and avoid</h1>
+        <p class="page-intro">For each course: the words to use, the words to avoid, where they appear and why. Evidence is <b>Competitor</b> (label used inside a competitor's product), <b>Official</b> (the exam body) or <b>Team decision</b>. Screen-by-screen changes are on the <a href="./index.html">course pages</a>.</p>
+      </section>
+      <div id="terms-body"></div>
+    </main>
+    <script src="./terms.js?v=1"></script>
+  </body>
+</html>
